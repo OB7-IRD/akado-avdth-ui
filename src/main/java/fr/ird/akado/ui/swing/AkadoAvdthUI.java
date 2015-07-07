@@ -1,12 +1,12 @@
 /*
- * $Id$
+ * $Id: AkadoAvdthUI.java 553 2015-03-20 11:04:12Z lebranch $
  *
  *Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -19,6 +19,8 @@
 package fr.ird.akado.ui.swing;
 
 import fr.ird.akado.ui.AkadoAvdthProperties;
+import java.io.File;
+import java.net.URISyntaxException;
 
 /**
  * The main class of Akado Avdth UI.
@@ -27,16 +29,18 @@ import fr.ird.akado.ui.AkadoAvdthProperties;
  * @since 2.0
  * @date 27 mai 2014
  *
- * $LastChangedDate$
+ * $LastChangedDate: 2015-03-20 12:04:12 +0100 (ven., 20 mars 2015) $
  *
- * $LastChangedRevision$
+ * $LastChangedRevision: 553 $
  */
 public class AkadoAvdthUI {
 
-    public static void main(String[] args) {
-        System.out.println("--> " + System.getProperty("java.class.path"));
+    public static void main(String[] args) throws URISyntaxException {
+        File file = new File(AkadoAvdthUI.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+        System.out.println("--> " + file.getAbsolutePath());
+        System.out.println("**> " + file.getParentFile().getParentFile().getAbsolutePath());
         AkadoAvdthProperties.getService().init();
-        new AkadoController();
+        AkadoController akadoController = new AkadoController();
     }
 
 }

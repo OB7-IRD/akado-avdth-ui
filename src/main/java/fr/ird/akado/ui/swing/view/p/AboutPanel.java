@@ -1,12 +1,12 @@
 /*
- * $Id$
+ * $Id: AboutPanel.java 402 2014-07-28 13:25:15Z lebranch $
  *
  *Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -37,9 +37,9 @@ import javax.swing.JPanel;
  * @since 2.0
  * @date 27 mai 2014
  *
- * $LastChangedDate$
+ * $LastChangedDate: 2014-07-28 15:25:15 +0200 (lun. 28 juil. 2014) $
  *
- * $LastChangedRevision$
+ * $LastChangedRevision: 402 $
  */
 public class AboutPanel extends JPanel {
 
@@ -67,7 +67,7 @@ public class AboutPanel extends JPanel {
         double wAppVersion = 0.5 * getWidth() / 6;
 
         double hAppAnnee = 8.5 * getHeight() / 9;
-        double wAppAnnee = 3 * getWidth() / 6;
+        double wAppAnnee = 2.5 * getWidth() / 6;
 
         g2d.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
@@ -80,7 +80,7 @@ public class AboutPanel extends JPanel {
 
     public static void main(String[] args) {
         JFrame f = new JFrame();
-        f.setSize(400, 200);
+        f.setSize(500, 250);
         f.setResizable(false);
         f.setContentPane(new AboutPanel());
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

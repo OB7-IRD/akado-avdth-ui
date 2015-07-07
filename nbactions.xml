@@ -10,7 +10,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-Xmx512m -classpath %classpath fr.ird.akado.ui.cli.RunCLI -b "/home/lebranch/appconfig/db_test/France_OA_2014_01_14_V35_26/France_OA_2014_01_14_V35_26.mdb" -s</exec.args>
+                <exec.args>-Xmx512m -classpath %classpath fr.ird.akado.ui.cli.RunCLI -b "/home/lebranch/Documents/Projets/AKaDo/DBtest/France_OA_2015_01_03.mdb" -s</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
@@ -24,7 +24,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Xmx512m -classpath %classpath fr.ird.akado.ui.cli.RunCLI -b "/home/lebranch/appconfig/db_test/France_OA_2014_01_14_V35_26/France_OA_2014_01_14_V35_26.mdb" -s</exec.args>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Xmx512m -classpath %classpath fr.ird.akado.ui.cli.RunCLI -b "/home/lebranch/Documents/Projets/AKaDo/DBtest/France_OA_2015_01_03.mdb" -s</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
             </properties>
@@ -39,7 +39,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-Xmx512m -classpath %classpath fr.ird.akado.ui.cli.RunCLI -b "/home/lebranch/appconfig/db_test/France_OA_2014_01_14_V35_26/France_OA_2014_01_14_V35_26.mdb" -s</exec.args>
+                <exec.args>-Xmx512m -classpath %classpath fr.ird.akado.ui.cli.RunCLI -b "/home/lebranch/Documents/Projets/AKaDo/DBtest/France_OA_2015_01_03.mdb" -s</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>

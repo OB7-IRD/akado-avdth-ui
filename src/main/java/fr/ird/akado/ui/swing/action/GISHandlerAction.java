@@ -1,12 +1,12 @@
 /*
- * $Id$
+ * $Id: GISHandlerAction.java 553 2015-03-20 11:04:12Z lebranch $
  *
  *Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -19,8 +19,10 @@
 package fr.ird.akado.ui.swing.action;
 
 import fr.ird.akado.ui.swing.AkadoController;
+import fr.ird.avdth.common.GISHandler;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 
 /**
  * This class provides an action which creates the GIS database.
@@ -29,16 +31,16 @@ import javax.swing.AbstractAction;
  * @since 2.0
  * @date 27 mai 2014
  *
- * $LastChangedDate$
+ * $LastChangedDate: 2015-03-20 12:04:12 +0100 (ven., 20 mars 2015) $
  *
- * $LastChangedRevision$
+ * $LastChangedRevision: 553 $
  */
-public class GisCreatorAction extends AbstractAction {
+public class GISHandlerAction extends AbstractAction {
 
     private final Boolean DEBUG = false;
     private AkadoController akadoController;
 
-    public GisCreatorAction(AkadoController vpc) {
+    public GISHandlerAction(AkadoController vpc) {
         this.akadoController = vpc;
     }
 
@@ -52,20 +54,20 @@ public class GisCreatorAction extends AbstractAction {
      */
     private void generateGisDB() {
 
-//        int n = JOptionPane.showConfirmDialog(
-//                null,
-//                "Generate the GIS database?",
-//                "Important Question",
-//                JOptionPane.YES_NO_OPTION);
-//
-//        if (n == JOptionPane.YES_OPTION) {
-//            System.out.println("Generate the gis DB - yes");
-//            GISCreator gisDB = new GISCreator();
-//            if (gisDB.exists()) {
-//                gisDB.delete();
-//            }
-//            gisDB.create();
+        int n = JOptionPane.showConfirmDialog(
+                null,
+                "Generate the GIS database?",
+                "Important Question",
+                JOptionPane.YES_NO_OPTION);
+
+        if (n == JOptionPane.YES_OPTION) {
+            System.out.println("Generate the gis DB - yes");
+
+            if (GISHandler.getService().exists()) {
+                GISHandler.getService().delete();
+            }
+            GISHandler.getService().create();
 //            GISCreator.createGISDB();
-//        }
+        }
     }
 }

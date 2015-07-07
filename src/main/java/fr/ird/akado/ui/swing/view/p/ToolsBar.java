@@ -1,12 +1,12 @@
 /*
- * $Id$
+ * $Id: ToolsBar.java 553 2015-03-20 11:04:12Z lebranch $
  *
  *Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,16 +15,21 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */package fr.ird.akado.ui.swing.view.p;
+ */
+package fr.ird.akado.ui.swing.view.p;
 
 import fr.ird.akado.ui.Constant;
 import fr.ird.akado.ui.swing.AkadoController;
-import fr.ird.akado.ui.swing.action.GisCreatorAction;
+import fr.ird.akado.ui.swing.action.GISHandlerAction;
 import fr.ird.akado.ui.swing.action.OpenAction;
+import fr.ird.avdth.common.AAProperties;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -42,19 +47,20 @@ import javax.swing.UIManager;
  * @since 2.0
  * @date 27 mai 2014
  *
- * $LastChangedDate$
+ * $LastChangedDate: 2015-03-20 12:04:12 +0100 (ven., 20 mars 2015) $
  *
- * $LastChangedRevision$
+ * $LastChangedRevision: 553 $
  */
 public class ToolsBar extends JMenuBar implements Constant {
 
-    private JMenu fileMenu;
-    private JMenuItem openMenuItem;
-    private JMenu optionMenu;
-    private JMenuItem gisMenuItem;
-    private JMenu helpMenu;
-    private JMenuItem quitMenuItem;
-    private JMenuItem aboutMenuItem;
+    private final JMenu fileMenu;
+    private final JMenuItem openMenuItem;
+    private final JMenu optionMenu;
+    private final JMenuItem gisMenuItem;
+    private final JMenu helpMenu;
+    private final JMenuItem quitMenuItem;
+    private final JMenuItem aboutMenuItem;
+    private JCheckBoxMenuItem configMenuItem;
 
     /**
      *
@@ -96,18 +102,111 @@ public class ToolsBar extends JMenuBar implements Constant {
         optionMenu = new JMenu(UIManager.getString("ui.swing.option", getLocale()));
         optionMenu.setActionCommand("option");
 
-        gisMenuItem = new JMenuItem(UIManager.getString("ui.swing.gis", getLocale()), 'O');
-        this.gisMenuItem.setAction(new GisCreatorAction(akadoController));
+        gisMenuItem = new JMenuItem(UIManager.getString("ui.swing.gis", getLocale()), 'G');
+        this.gisMenuItem.setAction(new GISHandlerAction(akadoController));
         this.gisMenuItem.setActionCommand("gis");
         this.gisMenuItem.setText(UIManager.getString("ui.swing.gis", getLocale()));
         this.gisMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
         optionMenu.add(gisMenuItem);
 
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.activity.inspector.enable", getLocale()));
+        configMenuItem.setMnemonic(KeyEvent.VK_A);
+        configMenuItem.setSelected(AAProperties.ACTIVITY_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        configMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.ACTIVITY_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.ACTIVITY_INSPECTOR = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+        optionMenu.add(configMenuItem);
+
+        configMenuItem.setSelected(AAProperties.TRIP_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.trip.inspector.enable", getLocale()));
+//        configMenuItem.setMnemonic(KeyEvent.VK_T);
+        this.configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
+        configMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.TRIP_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.TRIP_INSPECTOR = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+
+        optionMenu.add(configMenuItem);
+
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.sample.inspector.enable", getLocale()));
+        this.configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
+        configMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.SAMPLE_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.SAMPLE_INSPECTOR = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+
+        optionMenu.add(configMenuItem);
+
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.well.inspector.enable", getLocale()));
+        configMenuItem.setSelected(AAProperties.WELL_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        this.configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
+        configMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.WELL_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.WELL_INSPECTOR = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+
+        optionMenu.add(configMenuItem);
+
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.warning.inspector.enable", getLocale()));
+        configMenuItem.setSelected(AAProperties.WARNING_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        this.configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
+        configMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.WARNING_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.WARNING_INSPECTOR = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+
+        optionMenu.add(configMenuItem);
+
         // Création du menu Aide
         helpMenu = new JMenu(UIManager.getString("ui.swing.help", getLocale()));
         aboutMenuItem = new JMenuItem(UIManager.getString("ui.swing.about", getLocale()));
-        aboutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+        aboutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
         aboutMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,8 +216,9 @@ public class ToolsBar extends JMenuBar implements Constant {
         helpMenu.add(aboutMenuItem);
 
         this.add(fileMenu);
-//        this.add(optionMenu);
+        this.add(optionMenu);
         this.add(helpMenu);
+
     }
 
     /**

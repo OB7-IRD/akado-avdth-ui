@@ -1,12 +1,12 @@
 /*
- * $Id$
+ * $Id: TaskController.java 402 2014-07-28 13:25:15Z lebranch $
  *
  *Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -28,9 +28,9 @@ import java.io.File;
  * @date 3 juin 2014
  * @see TaskView
  *
- * $LastChangedDate$
+ * $LastChangedDate: 2014-07-28 15:25:15 +0200 (lun. 28 juil. 2014) $
  *
- * $LastChangedRevision$
+ * $LastChangedRevision: 402 $
  */
 public class TaskController {
 

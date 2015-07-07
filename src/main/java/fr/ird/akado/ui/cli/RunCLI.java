@@ -1,12 +1,12 @@
 /*
- * $Id$
+ * $Id: RunCLI.java 553 2015-03-20 11:04:12Z lebranch $
  *
  * Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -46,9 +46,9 @@ import org.joda.time.Seconds;
  * @since 2.0
  * @date 27 juin 2014
  *
- * $LastChangedDate$
+ * $LastChangedDate: 2015-03-20 12:04:12 +0100 (ven., 20 mars 2015) $
  *
- * $LastChangedRevision$
+ * $LastChangedRevision: 553 $
  */
 public class RunCLI {
 

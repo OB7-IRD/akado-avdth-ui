@@ -1,12 +1,12 @@
 /*
- * $Id$
+ * $Id: Constant.java 515 2015-03-04 08:19:10Z lebranch $
  *
  * Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -28,9 +28,9 @@ import org.joda.time.DateTime;
  * @since 2.0
  * @date 27 mai 2014
  *
- * $LastChangedDate$
+ * $LastChangedDate: 2015-03-04 09:19:10 +0100 (mer. 04 mars 2015) $
  *
- * $LastChangedRevision$
+ * $LastChangedRevision: 515 $
  */
 public interface Constant {
 
