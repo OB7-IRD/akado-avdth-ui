@@ -74,28 +74,12 @@ public final class AkadoAvdthProperties extends IRDProperties {
     public static String THIRD_PARTY_DATASOURCE_NAME = "fr.ird.akado.avdth.AvdthInspector";
     public static Class<DataBaseInspector> THIRD_PARTY_DATASOURCE = null;
 
-//    public static final String KEY_JDBC_URL = "jdbc_url";
     public static final String KEY_JDBC_ACCESS_DRIVER = "jdbc_access_driver";
-//    public static final String KEY_JDBC_USER = "jdbc_user";
-//    public static final String KEY_JDBC_PWD = "jdbc_password";
     public static String JDBC_ACCESS_DRIVER = "com.hxtt.sql.access.AccessDriver";
-//    public static String JDBC_USER;
-//    public static String JDBC_URL;
-//    public static String JDBC_PWD;
-
-//    public static final String SHAPEFILE_RELATIVE_PATH = "shp";
     public static final String STANDARD_RELATIVE_CONFIG_PATH = "db";
-//    public static final String KEY_LOGS_DIRECTORY = "log_directory_path";
-//
-//    public static String STANDARD_DIRECTORY;
-//    public static String LOGS_DIRECTORY;
-//
-//    public static String SHP_COUNTRIES_PATH;
-//    public static String SHP_OCEAN_PATH;
-    public static String PROJECT_CONFIG_ABSOLUTE_PATH;
+
 //
 //    public static String RESULT_MODEL_AVDTH_XLS;
-
     private AkadoAvdthProperties() {
         PROJECT_NAME = "akado-avdth";
         PROJECT_CONFIG_FILENAME = "akado-config.xml";
@@ -143,6 +127,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
                 AAProperties.WARNING_INSPECTOR = p.getProperty(AAProperties.KEY_WARNING_INSPECTOR);
                 AAProperties.ANAPO_DB_URL = p.getProperty(AAProperties.KEY_ANAPO_DB_PATH);
+                AAProperties.L10N = p.getProperty(AAProperties.KEY_L10N);
 
             } catch (ClassNotFoundException e) {
                 LogService.getService().logApplicationError(e.toString());
@@ -175,88 +160,42 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(KEY_WELL_INSPECTOR, ACTIVE_VALUE);
         p.setProperty(KEY_WARNING_INSPECTOR, ACTIVE_VALUE);
 
-//        p.setProperty(KEY_STANDARD_DIRECTORY, STANDARD_DIRECTORY);
-//        p.setProperty(KEY_LOGS_DIRECTORY, LOGS_DIRECTORY);
-//        p.setProperty(KEY_RESULT_MODEL_AVDTH_XLS, RESULT_MODEL_AVDTH_XLS);
-//        p.setProperty(KEY_SHP_COUNTRIES_PATH, SHP_COUNTRIES_PATH);
-//        p.setProperty(KEY_SHP_OCEAN_PATH, SHP_OCEAN_PATH);
         p.setProperty(KEY_DATE_FORMAT_XLS, DATE_FORMAT_XLS);
 
         p.setProperty(KEY_THIRD_PARTY_DATASOURCE, THIRD_PARTY_DATASOURCE_NAME);
         p.setProperty(KEY_JDBC_ACCESS_DRIVER, JDBC_ACCESS_DRIVER);
 
         p.setProperty(AAProperties.KEY_ANAPO_DB_PATH, "");
+        p.setProperty(AAProperties.KEY_L10N, "fr");
 
-//        try {
-        //            DataBaseInspector dbi = THIRD_PARTY_DATASOURCE.newInstance();
-        ////            Properties p = new Properties(dbi.getDefaultPropertiesToSet());
-        //
-        ////            p.setProperty(KEY_JDBC_URL, "");
-        //            p.setProperty(KEY_JDBC_ACCESS_DRIVER, JDBC_ACCESS_DRIVER);
-        ////            p.setProperty(KEY_JDBC_USER, "");
-        ////            p.setProperty(KEY_JDBC_PWD, "");
-        //            return p;
         System.out.println("Creation de la property: " + PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
         p.setProperty(KEY_STANDARD_DIRECTORY, PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
         p.setProperty(KEY_LOGS_DIRECTORY, PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + LOGS_DIRECTORY);
-//        System.out.println("Creation de la property: " + new File(getInstallPath() + File.separator + "IHOSeasAndOceans.shp").getPath());
         p.setProperty(KEY_SHP_OCEAN_PATH, new File(getInstallPath() + File.separator + "resource" + File.separator + "shp" + File.separator + "IHOSeasAndOceans.shp").getPath());
-        //        System.out.println("Creation de la property: " + new File(PROJECT_CONFIG_ABSOLUTE_PATH + File.separator +SHAPEFILE_RELATIVE_PATH + File.separator + "countries.shp").getPath());
         p.setProperty(KEY_SHP_COUNTRIES_PATH, new File(getInstallPath() + File.separator + "resource" + File.separator + "shp" + File.separator + "countries.shp").getPath());
-        //        properties.setProperty(KEY_DATE_FORMAT_XLS, "dd/mm/yyyy hh:mm");
         p.setProperty(KEY_RESULT_MODEL_AVDTH_XLS, new File(getInstallPath() + File.separator + "resource" + File.separator + "akado_avdth_result_model.xlsx").getPath());
-        //        for (Object key : properties.keySet()) {
-        //            //System.out.println("**** " + properties.get(key));
-        //        }
-        //
-        //        //System.out.println("Properties-> " + properties.toString());
-        //        } catch (InstantiationException | IllegalAccessException ex) {
-        //            java.util.logging.Logger.getLogger(AkadoAvdthProperties.class.getName()).log(Level.SEVERE, null, ex);
-        //        }
         return p;
     }
 
     @Override
     public void createDefaultDirectory() {
-//        System.out.println("createDefaultDirectory: ");
-        String appConfigPath = PROJECT_CONFIG_ABSOLUTE_PATH;
-//        System.out.println("AppConfigPath: " + PROJECT_CONFIG_ABSOLUTE_PATH);
-        boolean success = (new File(appConfigPath)).mkdirs();
-        if (success) {
-            System.out.println("Directory: " + appConfigPath + " created");
-        }
+        super.createDefaultDirectory();
+
         String dbPath = PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH;
         //System.out.println("dbPath: " + dbPath);
-        success = (new File(dbPath)).mkdirs();
+        boolean success = (new File(dbPath)).mkdirs();
         if (success) {
             System.out.println("Directory: " + dbPath + " created");
         }
-//        String shpPath = PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + SHAPEFILE_RELATIVE_PATH;
-//        //System.out.println("shpPath: " + shpPath);
-//        success = (new File(shpPath)).mkdir();
-//        if (success) {
-//            System.out.println("Directory: " + shpPath + " created");
-//        }
     }
 
     @Override
     public void copyDefaultFile() {
-        //System.out.println("copyDefaultFile");
-//        try {
-//            String shpPath = PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + "shp";
-//            for (String s : Utils.getResourceListing("fr/ird/akado/avdth/shp")) {
-//
-//            }
-//        } catch (URISyntaxException ex) {
-//            java.util.logging.Logger.getLogger(AkadoAvdthProperties.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            java.util.logging.Logger.getLogger(AkadoAvdthProperties.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }
 
     public static Properties getDefaultProperties() {
         Properties p = new Properties();
-        p.setProperty(AAProperties.KEY_SAMPLE_INSPECTOR, ACTIVE_VALUE);
+        p.setProperty(KEY_SAMPLE_INSPECTOR, ACTIVE_VALUE);
         p.setProperty(KEY_TRIP_INSPECTOR, ACTIVE_VALUE);
         p.setProperty(KEY_ACTIVITY_INSPECTOR, ACTIVE_VALUE);
         p.setProperty(KEY_POSITION_INSPECTOR, ACTIVE_VALUE);
@@ -274,6 +213,34 @@ public final class AkadoAvdthProperties extends IRDProperties {
         System.out.println(p);
         System.out.println("**************************");
         return p;
+    }
+
+    public void saveProperties() {
+        Properties p = new Properties();
+        p.setProperty(KEY_SAMPLE_INSPECTOR, AAProperties.SAMPLE_INSPECTOR);
+        p.setProperty(KEY_TRIP_INSPECTOR, AAProperties.TRIP_INSPECTOR);
+        p.setProperty(KEY_ACTIVITY_INSPECTOR, AAProperties.ACTIVITY_INSPECTOR);
+        p.setProperty(KEY_POSITION_INSPECTOR, AAProperties.POSITION_INSPECTOR);
+        p.setProperty(KEY_WELL_INSPECTOR, AAProperties.WELL_INSPECTOR);
+        p.setProperty(KEY_WARNING_INSPECTOR, AAProperties.WARNING_INSPECTOR);
+
+        p.setProperty(KEY_STANDARD_DIRECTORY, STANDARD_DIRECTORY);
+//        p.setProperty(KEY_LOGS_DIRECTORY, LOGS_DIRECTORY);
+        p.setProperty(KEY_RESULT_MODEL_AVDTH_XLS, RESULT_MODEL_AVDTH_XLS);
+        p.setProperty(KEY_SHP_COUNTRIES_PATH, SHP_COUNTRIES_PATH);
+        p.setProperty(KEY_SHP_OCEAN_PATH, SHP_OCEAN_PATH);
+        p.setProperty(KEY_DATE_FORMAT_XLS, DATE_FORMAT_XLS);
+
+        p.setProperty(AAProperties.KEY_ANAPO_DB_PATH, AAProperties.ANAPO_DB_URL);
+        p.setProperty(AAProperties.KEY_L10N, AAProperties.L10N);
+
+        p.setProperty(KEY_JDBC_ACCESS_DRIVER, JDBC_ACCESS_DRIVER);
+        p.setProperty(KEY_THIRD_PARTY_DATASOURCE, THIRD_PARTY_DATASOURCE_NAME);
+
+        System.out.println("**************************");
+        System.out.println(p);
+        System.out.println("**************************");
+        saveProperties(p);
     }
 
     public String getInstallPath() {
