@@ -18,6 +18,7 @@
  */
 package fr.ird.akado.ui.swing.view.p;
 
+import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.ui.Constant;
 import fr.ird.akado.ui.swing.AkadoController;
 import fr.ird.akado.ui.swing.action.GISHandlerAction;
@@ -29,6 +30,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.util.Locale;
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
@@ -62,38 +65,38 @@ public class ToolsBar extends JMenuBar implements Constant {
     private final JMenu helpMenu;
     private final JMenuItem quitMenuItem;
     private final JMenuItem aboutMenuItem;
-    private JCheckBoxMenuItem configMenuItem;
 
     /**
      *
      * @param akadoController
      */
     public ToolsBar(AkadoController akadoController) {
-        // Création du menu Fichier
+        // Creation du menu Fichier
 
-        fileMenu = new JMenu(UIManager.getString("ui.swing.file", getLocale()));
+        fileMenu = new JMenu(UIManager.getString("ui.swing.file", new Locale(AAProperties.L10N)));
         fileMenu.setActionCommand("file");
 
-        openMenuItem = new JMenuItem(UIManager.getString("ui.swing.open", getLocale()), 'O');
+        openMenuItem = new JMenuItem(UIManager.getString("ui.swing.open", new Locale(AAProperties.L10N)), 'O');
         this.openMenuItem.setAction(new OpenAction(akadoController));
         this.openMenuItem.setActionCommand("open");
-        this.openMenuItem.setText(UIManager.getString("ui.swing.open", getLocale()));
+        this.openMenuItem.setText(UIManager.getString("ui.swing.open", new Locale(AAProperties.L10N)));
         this.openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
         fileMenu.add(openMenuItem);
 
         fileMenu.add(new JSeparator());
-        quitMenuItem = new JMenuItem(UIManager.getString("ui.swing.quit", getLocale()), 'Q');
+        quitMenuItem = new JMenuItem(UIManager.getString("ui.swing.quit", new Locale(AAProperties.L10N)), 'Q');
         quitMenuItem.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
         quitMenuItem.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 int resp = JOptionPane.showConfirmDialog(null,
-                        String.format(UIManager.getString("ui.swing.quit.message", getLocale()), APPLICATION_NAME), UIManager.getString("ui.swing.quit", getLocale()),
+                        String.format(UIManager.getString("ui.swing.quit.message", new Locale(AAProperties.L10N)), APPLICATION_NAME), UIManager.getString("ui.swing.quit", new Locale(AAProperties.L10N)),
                         JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
                 if (resp == JOptionPane.YES_OPTION) {
+                    AkadoAvdthProperties.getService().saveProperties();
                     System.exit(0);
                 }
             }
@@ -101,13 +104,13 @@ public class ToolsBar extends JMenuBar implements Constant {
         fileMenu.add(quitMenuItem);
 
         //Creation du menu Option
-        optionMenu = new JMenu(UIManager.getString("ui.swing.option", getLocale()));
+        optionMenu = new JMenu(UIManager.getString("ui.swing.option", new Locale(AAProperties.L10N)));
         optionMenu.setActionCommand("option");
 
-        gisMenuItem = new JMenuItem(UIManager.getString("ui.swing.gis", getLocale()), 'G');
+        gisMenuItem = new JMenuItem(UIManager.getString("ui.swing.gis", new Locale(AAProperties.L10N)), 'G');
         this.gisMenuItem.setAction(new GISHandlerAction(akadoController));
         this.gisMenuItem.setActionCommand("gis");
-        this.gisMenuItem.setText(UIManager.getString("ui.swing.gis", getLocale()));
+        this.gisMenuItem.setText(UIManager.getString("ui.swing.gis", new Locale(AAProperties.L10N)));
         this.gisMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
         optionMenu.add(gisMenuItem);
@@ -116,9 +119,9 @@ public class ToolsBar extends JMenuBar implements Constant {
         optionMenu.add(new JSeparator()); // SEPARATOR
         addInspectorSelector(optionMenu);
 
-        // Création du menu Aide
-        helpMenu = new JMenu(UIManager.getString("ui.swing.help", getLocale()));
-        aboutMenuItem = new JMenuItem(UIManager.getString("ui.swing.about", getLocale()));
+        // Creation du menu Aide
+        helpMenu = new JMenu(UIManager.getString("ui.swing.help", new Locale(AAProperties.L10N)));
+        aboutMenuItem = new JMenuItem(UIManager.getString("ui.swing.about", new Locale(AAProperties.L10N)));
         aboutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
         aboutMenuItem.addActionListener(new ActionListener() {
             @Override
@@ -147,22 +150,40 @@ public class ToolsBar extends JMenuBar implements Constant {
         about.setVisible(true);
     }
 
+    private JRadioButtonMenuItem generateL10NItem(final String lang) {
+        JRadioButtonMenuItem myItem = new JRadioButtonMenuItem(UIManager.getString("ui.swing.l10n." + lang, new Locale(AAProperties.L10N)));
+        if (AAProperties.L10N.equals(new Locale(lang).getLanguage())) {
+            myItem.setSelected(true);
+        }
+        myItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AAProperties.L10N = lang;
+                JOptionPane.showMessageDialog(null, UIManager.getString("ui.swing.config.need.reboot", new Locale(AAProperties.L10N)));
+            }
+        });
+        return myItem;
+    }
+
     private void addL10NMenuItem(JMenu menu) {
+
         ButtonGroup myGroup = new ButtonGroup();
-        JRadioButtonMenuItem myItem = new JRadioButtonMenuItem(UIManager.getString("ui.swing.l10n.fr", getLocale()));
-        myItem.setSelected(true);
+        JRadioButtonMenuItem myItem = generateL10NItem("fr");
         myGroup.add(myItem);
         menu.add(myItem);
-        myItem = new JRadioButtonMenuItem(UIManager.getString("ui.swing.l10n.en", getLocale()));
+
+        myItem = generateL10NItem("en");
         myGroup.add(myItem);
         menu.add(myItem);
-        myItem = new JRadioButtonMenuItem(UIManager.getString("ui.swing.l10n.es", getLocale()));
+
+        myItem = generateL10NItem("es");
         myGroup.add(myItem);
         menu.add(myItem);
+
     }
 
     private void addInspectorSelector(JMenu menu) {
-        JMenuItem configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.activity.inspector.enable", getLocale()));
+        JMenuItem configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.activity.inspector.enable", new Locale(AAProperties.L10N)));
         configMenuItem.setMnemonic(KeyEvent.VK_A);
         configMenuItem.setSelected(AAProperties.ACTIVITY_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
         configMenuItem.addItemListener(new ItemListener() {
@@ -179,8 +200,8 @@ public class ToolsBar extends JMenuBar implements Constant {
         });
         menu.add(configMenuItem);
 
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.trip.inspector.enable", new Locale(AAProperties.L10N)));
         configMenuItem.setSelected(AAProperties.TRIP_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.trip.inspector.enable", getLocale()));
 //        configMenuItem.setMnemonic(KeyEvent.VK_T);
         configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
@@ -199,7 +220,8 @@ public class ToolsBar extends JMenuBar implements Constant {
 
         menu.add(configMenuItem);
 
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.sample.inspector.enable", getLocale()));
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.sample.inspector.enable", new Locale(AAProperties.L10N)));
+        configMenuItem.setSelected(AAProperties.SAMPLE_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
         configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
         configMenuItem.addItemListener(new ItemListener() {
@@ -217,7 +239,7 @@ public class ToolsBar extends JMenuBar implements Constant {
 
         menu.add(configMenuItem);
 
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.well.inspector.enable", getLocale()));
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.well.inspector.enable", new Locale(AAProperties.L10N)));
         configMenuItem.setSelected(AAProperties.WELL_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
         configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
@@ -236,7 +258,7 @@ public class ToolsBar extends JMenuBar implements Constant {
 
         menu.add(configMenuItem);
 
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.warning.inspector.enable", getLocale()));
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.warning.inspector.enable", new Locale(AAProperties.L10N)));
         configMenuItem.setSelected(AAProperties.WARNING_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
         configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
