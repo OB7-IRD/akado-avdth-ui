@@ -29,12 +29,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
@@ -109,99 +111,10 @@ public class ToolsBar extends JMenuBar implements Constant {
         this.gisMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
         optionMenu.add(gisMenuItem);
-
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.activity.inspector.enable", getLocale()));
-        configMenuItem.setMnemonic(KeyEvent.VK_A);
-        configMenuItem.setSelected(AAProperties.ACTIVITY_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
-        configMenuItem.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                        ? "SELECTED" : "DESELECTED");
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    AAProperties.ACTIVITY_INSPECTOR = AAProperties.ACTIVE_VALUE;
-                } else {
-                    AAProperties.ACTIVITY_INSPECTOR = AAProperties.DISABLE_VALUE;
-                }
-            }
-        });
-        optionMenu.add(configMenuItem);
-
-        configMenuItem.setSelected(AAProperties.TRIP_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.trip.inspector.enable", getLocale()));
-//        configMenuItem.setMnemonic(KeyEvent.VK_T);
-        this.configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
-        configMenuItem.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                        ? "SELECTED" : "DESELECTED");
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    AAProperties.TRIP_INSPECTOR = AAProperties.ACTIVE_VALUE;
-                } else {
-                    AAProperties.TRIP_INSPECTOR = AAProperties.DISABLE_VALUE;
-                }
-            }
-        });
-
-        optionMenu.add(configMenuItem);
-
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.sample.inspector.enable", getLocale()));
-        this.configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
-        configMenuItem.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                        ? "SELECTED" : "DESELECTED");
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    AAProperties.SAMPLE_INSPECTOR = AAProperties.ACTIVE_VALUE;
-                } else {
-                    AAProperties.SAMPLE_INSPECTOR = AAProperties.DISABLE_VALUE;
-                }
-            }
-        });
-
-        optionMenu.add(configMenuItem);
-
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.well.inspector.enable", getLocale()));
-        configMenuItem.setSelected(AAProperties.WELL_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
-        this.configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
-        configMenuItem.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                        ? "SELECTED" : "DESELECTED");
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    AAProperties.WELL_INSPECTOR = AAProperties.ACTIVE_VALUE;
-                } else {
-                    AAProperties.WELL_INSPECTOR = AAProperties.DISABLE_VALUE;
-                }
-            }
-        });
-
-        optionMenu.add(configMenuItem);
-
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.warning.inspector.enable", getLocale()));
-        configMenuItem.setSelected(AAProperties.WARNING_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
-        this.configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
-                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
-        configMenuItem.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                        ? "SELECTED" : "DESELECTED");
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    AAProperties.WARNING_INSPECTOR = AAProperties.ACTIVE_VALUE;
-                } else {
-                    AAProperties.WARNING_INSPECTOR = AAProperties.DISABLE_VALUE;
-                }
-            }
-        });
-
-        optionMenu.add(configMenuItem);
+        optionMenu.add(new JSeparator()); // SEPARATOR  
+        addL10NMenuItem(optionMenu);
+        optionMenu.add(new JSeparator()); // SEPARATOR
+        addInspectorSelector(optionMenu);
 
         // Création du menu Aide
         helpMenu = new JMenu(UIManager.getString("ui.swing.help", getLocale()));
@@ -232,5 +145,114 @@ public class ToolsBar extends JMenuBar implements Constant {
         about.setResizable(false);
         about.setLocationRelativeTo(getParent());
         about.setVisible(true);
+    }
+
+    private void addL10NMenuItem(JMenu menu) {
+        ButtonGroup myGroup = new ButtonGroup();
+        JRadioButtonMenuItem myItem = new JRadioButtonMenuItem(UIManager.getString("ui.swing.l10n.fr", getLocale()));
+        myItem.setSelected(true);
+        myGroup.add(myItem);
+        menu.add(myItem);
+        myItem = new JRadioButtonMenuItem(UIManager.getString("ui.swing.l10n.en", getLocale()));
+        myGroup.add(myItem);
+        menu.add(myItem);
+        myItem = new JRadioButtonMenuItem(UIManager.getString("ui.swing.l10n.es", getLocale()));
+        myGroup.add(myItem);
+        menu.add(myItem);
+    }
+
+    private void addInspectorSelector(JMenu menu) {
+        JMenuItem configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.activity.inspector.enable", getLocale()));
+        configMenuItem.setMnemonic(KeyEvent.VK_A);
+        configMenuItem.setSelected(AAProperties.ACTIVITY_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        configMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.ACTIVITY_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.ACTIVITY_INSPECTOR = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+        menu.add(configMenuItem);
+
+        configMenuItem.setSelected(AAProperties.TRIP_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.trip.inspector.enable", getLocale()));
+//        configMenuItem.setMnemonic(KeyEvent.VK_T);
+        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
+        configMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.TRIP_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.TRIP_INSPECTOR = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+
+        menu.add(configMenuItem);
+
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.sample.inspector.enable", getLocale()));
+        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
+        configMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.SAMPLE_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.SAMPLE_INSPECTOR = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+
+        menu.add(configMenuItem);
+
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.well.inspector.enable", getLocale()));
+        configMenuItem.setSelected(AAProperties.WELL_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
+        configMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.WELL_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.WELL_INSPECTOR = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+
+        menu.add(configMenuItem);
+
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.warning.inspector.enable", getLocale()));
+        configMenuItem.setSelected(AAProperties.WARNING_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
+        configMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.WARNING_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.WARNING_INSPECTOR = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+
+        menu.add(configMenuItem);
     }
 }
