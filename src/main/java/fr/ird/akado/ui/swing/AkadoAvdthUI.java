@@ -36,9 +36,6 @@ import java.net.URISyntaxException;
 public class AkadoAvdthUI {
 
     public static void main(String[] args) throws URISyntaxException {
-        File file = new File(AkadoAvdthUI.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-        System.out.println("--> " + file.getAbsolutePath());
-        System.out.println("**> " + file.getParentFile().getParentFile().getAbsolutePath());
         AkadoAvdthProperties.getService().init();
         AkadoController akadoController = new AkadoController();
     }

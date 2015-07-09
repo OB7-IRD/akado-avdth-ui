@@ -7,7 +7,33 @@
     <artifactId>akado-avdth-ui</artifactId>
     <name>AKaDo :: AVDTH UI</name>
     <description>UI for AKaDo AVDTH</description>
+    
+    <organization>
+        <name>Observatoire thonier, IRD</name>
+        <url>http://www.ird.fr/</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>General Public License (GPL)</name>
+            <url>http://www.gnu.org/licenses/gpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
+    <developers>
+        <developer>
+            <id>lebranch</id>
+            <name>Julien Lebranchu</name>
+            <email>julien dot lebranchu at ird dot fr</email>
+            <organization>IRD</organization>
+            <organizationUrl>http://www.ird.fr</organizationUrl>
+            <roles>
+                <role>lead</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Paris</timezone>
+        </developer>
+    </developers>
     <dependencies>
         <!-- test dependencies -->
         <dependency>

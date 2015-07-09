@@ -1,5 +1,5 @@
 /*
- * $Id: OpenAction.java 402 2014-07-28 13:25:15Z lebranch $
+ * $Id: OpenAVDTHDatabaseAction.java 402 2014-07-28 13:25:15Z lebranch $
  *
  *Copyright (C) 2014 Observatoire thonier, IRD
  *
@@ -21,6 +21,7 @@ package fr.ird.akado.ui.swing.action;
 import fr.ird.akado.ui.swing.AkadoController;
 import fr.ird.akado.ui.swing.utils.FileFilter;
 import fr.ird.akado.ui.swing.utils.MSAccessExtensionFilter;
+import fr.ird.avdth.common.AAProperties;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -41,13 +42,11 @@ import javax.swing.UIManager;
  *
  * $LastChangedRevision: 402 $
  */
-public class OpenAction extends AbstractAction {
+public class LoadVMSDatabaseAction extends AbstractAction {
 
     private final Boolean DEBUG = false;
-    private AkadoController akadoController;
 
-    public OpenAction(AkadoController vpc) {
-        this.akadoController = vpc;
+    public LoadVMSDatabaseAction() {
     }
 
     @Override
@@ -91,9 +90,7 @@ public class OpenAction extends AbstractAction {
         File file = openMenu(null, new MSAccessExtensionFilter());
 
         if (file != null) {
-            this.akadoController.setDataBase(file);
+            AAProperties.ANAPO_DB_URL = file.getAbsolutePath();
         }
-//        this.vpc.setNewView(this.handler);
-////        System.out.print(this.handler.getModele());
     }
 }

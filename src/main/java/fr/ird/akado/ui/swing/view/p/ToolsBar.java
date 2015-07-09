@@ -22,7 +22,8 @@ import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.ui.Constant;
 import fr.ird.akado.ui.swing.AkadoController;
 import fr.ird.akado.ui.swing.action.GISHandlerAction;
-import fr.ird.akado.ui.swing.action.OpenAction;
+import fr.ird.akado.ui.swing.action.LoadVMSDatabaseAction;
+import fr.ird.akado.ui.swing.action.OpenAVDTHDatabaseAction;
 import fr.ird.avdth.common.AAProperties;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -31,7 +32,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.util.Locale;
-import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
@@ -61,10 +61,14 @@ public class ToolsBar extends JMenuBar implements Constant {
     private final JMenu fileMenu;
     private final JMenuItem openMenuItem;
     private final JMenu optionMenu;
+    private final JMenu vmsMenu;
     private final JMenuItem gisMenuItem;
     private final JMenu helpMenu;
     private final JMenuItem quitMenuItem;
     private final JMenuItem aboutMenuItem;
+
+    private VMSThresholdDialog vmsThresholdOneDialog;
+    private VMSThresholdDialog vmsThresholdTwoDialog;
 
     /**
      *
@@ -73,11 +77,16 @@ public class ToolsBar extends JMenuBar implements Constant {
     public ToolsBar(AkadoController akadoController) {
         // Creation du menu Fichier
 
+        vmsThresholdOneDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.one", new Locale(AAProperties.L10N)), null);
+        vmsThresholdOneDialog.pack();
+        vmsThresholdTwoDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.two", new Locale(AAProperties.L10N)), null);
+        vmsThresholdTwoDialog.pack();
+
         fileMenu = new JMenu(UIManager.getString("ui.swing.file", new Locale(AAProperties.L10N)));
         fileMenu.setActionCommand("file");
 
         openMenuItem = new JMenuItem(UIManager.getString("ui.swing.open", new Locale(AAProperties.L10N)), 'O');
-        this.openMenuItem.setAction(new OpenAction(akadoController));
+        this.openMenuItem.setAction(new OpenAVDTHDatabaseAction(akadoController));
         this.openMenuItem.setActionCommand("open");
         this.openMenuItem.setText(UIManager.getString("ui.swing.open", new Locale(AAProperties.L10N)));
         this.openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
@@ -119,6 +128,11 @@ public class ToolsBar extends JMenuBar implements Constant {
         optionMenu.add(new JSeparator()); // SEPARATOR
         addInspectorSelector(optionMenu);
 
+        //Creation du menu gérant les VMS
+        vmsMenu = new JMenu(UIManager.getString("ui.swing.vms", new Locale(AAProperties.L10N)));
+        vmsMenu.setActionCommand("vms");
+        addVMSMenuItem(vmsMenu);
+
         // Creation du menu Aide
         helpMenu = new JMenu(UIManager.getString("ui.swing.help", new Locale(AAProperties.L10N)));
         aboutMenuItem = new JMenuItem(UIManager.getString("ui.swing.about", new Locale(AAProperties.L10N)));
@@ -133,6 +147,7 @@ public class ToolsBar extends JMenuBar implements Constant {
 
         this.add(fileMenu);
         this.add(optionMenu);
+        this.add(vmsMenu);
         this.add(helpMenu);
 
     }
@@ -276,5 +291,69 @@ public class ToolsBar extends JMenuBar implements Constant {
         });
 
         menu.add(configMenuItem);
+    }
+
+    final String inputThresholdOneOptionCommand = "thresholdOneOC";
+    final String inputThresholdTwoOptionCommand = "thresholdTwoOC";
+
+    private void addVMSMenuItem(JMenu menu) {
+        JMenuItem mi = new JMenuItem(UIManager.getString("ui.swing.vms.load.database", new Locale(AAProperties.L10N)), 'O');
+        mi.setAction(new LoadVMSDatabaseAction());
+        mi.setActionCommand("open");
+        mi.setText(UIManager.getString("ui.swing.vms.load.database", new Locale(AAProperties.L10N)));
+        menu.add(mi);
+        menu.add(new JSeparator());
+
+        mi = new JMenuItem(UIManager.getString("ui.swing.vms.threshold.one", new Locale(AAProperties.L10N)));
+        mi.setActionCommand(inputThresholdOneOptionCommand);
+        mi.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String command = ae.getActionCommand();
+                if (command.equals(inputThresholdOneOptionCommand)) {
+                    vmsThresholdOneDialog.setLocationRelativeTo(null);
+                    vmsThresholdOneDialog.setVisible(true);
+
+                    Double threshold = vmsThresholdOneDialog.getValidatedThreshold();
+                    if (threshold != null) {
+                        AAProperties.THRESHOLD_CLASS_ONE = threshold;
+                        //The text is valid.
+                        System.out.println("Congratulations!  "
+                                + "You entered \""
+                                + threshold
+                                + "\".");
+                    }
+                }
+            }
+
+        });
+        menu.add(mi);
+
+        mi = new JMenuItem(UIManager.getString("ui.swing.vms.threshold.two", new Locale(AAProperties.L10N)));
+        mi.setActionCommand(inputThresholdTwoOptionCommand);
+        mi.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String command = ae.getActionCommand();
+                if (command.equals(inputThresholdTwoOptionCommand)) {
+                    vmsThresholdTwoDialog.setLocationRelativeTo(null);
+                    vmsThresholdTwoDialog.setVisible(true);
+
+                    Double threshold = vmsThresholdTwoDialog.getValidatedThreshold();
+                    if (threshold != null) {
+                        AAProperties.THRESHOLD_CLASS_TWO = threshold;
+                        //The text is valid.
+                        System.out.println("Congratulations!  "
+                                + "You entered \""
+                                + threshold
+                                + "\".");
+                    }
+                }
+            }
+
+        });
+        menu.add(mi);
     }
 }
