@@ -27,6 +27,7 @@ import fr.ird.akado.core.common.MessageAdapter;
 import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.common.log.LogService;
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -35,6 +36,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -155,13 +157,27 @@ public class TaskView extends JPanel implements ActionListener,
             String pathExport = new File(dataBasePath).getParent();
             String dbName = FilenameUtils.removeExtension(new File(dataBasePath).getName());
             String exportName = pathExport + File.separator + dbName + "_akado_result_" + endProcess.getYear() + endProcess.getMonthOfYear() + endProcess.getDayOfMonth() + "_" + endProcess.getHourOfDay() + endProcess.getMinuteOfHour();
-
+            String exportNameWithExt = exportName + ".xlsx";
             DateTime startExport = new DateTime();
-            inspector.getResults().exportToXLS(exportName + ".xls");
+            inspector.getResults().exportToXLS(exportNameWithExt);
             DateTime endExport = new DateTime();
-            taskOutput.append("The results are in the file: \"" + exportName + ".xls\".\n");
+            taskOutput.append("The results are in the file: \"" + exportNameWithExt + "\".\n");
             duration = Seconds.secondsBetween(startExport, endExport).getSeconds();
             taskOutput.append("Export done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds !\n");
+
+            runExternalProgram(exportNameWithExt);
+        }
+
+        /**
+         * Launch a registered application to open, edit or print a result file.
+         * @param exportNameWithExt the result file
+         */
+        private void runExternalProgram(String exportNameWithExt) {
+            try {
+                Desktop.getDesktop().open(new File(exportNameWithExt));
+            } catch (IOException ex) {
+                Logger.getLogger(TaskView.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 //    private final JProgressBar progressBar;
