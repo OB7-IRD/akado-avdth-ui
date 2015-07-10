@@ -69,7 +69,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
     public static AkadoAvdthProperties getService() {
         return service;
     }
-    
+
     public static final String KEY_THIRD_PARTY_DATASOURCE = "third_party_datasource";
     public static String THIRD_PARTY_DATASOURCE_NAME = "fr.ird.akado.avdth.AvdthInspector";
     public static Class<DataBaseInspector> THIRD_PARTY_DATASOURCE = null;
@@ -84,7 +84,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
         PROJECT_CONFIG_COMMENT = "AKaDo Avdth configuration's properties";
 
         PROJECT_CONFIG_ABSOLUTE_PATH = AppConfig.getConfigDirectory(AppConfig.getRelativeConfigPath(PROJECT_NAME));
-}
+    }
 
     /**
      * Initialize the loading of properties.
@@ -126,6 +126,8 @@ public final class AkadoAvdthProperties extends IRDProperties {
                 AAProperties.THRESHOLD_CLASS_ONE = Double.valueOf(p.getProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE));
                 AAProperties.THRESHOLD_CLASS_TWO = Double.valueOf(p.getProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO));
 
+                AAProperties.ANAPO_INSPECTOR = p.getProperty(AAProperties.KEY_ANAPO_INSPECTOR);
+
             } catch (ClassNotFoundException e) {
                 LogService.getService().logApplicationError(e.toString());
                 LogService.getService().logApplicationError(e.getMessage() + "\nThe value of " + KEY_THIRD_PARTY_DATASOURCE + " key is " + THIRD_PARTY_DATASOURCE);
@@ -166,6 +168,8 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, "15");
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, "30");
+
+        p.setProperty(AAProperties.ANAPO_INSPECTOR, AAProperties.DISABLE_VALUE);
 
         System.out.println("Creation de la property: " + PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
         p.setProperty(KEY_STANDARD_DIRECTORY, PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
@@ -211,6 +215,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, "15");
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, "30");
 
+        p.setProperty(AAProperties.ANAPO_INSPECTOR, AAProperties.DISABLE_VALUE);
         System.out.println("**************************");
         System.out.println(p);
         System.out.println("**************************");
@@ -241,6 +246,8 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
         p.setProperty(KEY_JDBC_ACCESS_DRIVER, JDBC_ACCESS_DRIVER);
         p.setProperty(KEY_THIRD_PARTY_DATASOURCE, THIRD_PARTY_DATASOURCE_NAME);
+
+        p.setProperty(AAProperties.KEY_ANAPO_INSPECTOR, AAProperties.ANAPO_INSPECTOR);
 
         System.out.println("**************************");
         System.out.println(p);

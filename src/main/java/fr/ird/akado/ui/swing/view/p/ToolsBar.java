@@ -1,7 +1,7 @@
 /*
  * $Id: ToolsBar.java 553 2015-03-20 11:04:12Z lebranch $
  *
- *Copyright (C) 2014 Observatoire thonier, IRD
+ * Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,8 +67,8 @@ public class ToolsBar extends JMenuBar implements Constant {
     private final JMenuItem quitMenuItem;
     private final JMenuItem aboutMenuItem;
 
-    private VMSThresholdDialog vmsThresholdOneDialog;
-    private VMSThresholdDialog vmsThresholdTwoDialog;
+    private final VMSThresholdDialog vmsThresholdOneDialog;
+    private final VMSThresholdDialog vmsThresholdTwoDialog;
 
     /**
      *
@@ -77,9 +77,9 @@ public class ToolsBar extends JMenuBar implements Constant {
     public ToolsBar(AkadoController akadoController) {
         // Creation du menu Fichier
 
-        vmsThresholdOneDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.one", new Locale(AAProperties.L10N)), null);
+        vmsThresholdOneDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.one", new Locale(AAProperties.L10N)), AAProperties.THRESHOLD_CLASS_ONE);
         vmsThresholdOneDialog.pack();
-        vmsThresholdTwoDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.two", new Locale(AAProperties.L10N)), null);
+        vmsThresholdTwoDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.two", new Locale(AAProperties.L10N)), AAProperties.THRESHOLD_CLASS_TWO);
         vmsThresholdTwoDialog.pack();
 
         fileMenu = new JMenu(UIManager.getString("ui.swing.file", new Locale(AAProperties.L10N)));
@@ -128,7 +128,7 @@ public class ToolsBar extends JMenuBar implements Constant {
         optionMenu.add(new JSeparator()); // SEPARATOR
         addInspectorSelector(optionMenu);
 
-        //Creation du menu gérant les VMS
+        //Creation du menu gÃ©rant les VMS
         vmsMenu = new JMenu(UIManager.getString("ui.swing.vms", new Locale(AAProperties.L10N)));
         vmsMenu.setActionCommand("vms");
         addVMSMenuItem(vmsMenu);
@@ -214,6 +214,24 @@ public class ToolsBar extends JMenuBar implements Constant {
             }
         });
         menu.add(configMenuItem);
+        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.activity.position.inspector.enable", new Locale(AAProperties.L10N)));
+        configMenuItem.setSelected(AAProperties.POSITION_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+//        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+//                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
+        configMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.POSITION_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.POSITION_INSPECTOR = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+
+        menu.add(configMenuItem);
 
         configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.trip.inspector.enable", new Locale(AAProperties.L10N)));
         configMenuItem.setSelected(AAProperties.TRIP_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
@@ -297,7 +315,26 @@ public class ToolsBar extends JMenuBar implements Constant {
     final String inputThresholdTwoOptionCommand = "thresholdTwoOC";
 
     private void addVMSMenuItem(JMenu menu) {
-        JMenuItem mi = new JMenuItem(UIManager.getString("ui.swing.vms.load.database", new Locale(AAProperties.L10N)), 'O');
+        JMenuItem mi;
+        mi = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.anapo.inspector.enable", new Locale(AAProperties.L10N)));
+        mi.setSelected(AAProperties.ANAPO_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+//        mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+//                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
+        mi.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.ANAPO_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.ANAPO_INSPECTOR = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+        menu.add(mi);
+        menu.add(new JSeparator());
+        mi = new JMenuItem(UIManager.getString("ui.swing.vms.load.database", new Locale(AAProperties.L10N)), 'O');
         mi.setAction(new LoadVMSDatabaseAction());
         mi.setActionCommand("open");
         mi.setText(UIManager.getString("ui.swing.vms.load.database", new Locale(AAProperties.L10N)));

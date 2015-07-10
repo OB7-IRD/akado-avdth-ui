@@ -44,7 +44,6 @@ public class VMSThresholdDialog extends JDialog
 
     private String typedText = null;
     private JTextField textField;
-    private DialogDemo dd;
 
     private String magicWord;
     private JOptionPane optionPane;
@@ -66,11 +65,12 @@ public class VMSThresholdDialog extends JDialog
     /**
      * Creates the reusable dialog.
      */
-    public VMSThresholdDialog(Frame aFrame, String msg, DialogDemo parent) {
+    public VMSThresholdDialog(Frame aFrame, String msg, Double currentValue) {
         super(aFrame, true);
-        dd = parent;
+        
 
         textField = new JTextField(10);
+        textField.setText(Double.toString(currentValue));
 
         Object[] array = {msg, textField};
 
@@ -203,10 +203,6 @@ public class VMSThresholdDialog extends JDialog
                     textField.requestFocusInWindow();
                 }
             } else { //user closed dialog or clicked cancel
-                dd.setLabel("It's OK.  "
-                        + "We won't force you to type "
-                        + magicWord + ".");
-                typedText = null;
                 clearAndHide();
             }
         }
