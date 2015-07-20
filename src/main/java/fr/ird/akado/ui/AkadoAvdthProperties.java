@@ -128,6 +128,8 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
                 AAProperties.ANAPO_INSPECTOR = p.getProperty(AAProperties.KEY_ANAPO_INSPECTOR);
 
+                AAProperties.PROTOCOL_JDBC_ACCESS = PROTOCOL_JDBC_ACCESS;
+
             } catch (ClassNotFoundException e) {
                 LogService.getService().logApplicationError(e.toString());
                 LogService.getService().logApplicationError(e.getMessage() + "\nThe value of " + KEY_THIRD_PARTY_DATASOURCE + " key is " + THIRD_PARTY_DATASOURCE);
@@ -185,7 +187,6 @@ public final class AkadoAvdthProperties extends IRDProperties {
         super.createDefaultDirectory();
 
         String dbPath = PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH;
-        //System.out.println("dbPath: " + dbPath);
         boolean success = (new File(dbPath)).mkdirs();
         if (success) {
             System.out.println("Directory: " + dbPath + " created");
@@ -216,9 +217,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, "30");
 
         p.setProperty(AAProperties.ANAPO_INSPECTOR, AAProperties.DISABLE_VALUE);
-        System.out.println("**************************");
-        System.out.println(p);
-        System.out.println("**************************");
+
         return p;
     }
 
@@ -232,7 +231,6 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(KEY_WARNING_INSPECTOR, AAProperties.WARNING_INSPECTOR);
 
         p.setProperty(KEY_STANDARD_DIRECTORY, STANDARD_DIRECTORY);
-//        p.setProperty(KEY_LOGS_DIRECTORY, LOGS_DIRECTORY);
         p.setProperty(KEY_RESULT_MODEL_AVDTH_XLS, RESULT_MODEL_AVDTH_XLS);
         p.setProperty(KEY_SHP_COUNTRIES_PATH, SHP_COUNTRIES_PATH);
         p.setProperty(KEY_SHP_OCEAN_PATH, SHP_OCEAN_PATH);
@@ -249,9 +247,6 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
         p.setProperty(AAProperties.KEY_ANAPO_INSPECTOR, AAProperties.ANAPO_INSPECTOR);
 
-        System.out.println("**************************");
-        System.out.println(p);
-        System.out.println("**************************");
         saveProperties(p);
     }
 
