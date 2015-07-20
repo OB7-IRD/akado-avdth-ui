@@ -18,9 +18,13 @@
  */
 package fr.ird.akado.ui.swing.action;
 
+import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.ui.swing.AkadoController;
+import fr.ird.avdth.common.AAProperties;
 import fr.ird.avdth.common.GISHandler;
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
@@ -61,13 +65,18 @@ public class GISHandlerAction extends AbstractAction {
                 JOptionPane.YES_NO_OPTION);
 
         if (n == JOptionPane.YES_OPTION) {
-            System.out.println("Generate the gis DB - yes");
+            try {
+                System.out.println("Generate the gis DB - yes");
 
-            if (GISHandler.getService().exists()) {
-                GISHandler.getService().delete();
+                if (GISHandler.getService().exists()) {
+                    GISHandler.getService().delete();
+                }
+                GISHandler.getService().init(AAProperties.STANDARD_DIRECTORY,
+                        AAProperties.SHP_COUNTRIES_PATH, AAProperties.SHP_OCEAN_PATH);
+                GISHandler.getService().create();
+            } catch (Exception ex) {
+                Logger.getLogger(GISHandlerAction.class.getName()).log(Level.SEVERE, null, ex);
             }
-            GISHandler.getService().create();
-//            GISCreator.createGISDB();
         }
     }
 }
