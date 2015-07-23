@@ -89,7 +89,7 @@ public class AkadoView extends JFrame implements Constant {
         largeur = largeur * 4 / 5;
 
         Dimension tailleMinimal = new Dimension(largeur, hauteur);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setPreferredSize(tailleMinimal);
         setMinimumSize(tailleMinimal);
 

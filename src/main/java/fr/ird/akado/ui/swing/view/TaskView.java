@@ -1,7 +1,7 @@
 /*
  * $Id: TaskView.java 553 2015-03-20 11:04:12Z lebranch $
  *
- *Copyright (C) 2014 Observatoire thonier, IRD
+ * Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -145,9 +145,7 @@ public class TaskView extends JPanel implements ActionListener,
          */
         @Override
         public void done() {
-            Toolkit.getDefaultToolkit().beep();
-            timer.stop();
-            startButton.setEnabled(true);
+
             DateTime endProcess = new DateTime();
             int duration = Seconds.secondsBetween(startProcess, endProcess).getSeconds();
             String out = "Done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds !\n";
@@ -164,12 +162,17 @@ public class TaskView extends JPanel implements ActionListener,
             taskOutput.append("The results are in the file: \"" + exportNameWithExt + "\".\n");
             duration = Seconds.secondsBetween(startExport, endExport).getSeconds();
             taskOutput.append("Export done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds !\n");
-
+            
+            
+            timer.stop();Toolkit.getDefaultToolkit().beep();
+            startButton.setEnabled(true);
+            
             runExternalProgram(exportNameWithExt);
         }
 
         /**
          * Launch a registered application to open, edit or print a result file.
+         *
          * @param exportNameWithExt the result file
          */
         private void runExternalProgram(String exportNameWithExt) {
