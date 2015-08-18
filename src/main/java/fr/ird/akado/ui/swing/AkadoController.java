@@ -43,8 +43,7 @@ public class AkadoController {
     public AkadoController() {
         //Init properties files
 
-        UIManager.getDefaults().addResourceBundle("AKaDo-UI");
-        UIManager.getDefaults().setDefaultLocale(Locale.UK);
+
         akadoView = new AkadoView(this);
         akadoView.displayView();
     }
