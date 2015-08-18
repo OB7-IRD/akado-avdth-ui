@@ -18,6 +18,7 @@
  */
 package fr.ird.akado.ui.swing.view;
 
+import fr.ird.akado.avdth.AvdthInspector;
 import fr.ird.akado.core.AkadoCore;
 import fr.ird.akado.core.DataBaseInspector;
 import fr.ird.akado.core.Inspection;
@@ -90,9 +91,9 @@ public class TaskView extends JPanel implements ActionListener,
 
         DataBaseInspector inspector;
 
-        private final AkadoCore akado;
+        private AkadoCore akado;
         int progress = 0;
-        private final String dataBasePath;
+        private String dataBasePath;
 
         Task(String path) throws Exception {
             Constructor ctor = AkadoAvdthProperties.THIRD_PARTY_DATASOURCE.getDeclaredConstructor(String.class, String.class, String.class, String.class);
@@ -102,11 +103,10 @@ public class TaskView extends JPanel implements ActionListener,
             akado = new AkadoCore();
             try {
                 inspector = (DataBaseInspector) ctor.newInstance(AkadoAvdthProperties.PROTOCOL_JDBC_ACCESS + path, AkadoAvdthProperties.JDBC_ACCESS_DRIVER, "", "");
-//            inspector = new AvdthInspector(AkadoAvdthProperties.PROTOCOL_JDBC_ACCESS + path, AkadoAvdthProperties.JDBC_ACCESS_DRIVER, "", "");
             } catch (InstantiationException e) {
                 LogService.getService().logApplicationError(e.getCause().toString());
             }
-            //System.out.println("Add AVDTH Inspection to Akado ");
+
             if (!akado.addDataBaseValidator(inspector)) {
                 throw new Exception("Error during the AVDTHValidator creation");
             }
@@ -119,10 +119,10 @@ public class TaskView extends JPanel implements ActionListener,
             });
             inspector.info();
         }
+
         /*
          * Main task. Executed in background thread.
          */
-
         @Override
         public Void doInBackground() {
             ref = System.currentTimeMillis();
@@ -137,7 +137,30 @@ public class TaskView extends JPanel implements ActionListener,
                         "Akado error",
                         JOptionPane.ERROR_MESSAGE);
             }
+            export();
             return null;
+        }
+        private String exportNameWithExt;
+        private String exportOut = "";
+
+        private void export() {
+            DateTime endProcess = new DateTime();
+            int duration = Seconds.secondsBetween(startProcess, endProcess).getSeconds();
+            exportOut = "Done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds !\n";
+
+            exportOut += "There is " + inspector.getAkadoMessages().size() + " messages. See the results file for more informations.\n";
+            String pathExport = new File(dataBasePath).getParent();
+            String dbName = FilenameUtils.removeExtension(new File(dataBasePath).getName());
+            String exportName = pathExport + File.separator + dbName + "_akado_result_" + endProcess.getYear() + endProcess.getMonthOfYear() + endProcess.getDayOfMonth() + "_" + endProcess.getHourOfDay() + endProcess.getMinuteOfHour();
+            exportNameWithExt = exportName + ".xlsx";
+            DateTime startExport = new DateTime();
+
+            inspector.getResults().exportToXLS(exportNameWithExt);
+
+            DateTime endExport = new DateTime();
+            exportOut += "The results are in the file: \"" + exportNameWithExt + "\".\n";
+            duration = Seconds.secondsBetween(startExport, endExport).getSeconds();
+            exportOut += "Export done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds !\n";
         }
 
         /*
@@ -146,27 +169,11 @@ public class TaskView extends JPanel implements ActionListener,
         @Override
         public void done() {
 
-            DateTime endProcess = new DateTime();
-            int duration = Seconds.secondsBetween(startProcess, endProcess).getSeconds();
-            String out = "Done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds !\n";
-
-            taskOutput.append(out);
-            taskOutput.append("There is " + inspector.getAkadoMessages().size() + " messages. See the results file for more informations.\n");
-            String pathExport = new File(dataBasePath).getParent();
-            String dbName = FilenameUtils.removeExtension(new File(dataBasePath).getName());
-            String exportName = pathExport + File.separator + dbName + "_akado_result_" + endProcess.getYear() + endProcess.getMonthOfYear() + endProcess.getDayOfMonth() + "_" + endProcess.getHourOfDay() + endProcess.getMinuteOfHour();
-            String exportNameWithExt = exportName + ".xlsx";
-            DateTime startExport = new DateTime();
-            inspector.getResults().exportToXLS(exportNameWithExt);
-            DateTime endExport = new DateTime();
-            taskOutput.append("The results are in the file: \"" + exportNameWithExt + "\".\n");
-            duration = Seconds.secondsBetween(startExport, endExport).getSeconds();
-            taskOutput.append("Export done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds !\n");
-            
-            
-            timer.stop();Toolkit.getDefaultToolkit().beep();
+            taskOutput.append(exportOut);
+            timer.stop();
+            Toolkit.getDefaultToolkit().beep();
             startButton.setEnabled(true);
-            
+
             runExternalProgram(exportNameWithExt);
         }
 
