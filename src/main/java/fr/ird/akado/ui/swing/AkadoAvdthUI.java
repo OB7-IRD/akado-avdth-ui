@@ -24,7 +24,6 @@ import fr.ird.avdth.common.AAProperties;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.net.URISyntaxException;
 import java.nio.channels.*;
 import java.util.Locale;
 import javax.swing.JFrame;

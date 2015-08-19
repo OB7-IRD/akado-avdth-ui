@@ -19,8 +19,6 @@
 package fr.ird.akado.ui.swing;
 
 import java.io.File;
-import java.util.Locale;
-import javax.swing.UIManager;
 
 /**
  * The controller handles all request coming from the view or user interface.

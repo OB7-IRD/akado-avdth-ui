@@ -27,6 +27,7 @@ import fr.ird.akado.core.common.AkadoMessages;
 import fr.ird.akado.core.common.MessageAdapter;
 import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.common.log.LogService;
+import fr.ird.driver.avdth.service.AvdthService;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Font;
@@ -168,7 +169,7 @@ public class TaskView extends JPanel implements ActionListener,
          */
         @Override
         public void done() {
-
+            AvdthService.getService().close();
             taskOutput.append(exportOut);
             timer.stop();
             Toolkit.getDefaultToolkit().beep();
@@ -193,7 +194,7 @@ public class TaskView extends JPanel implements ActionListener,
 //    private final JProgressBar progressBar;
     private final JButton startButton;
     private final JTextArea taskOutput;
-    private final TaskController vtc;
+    private TaskController vtc;
     public static Boolean DEBUG = false;
 
     final SimpleDateFormat timef = new SimpleDateFormat("mm:ss");
