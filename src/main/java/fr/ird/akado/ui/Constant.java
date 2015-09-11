@@ -38,7 +38,7 @@ public interface Constant {
 
     public final static String APPLICATION_NAME = "AKaDo";
     public final static String APPLICATION_AUTHOR = "IRD - Observatoire thonier";
-    public final static String APPLICATION_YEAR = "2014 - " + DateTime.now().getYear();
+    public final static String APPLICATION_YEAR = "2015 - " + DateTime.now().getYear();
     public final static String APPLICATION_VERSION = "2.0";
 
     public static final String SPLASH = "/fr/ird/akado/ui/swing/resources/logo_akado.png";
