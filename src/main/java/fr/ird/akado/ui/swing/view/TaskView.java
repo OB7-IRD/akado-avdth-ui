@@ -42,8 +42,6 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -132,7 +130,8 @@ public class TaskView extends JPanel implements ActionListener,
             try {
                 akado.execute();
             } catch (Exception ex) {
-                Logger.getLogger(TaskView.class.getName()).log(Level.SEVERE, null, ex);
+                LogService.getService().logApplicationError(ex.getMessage());
+                LogService.getService().logApplicationError(ex.getCause().toString());
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Akado error",
@@ -187,7 +186,7 @@ public class TaskView extends JPanel implements ActionListener,
             try {
                 Desktop.getDesktop().open(new File(exportNameWithExt));
             } catch (IOException ex) {
-                Logger.getLogger(TaskView.class.getName()).log(Level.SEVERE, null, ex);
+                LogService.getService().logApplicationError(ex.getMessage());                
             }
         }
     }
@@ -251,7 +250,7 @@ public class TaskView extends JPanel implements ActionListener,
             task.addPropertyChangeListener(this);
             task.execute();
         } catch (Exception ex) {
-            Logger.getLogger(TaskView.class.getName()).log(Level.SEVERE, null, ex);
+            LogService.getService().logApplicationError(ex.getMessage());
             JOptionPane.showMessageDialog(this,
                     ex.getMessage(),
                     "Akado error",
