@@ -173,8 +173,9 @@ public class TaskView extends JPanel implements ActionListener,
             timer.stop();
             Toolkit.getDefaultToolkit().beep();
             startButton.setEnabled(true);
-
-            runExternalProgram(exportNameWithExt);
+            if (exportNameWithExt != null) {
+                runExternalProgram(exportNameWithExt);
+            }
         }
 
         /**
@@ -186,7 +187,7 @@ public class TaskView extends JPanel implements ActionListener,
             try {
                 Desktop.getDesktop().open(new File(exportNameWithExt));
             } catch (IOException ex) {
-                LogService.getService().logApplicationError(ex.getMessage());                
+                LogService.getService().logApplicationError(ex.getMessage());
             }
         }
     }
