@@ -18,7 +18,6 @@
  */
 package fr.ird.akado.ui.swing.view;
 
-import fr.ird.akado.avdth.AvdthInspector;
 import fr.ird.akado.core.AkadoCore;
 import fr.ird.akado.core.DataBaseInspector;
 import fr.ird.akado.core.Inspection;
@@ -146,9 +145,9 @@ public class TaskView extends JPanel implements ActionListener,
         private void export() {
             DateTime endProcess = new DateTime();
             int duration = Seconds.secondsBetween(startProcess, endProcess).getSeconds();
-            exportOut = "Done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds !\n";
+            exportOut = "Done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds ! There is " + inspector.getAkadoMessages().size() + " messages.\n";
 
-            exportOut += "There is " + inspector.getAkadoMessages().size() + " messages. See the results file for more informations.\n";
+            exportOut += "The export of results is processing...";
             String pathExport = new File(dataBasePath).getParent();
             String dbName = FilenameUtils.removeExtension(new File(dataBasePath).getName());
             String exportName = pathExport + File.separator + dbName + "_akado_result_" + endProcess.getYear() + endProcess.getMonthOfYear() + endProcess.getDayOfMonth() + "_" + endProcess.getHourOfDay() + endProcess.getMinuteOfHour();
@@ -188,6 +187,10 @@ public class TaskView extends JPanel implements ActionListener,
                 Desktop.getDesktop().open(new File(exportNameWithExt));
             } catch (IOException ex) {
                 LogService.getService().logApplicationError(ex.getMessage());
+                JOptionPane.showMessageDialog(null,
+                        ex.getMessage(),
+                        "Akado error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }
