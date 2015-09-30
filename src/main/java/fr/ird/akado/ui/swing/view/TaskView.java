@@ -1,6 +1,4 @@
 /*
- * $Id: TaskView.java 553 2015-03-20 11:04:12Z lebranch $
- *
  * Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,7 +51,6 @@ import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
-import org.apache.commons.io.FilenameUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 
@@ -65,10 +62,6 @@ import org.joda.time.Seconds;
  * @date 3 juin 2014
  * @see Inspection
  * @see Task
- *
- * $LastChangedDate: 2015-03-20 12:04:12 +0100 (ven., 20 mars 2015) $
- *
- * $LastChangedRevision: 553 $
  */
 public class TaskView extends JPanel implements ActionListener,
         PropertyChangeListener {
@@ -147,19 +140,18 @@ public class TaskView extends JPanel implements ActionListener,
             int duration = Seconds.secondsBetween(startProcess, endProcess).getSeconds();
             exportOut = "Done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds ! There is " + inspector.getAkadoMessages().size() + " messages.\n";
 
-            exportOut += "The export of results is processing...";
-            String pathExport = new File(dataBasePath).getParent();
-            String dbName = FilenameUtils.removeExtension(new File(dataBasePath).getName());
-            String exportName = pathExport + File.separator + dbName + "_akado_result_" + endProcess.getYear() + endProcess.getMonthOfYear() + endProcess.getDayOfMonth() + "_" + endProcess.getHourOfDay() + endProcess.getMinuteOfHour();
-            exportNameWithExt = exportName + ".xlsx";
-            DateTime startExport = new DateTime();
-
-            inspector.getResults().exportToXLS(exportNameWithExt);
-
-            DateTime endExport = new DateTime();
-            exportOut += "The results are in the file: \"" + exportNameWithExt + "\".\n";
-            duration = Seconds.secondsBetween(startExport, endExport).getSeconds();
-            exportOut += "Export done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds !\n";
+//            exportOut += "The export of results is processing...";
+//            String pathExport = new File(dataBasePath).getParent();
+//            String dbName = FilenameUtils.removeExtension(new File(dataBasePath).getName());
+//            String exportName = pathExport + File.separator + dbName + "_akado_result_" + endProcess.getYear() + endProcess.getMonthOfYear() + endProcess.getDayOfMonth() + "_" + endProcess.getHourOfDay() + endProcess.getMinuteOfHour();
+//            exportNameWithExt = exportName + ".xlsx";
+//            DateTime startExport = new DateTime();
+//            inspector.getResults().exportToXLS(exportNameWithExt);
+//
+//            DateTime endExport = new DateTime();
+//            exportOut += "The results are in the file: \"" + exportNameWithExt + "\".\n";
+//            duration = Seconds.secondsBetween(startExport, endExport).getSeconds();
+//            exportOut += "Export done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds !\n";
         }
 
         /*
@@ -172,9 +164,9 @@ public class TaskView extends JPanel implements ActionListener,
             timer.stop();
             Toolkit.getDefaultToolkit().beep();
             startButton.setEnabled(true);
-            if (exportNameWithExt != null) {
-                runExternalProgram(exportNameWithExt);
-            }
+//            if (exportNameWithExt != null) {
+//                runExternalProgram(exportNameWithExt);
+//            }
         }
 
         /**
