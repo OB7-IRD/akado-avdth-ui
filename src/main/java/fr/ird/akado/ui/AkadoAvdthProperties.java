@@ -1,6 +1,4 @@
 /*
- * $Id: AkadoAvdthProperties.java 553 2015-03-20 11:04:12Z lebranch $
- *
  * Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,9 +52,6 @@ import java.util.logging.Logger;
  * @since 2.0
  * @date 24 juin 2014
  *
- * $LastChangedDate: 2015-03-20 12:04:12 +0100 (ven., 20 mars 2015) $
- *
- * $LastChangedRevision: 553 $
  */
 public final class AkadoAvdthProperties extends IRDProperties {
 
@@ -90,14 +85,14 @@ public final class AkadoAvdthProperties extends IRDProperties {
     public void init() {
         try {
             if (!configFileExist()) {
-                System.out.println("!configFileExist(): so create it!");
+                LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("!configFileExist(): so create it!");
                 createConfigFile();
             }
             Properties p = loadProperties();
 
-            System.out.println("Properties :");
+            LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("Properties :");
             for (String k : p.stringPropertyNames()) {
-                System.out.println("Property : (" + k + "," + p.getProperty(k) + ")");
+                LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("Property : (" + k + "," + p.getProperty(k) + ")");
             }
             try {
                 THIRD_PARTY_DATASOURCE = (Class<DataBaseInspector>) Class.forName(p.getProperty(KEY_THIRD_PARTY_DATASOURCE));
@@ -146,8 +141,8 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
     @Override
     public Properties createDefaultProperties() {
-        System.out.println("createDefaultProperties");
-        System.out.println("Initialisation de properties ");
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("createDefaultProperties");
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("Initialisation de properties ");
 
         Properties p = new Properties();
         p.setProperty(KEY_SAMPLE_INSPECTOR, ACTIVE_VALUE);
@@ -156,40 +151,40 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(KEY_POSITION_INSPECTOR, ACTIVE_VALUE);
         p.setProperty(KEY_WELL_INSPECTOR, ACTIVE_VALUE);
         p.setProperty(KEY_WARNING_INSPECTOR, ACTIVE_VALUE);
-        System.out.println("**************************");
-        System.out.println(p);
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
 
         p.setProperty(KEY_DATE_FORMAT_XLS, DATE_FORMAT_XLS);
-        System.out.println("**************************");
-        System.out.println(p);
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
         p.setProperty(KEY_THIRD_PARTY_DATASOURCE, THIRD_PARTY_DATASOURCE_NAME);
-        System.out.println("**************************");
-        System.out.println(p);
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
         p.setProperty(KEY_JDBC_ACCESS_DRIVER, JDBC_ACCESS_DRIVER);
-        System.out.println("**************************");
-        System.out.println(p);
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
 
         p.setProperty(AAProperties.KEY_ANAPO_DB_PATH, "");
         p.setProperty(AAProperties.KEY_L10N, "fr");
-        System.out.println("**************************");
-        System.out.println(p);
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
 
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, "15");
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, "30");
-        System.out.println("**************************");
-        System.out.println(p);
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
 
         p.setProperty(AAProperties.KEY_ANAPO_INSPECTOR, AAProperties.DISABLE_VALUE);
 
-        System.out.println("Creation de la property: " + PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("Creation de la property: " + PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
         p.setProperty(KEY_STANDARD_DIRECTORY, PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
 
         p.setProperty(KEY_SHP_OCEAN_PATH, new File(getInstallPath() + File.separator + "resource" + File.separator + "shp" + File.separator + "IHOSeasAndOceans.shp").getPath());
         p.setProperty(KEY_SHP_COUNTRIES_PATH, new File(getInstallPath() + File.separator + "resource" + File.separator + "shp" + File.separator + "countries.shp").getPath());
         p.setProperty(KEY_RESULT_MODEL_AVDTH_XLS, new File(getInstallPath() + File.separator + "resource" + File.separator + "akado_avdth_result_model.xlsx").getPath());
-        System.out.println("**************************");
-        System.out.println(p);
-        System.out.println("**************************");
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
+         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
         return p;
     }
 
@@ -200,7 +195,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
         String dbPath = PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH;
         boolean success = (new File(dbPath)).mkdirs();
         if (success) {
-            System.out.println("Directory: " + dbPath + " created");
+             LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("Directory: " + dbPath + " created");
         }
     }
 
