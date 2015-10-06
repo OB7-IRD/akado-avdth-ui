@@ -1,7 +1,5 @@
 /*
- * $Id: OpenAVDTHDatabaseAction.java 402 2014-07-28 13:25:15Z lebranch $
- *
- *Copyright (C) 2014 Observatoire thonier, IRD
+ * Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +16,7 @@
  */
 package fr.ird.akado.ui.swing.action;
 
+import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.ui.swing.AkadoController;
 import fr.ird.akado.ui.swing.utils.FileFilter;
 import fr.ird.akado.ui.swing.utils.MSAccessExtensionFilter;
@@ -36,18 +35,20 @@ import javax.swing.UIManager;
  * @author Julien Lebranchu <julien.lebranchu@ird.fr>
  * @since 2.0
  * @date 27 mai 2014
- *
- * $LastChangedDate: 2014-07-28 15:25:15 +0200 (lun. 28 juil. 2014) $
- *
- * $LastChangedRevision: 402 $
  */
 public class OpenAVDTHDatabaseAction extends AbstractAction {
 
     private final Boolean DEBUG = false;
     private AkadoController akadoController;
+    JFileChooser fileChooser;
 
     public OpenAVDTHDatabaseAction(AkadoController vpc) {
         this.akadoController = vpc;
+        if (AkadoAvdthProperties.LAST_DATABASE_LOADED != null && !AkadoAvdthProperties.LAST_DATABASE_LOADED.equals("")) {
+            fileChooser = new JFileChooser(AkadoAvdthProperties.LAST_DATABASE_LOADED);
+        } else {
+            fileChooser = new JFileChooser();
+        }
     }
 
     @Override
@@ -56,7 +57,7 @@ public class OpenAVDTHDatabaseAction extends AbstractAction {
     }
 
     protected File openMenu(Component parent, FileFilter filter) {
-        JFileChooser fileChooser = new JFileChooser();
+
         fileChooser.setFileFilter(filter);
         int response = JOptionPane.OK_OPTION;
         File file = null;
@@ -75,6 +76,7 @@ public class OpenAVDTHDatabaseAction extends AbstractAction {
                             JOptionPane.OK_CANCEL_OPTION,
                             JOptionPane.ERROR_MESSAGE);
                 } else {
+                    AkadoAvdthProperties.LAST_DATABASE_LOADED = file.getAbsolutePath();
                     return file;
                 }
             } else {

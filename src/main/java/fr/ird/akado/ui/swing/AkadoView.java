@@ -46,7 +46,7 @@ import javax.swing.UIManager;
  */
 public class AkadoView extends JFrame implements Constant {
 
-    private ToolsBar toolbar;
+    private final ToolsBar toolbar;
     private TaskView taskView;
     private TaskController vtc;
 
