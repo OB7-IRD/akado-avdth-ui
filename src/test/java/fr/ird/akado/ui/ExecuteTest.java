@@ -122,7 +122,7 @@ public class ExecuteTest extends TestCase {
         try {
             inspector = (DataBaseInspector) ctor.newInstance(AkadoAvdthProperties.PROTOCOL_JDBC_ACCESS + path, AkadoAvdthProperties.JDBC_ACCESS_DRIVER, "", "");
         } catch (InstantiationException e) {
-            LogService.getService().logApplicationError(e.getCause().toString());
+            LogService.getService(this.getClass()).logApplicationError(e.getCause().toString());
         }
 
         if (!akado.addDataBaseValidator(inspector)) {
