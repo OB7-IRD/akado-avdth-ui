@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -95,7 +96,8 @@ public class TaskView extends JPanel implements ActionListener,
             try {
                 inspector = (DataBaseInspector) ctor.newInstance(AkadoAvdthProperties.PROTOCOL_JDBC_ACCESS + path, AkadoAvdthProperties.JDBC_ACCESS_DRIVER, "", "");
             } catch (InstantiationException e) {
-                LogService.getService().logApplicationError(e.getCause().toString());
+                LogService.getService(this.getClass()).logApplicationError(e.getMessage());
+                LogService.getService(this.getClass()).logApplicationError(e.getCause().toString());
             }
 
             if (!akado.addDataBaseValidator(inspector)) {
@@ -122,8 +124,9 @@ public class TaskView extends JPanel implements ActionListener,
             try {
                 akado.execute();
             } catch (Exception ex) {
-                LogService.getService().logApplicationError(ex.getMessage());
-                LogService.getService().logApplicationError(ex.getCause().toString());
+                LogService.getService(this.getClass()).logApplicationError(ex.getMessage());
+                LogService.getService(this.getClass()).logApplicationError(Arrays.toString(ex.getStackTrace()));
+                LogService.getService(this.getClass()).logApplicationError(ex.getCause().toString());
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Akado error",
@@ -132,7 +135,6 @@ public class TaskView extends JPanel implements ActionListener,
             export();
             return null;
         }
-        private String exportNameWithExt;
         private String exportOut = "";
 
         private void export() {
@@ -178,7 +180,7 @@ public class TaskView extends JPanel implements ActionListener,
             try {
                 Desktop.getDesktop().open(new File(exportNameWithExt));
             } catch (IOException ex) {
-                LogService.getService().logApplicationError(ex.getMessage());
+                LogService.getService(this.getClass()).logApplicationError(ex.getMessage());
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Akado error",
@@ -246,7 +248,7 @@ public class TaskView extends JPanel implements ActionListener,
             task.addPropertyChangeListener(this);
             task.execute();
         } catch (Exception ex) {
-            LogService.getService().logApplicationError(ex.getMessage());
+            LogService.getService(this.getClass()).logApplicationError(ex.getMessage());
             JOptionPane.showMessageDialog(this,
                     ex.getMessage(),
                     "Akado error",
