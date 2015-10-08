@@ -24,7 +24,7 @@ import fr.ird.akado.core.common.AkadoMessages;
 import fr.ird.akado.core.common.MessageAdapter;
 import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.common.log.LogService;
-import fr.ird.driver.avdth.service.AvdthService;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Font;
@@ -161,7 +161,8 @@ public class TaskView extends JPanel implements ActionListener,
          */
         @Override
         public void done() {
-            AvdthService.getService().close();
+            inspector.close();
+//            AvdthService.getService().close();
             taskOutput.append(exportOut);
             timer.stop();
             Toolkit.getDefaultToolkit().beep();
