@@ -72,7 +72,7 @@
             <artifactId>akado-driver-avdth</artifactId>
             <version>1.0</version>
             <type>jar</type>
-            <scope>test</scope>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>fr.ird</groupId>

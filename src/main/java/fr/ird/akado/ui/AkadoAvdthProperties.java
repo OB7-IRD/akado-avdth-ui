@@ -23,7 +23,6 @@ import static fr.ird.avdth.common.AAProperties.DATE_FORMAT_XLS;
 import static fr.ird.avdth.common.AAProperties.KEY_ACTIVITY_INSPECTOR;
 import static fr.ird.avdth.common.AAProperties.KEY_DATE_FORMAT_XLS;
 import static fr.ird.avdth.common.AAProperties.KEY_POSITION_INSPECTOR;
-import static fr.ird.avdth.common.AAProperties.KEY_RESULT_MODEL_AVDTH_XLS;
 import static fr.ird.avdth.common.AAProperties.KEY_SAMPLE_INSPECTOR;
 import static fr.ird.avdth.common.AAProperties.KEY_SHP_COUNTRIES_PATH;
 import static fr.ird.avdth.common.AAProperties.KEY_SHP_OCEAN_PATH;
@@ -31,7 +30,6 @@ import static fr.ird.avdth.common.AAProperties.KEY_STANDARD_DIRECTORY;
 import static fr.ird.avdth.common.AAProperties.KEY_TRIP_INSPECTOR;
 import static fr.ird.avdth.common.AAProperties.KEY_WARNING_INSPECTOR;
 import static fr.ird.avdth.common.AAProperties.KEY_WELL_INSPECTOR;
-import static fr.ird.avdth.common.AAProperties.RESULT_MODEL_AVDTH_XLS;
 import static fr.ird.avdth.common.AAProperties.SHP_COUNTRIES_PATH;
 import static fr.ird.avdth.common.AAProperties.SHP_OCEAN_PATH;
 import static fr.ird.avdth.common.AAProperties.STANDARD_DIRECTORY;
@@ -104,7 +102,6 @@ public final class AkadoAvdthProperties extends IRDProperties {
                 AAProperties.SHP_COUNTRIES_PATH = p.getProperty(AAProperties.KEY_SHP_COUNTRIES_PATH);
                 AAProperties.SHP_OCEAN_PATH = p.getProperty(AAProperties.KEY_SHP_OCEAN_PATH);
                 AAProperties.DATE_FORMAT_XLS = p.getProperty(AAProperties.KEY_DATE_FORMAT_XLS);
-                AAProperties.RESULT_MODEL_AVDTH_XLS = p.getProperty(AAProperties.KEY_RESULT_MODEL_AVDTH_XLS);
 
                 AAProperties.SAMPLE_INSPECTOR = p.getProperty(AAProperties.KEY_SAMPLE_INSPECTOR);
                 AAProperties.WELL_INSPECTOR = p.getProperty(AAProperties.KEY_WELL_INSPECTOR);
@@ -183,7 +180,6 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
         p.setProperty(KEY_SHP_OCEAN_PATH, new File(getInstallPath() + File.separator + "resource" + File.separator + "shp" + File.separator + "IHOSeasAndOceans.shp").getPath());
         p.setProperty(KEY_SHP_COUNTRIES_PATH, new File(getInstallPath() + File.separator + "resource" + File.separator + "shp" + File.separator + "countries.shp").getPath());
-        p.setProperty(KEY_RESULT_MODEL_AVDTH_XLS, new File(getInstallPath() + File.separator + "resource" + File.separator + "akado_avdth_result_model.xlsx").getPath());
         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
         LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
@@ -215,7 +211,6 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(KEY_WARNING_INSPECTOR, ACTIVE_VALUE);
 
         p.setProperty(KEY_STANDARD_DIRECTORY, STANDARD_DIRECTORY);
-        p.setProperty(KEY_RESULT_MODEL_AVDTH_XLS, RESULT_MODEL_AVDTH_XLS);
         p.setProperty(KEY_SHP_COUNTRIES_PATH, SHP_COUNTRIES_PATH);
         p.setProperty(KEY_SHP_OCEAN_PATH, SHP_OCEAN_PATH);
         p.setProperty(KEY_DATE_FORMAT_XLS, DATE_FORMAT_XLS);
@@ -237,7 +232,6 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(KEY_WARNING_INSPECTOR, AAProperties.WARNING_INSPECTOR);
 
         p.setProperty(KEY_STANDARD_DIRECTORY, STANDARD_DIRECTORY);
-        p.setProperty(KEY_RESULT_MODEL_AVDTH_XLS, RESULT_MODEL_AVDTH_XLS);
         p.setProperty(KEY_SHP_COUNTRIES_PATH, SHP_COUNTRIES_PATH);
         p.setProperty(KEY_SHP_OCEAN_PATH, SHP_OCEAN_PATH);
         p.setProperty(KEY_DATE_FORMAT_XLS, DATE_FORMAT_XLS);
