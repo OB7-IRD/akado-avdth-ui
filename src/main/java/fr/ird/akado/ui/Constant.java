@@ -1,6 +1,4 @@
 /*
- * $Id: Constant.java 515 2015-03-04 08:19:10Z lebranch $
- *
  * Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,17 +25,13 @@ import org.joda.time.DateTime;
  * @author Julien Lebranchu <julien.lebranchu@ird.fr>
  * @since 2.0
  * @date 27 mai 2014
- *
- * $LastChangedDate: 2015-03-04 09:19:10 +0100 (mer. 04 mars 2015) $
- *
- * $LastChangedRevision: 515 $
  */
 public interface Constant {
 
     public final Locale DEFAULT_LOCALE = Locale.UK;
 
     public final static String APPLICATION_NAME = "AKaDo";
-    public final static String APPLICATION_AUTHOR = "IRD - Observatoire thonier";
+    public final static String APPLICATION_AUTHOR = "Julien Lebranchu / IRD / Observatoire thonier";
     public final static String APPLICATION_YEAR = "2015 - " + DateTime.now().getYear();
     public final static String APPLICATION_VERSION = "2.0";
 
