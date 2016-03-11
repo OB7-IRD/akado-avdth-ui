@@ -19,6 +19,7 @@ package fr.ird.akado.ui.swing;
 import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.ui.Constant;
 import fr.ird.avdth.common.AAProperties;
+import fr.ird.common.log.LogService;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -29,7 +30,8 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
- * The main class of Akado Avdth UI.
+ * The main class of Akado Avdth UI. Implements a file lock to disable a second
+ * execution of this program.
  *
  * @author Julien Lebranchu <julien.lebranchu@ird.fr>
  * @since 2.0
@@ -47,7 +49,6 @@ public class AkadoAvdthUI {
         UIManager.getDefaults().addResourceBundle("AKaDo-UI");
         UIManager.getDefaults().setDefaultLocale(new Locale(AAProperties.L10N));
 
-        
         try {
             f = new File("RingOnRequest.lock");
             // Check if the lock exist
@@ -71,7 +72,7 @@ public class AkadoAvdthUI {
             ShutdownHook shutdownHook = new ShutdownHook();
             Runtime.getRuntime().addShutdownHook(shutdownHook);
 
-            AkadoController akadoController = new AkadoController();
+            new AkadoController();
 
         } catch (IOException e) {
             throw new RuntimeException("Could not start process.", e);
@@ -79,6 +80,9 @@ public class AkadoAvdthUI {
 
     }
 
+    /**
+     * Delete the file lock during the end of program execution..
+     */
     public static void unlockFile() {
         // release and delete file lock
         try {
@@ -88,12 +92,13 @@ public class AkadoAvdthUI {
                 f.delete();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LogService.getService(AkadoAvdthUI.class).logApplicationError(e.getLocalizedMessage());
         }
     }
 
     static class ShutdownHook extends Thread {
 
+        @Override
         public void run() {
             unlockFile();
         }

@@ -1,6 +1,4 @@
 /*
- * $Id: AkadoController.java 553 2015-03-20 11:04:12Z lebranch $
- *
  *Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,16 +21,12 @@ import java.io.File;
 /**
  * The controller handles all request coming from the view or user interface.
  * The data flow to whole application is controlled by controller. It forwarded
- * the request to the appropriate handeler. Only the controller is responsible
+ * the request to the appropriate handler. Only the controller is responsible
  * for accessing model and rendering it into various UIs.
  *
  * @author Julien Lebranchu <julien.lebranchu@ird.fr>
  * @since 2.0
  * @date 27 mai 2014
- *
- * $LastChangedDate: 2015-03-20 12:04:12 +0100 (ven., 20 mars 2015) $
- *
- * $LastChangedRevision: 553 $
  */
 public class AkadoController {
 
@@ -40,7 +34,6 @@ public class AkadoController {
 
     public AkadoController() {
         //Init properties files
-
 
         akadoView = new AkadoView(this);
         akadoView.displayView();

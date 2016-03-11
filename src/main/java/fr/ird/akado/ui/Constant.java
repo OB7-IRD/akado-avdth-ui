@@ -28,14 +28,33 @@ import org.joda.time.DateTime;
  */
 public interface Constant {
 
+    /**
+     * The default locale of the application.
+     */
     public final Locale DEFAULT_LOCALE = Locale.UK;
-
+    /**
+     * The name of the application.
+     */
     public final static String APPLICATION_NAME = "AKaDo";
+    /**
+     * The author of the application.
+     */
     public final static String APPLICATION_AUTHOR = "Julien Lebranchu / IRD / Observatoire thonier";
+    /**
+     * The year of application creation.
+     */
     public final static String APPLICATION_YEAR = "2015 - " + DateTime.now().getYear();
+    /**
+     * The version number of the application.
+     */
     public final static String APPLICATION_VERSION = "2.0";
-
+    /**
+     * Path of the splash screen image.
+     */
     public static final String SPLASH = "/fr/ird/akado/ui/swing/resources/logo_akado.png";
-    public static final String ICON_APPS = "/fr/ird/akado/ui/swing/resources/logo_OT_sans_texte.png";
+    /**
+     * Path of the application icon.
+     */
+    public static final String APPLICATION_ICON = "/fr/ird/akado/ui/swing/resources/logo_OT_sans_texte.png";
 
 }

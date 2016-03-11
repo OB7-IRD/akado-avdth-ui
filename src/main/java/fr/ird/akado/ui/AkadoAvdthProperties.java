@@ -25,12 +25,14 @@ import static fr.ird.avdth.common.AAProperties.KEY_DATE_FORMAT_XLS;
 import static fr.ird.avdth.common.AAProperties.KEY_POSITION_INSPECTOR;
 import static fr.ird.avdth.common.AAProperties.KEY_SAMPLE_INSPECTOR;
 import static fr.ird.avdth.common.AAProperties.KEY_SHP_COUNTRIES_PATH;
+import static fr.ird.avdth.common.AAProperties.KEY_SHP_HARBOUR_PATH;
 import static fr.ird.avdth.common.AAProperties.KEY_SHP_OCEAN_PATH;
 import static fr.ird.avdth.common.AAProperties.KEY_STANDARD_DIRECTORY;
 import static fr.ird.avdth.common.AAProperties.KEY_TRIP_INSPECTOR;
 import static fr.ird.avdth.common.AAProperties.KEY_WARNING_INSPECTOR;
 import static fr.ird.avdth.common.AAProperties.KEY_WELL_INSPECTOR;
 import static fr.ird.avdth.common.AAProperties.SHP_COUNTRIES_PATH;
+import static fr.ird.avdth.common.AAProperties.SHP_HARBOUR_PATH;
 import static fr.ird.avdth.common.AAProperties.SHP_OCEAN_PATH;
 import static fr.ird.avdth.common.AAProperties.STANDARD_DIRECTORY;
 import fr.ird.common.configuration.AppConfig;
@@ -84,7 +86,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
     public void init() {
         try {
             if (!configFileExist()) {
-                LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("!configFileExist(): so create it!");
+                LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("!configFileExist(): so create it!");
                 createConfigFile();
             }
             Properties p = loadProperties();
@@ -101,6 +103,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
                 AAProperties.STANDARD_DIRECTORY = p.getProperty(AAProperties.KEY_STANDARD_DIRECTORY);
                 AAProperties.SHP_COUNTRIES_PATH = p.getProperty(AAProperties.KEY_SHP_COUNTRIES_PATH);
                 AAProperties.SHP_OCEAN_PATH = p.getProperty(AAProperties.KEY_SHP_OCEAN_PATH);
+                AAProperties.SHP_HARBOUR_PATH = p.getProperty(AAProperties.KEY_SHP_HARBOUR_PATH);
                 AAProperties.DATE_FORMAT_XLS = p.getProperty(AAProperties.KEY_DATE_FORMAT_XLS);
 
                 AAProperties.SAMPLE_INSPECTOR = p.getProperty(AAProperties.KEY_SAMPLE_INSPECTOR);
@@ -140,8 +143,8 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
     @Override
     public Properties createDefaultProperties() {
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("createDefaultProperties");
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("Initialisation de properties ");
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("createDefaultProperties");
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("Initialisation de properties ");
 
         Properties p = new Properties();
         p.setProperty(KEY_SAMPLE_INSPECTOR, ACTIVE_VALUE);
@@ -150,41 +153,42 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(KEY_POSITION_INSPECTOR, ACTIVE_VALUE);
         p.setProperty(KEY_WELL_INSPECTOR, ACTIVE_VALUE);
         p.setProperty(KEY_WARNING_INSPECTOR, ACTIVE_VALUE);
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug(p.toString());
 
         p.setProperty(KEY_DATE_FORMAT_XLS, DATE_FORMAT_XLS);
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug(p.toString());
         p.setProperty(KEY_THIRD_PARTY_DATASOURCE, THIRD_PARTY_DATASOURCE_NAME);
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug(p.toString());
         p.setProperty(KEY_JDBC_ACCESS_DRIVER, JDBC_ACCESS_DRIVER);
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug(p.toString());
 
         p.setProperty(KEY_LAST_DATABASE_LOADED, "");
         p.setProperty(AAProperties.KEY_ANAPO_DB_PATH, "");
         p.setProperty(AAProperties.KEY_L10N, "fr");
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug(p.toString());
 
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, "15");
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, "30");
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug(p.toString());
 
         p.setProperty(AAProperties.KEY_ANAPO_INSPECTOR, AAProperties.DISABLE_VALUE);
         p.setProperty(AAProperties.KEY_ANAPO_VMS_COUNTRY, AAProperties.ANAPO_VMS_COUNTRY);
 
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("Creation de la property: " + PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("Creation de la property: " + PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
         p.setProperty(KEY_STANDARD_DIRECTORY, PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
 
         p.setProperty(KEY_SHP_OCEAN_PATH, new File(getInstallPath() + File.separator + "resource" + File.separator + "shp" + File.separator + "IHOSeasAndOceans.shp").getPath());
         p.setProperty(KEY_SHP_COUNTRIES_PATH, new File(getInstallPath() + File.separator + "resource" + File.separator + "shp" + File.separator + "countries.shp").getPath());
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo(p.toString());
-        LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("**************************");
+        p.setProperty(KEY_SHP_HARBOUR_PATH, new File(getInstallPath() + File.separator + "resource" + File.separator + "shp" + File.separator + "harbour.shp").getPath());
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug(p.toString());
+        LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
         return p;
     }
 
@@ -195,7 +199,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
         String dbPath = PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH;
         boolean success = (new File(dbPath)).mkdirs();
         if (success) {
-            LogService.getService(AkadoAvdthProperties.class).logApplicationInfo("Directory: " + dbPath + " created");
+            LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("Directory: " + dbPath + " created");
         }
     }
 
@@ -215,6 +219,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(KEY_STANDARD_DIRECTORY, STANDARD_DIRECTORY);
         p.setProperty(KEY_SHP_COUNTRIES_PATH, SHP_COUNTRIES_PATH);
         p.setProperty(KEY_SHP_OCEAN_PATH, SHP_OCEAN_PATH);
+        p.setProperty(KEY_SHP_HARBOUR_PATH, SHP_HARBOUR_PATH);
         p.setProperty(KEY_DATE_FORMAT_XLS, DATE_FORMAT_XLS);
 
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, "15");
@@ -237,6 +242,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(KEY_STANDARD_DIRECTORY, STANDARD_DIRECTORY);
         p.setProperty(KEY_SHP_COUNTRIES_PATH, SHP_COUNTRIES_PATH);
         p.setProperty(KEY_SHP_OCEAN_PATH, SHP_OCEAN_PATH);
+        p.setProperty(KEY_SHP_HARBOUR_PATH, SHP_HARBOUR_PATH);
         p.setProperty(KEY_DATE_FORMAT_XLS, DATE_FORMAT_XLS);
 
         p.setProperty(AAProperties.KEY_ANAPO_DB_PATH, AAProperties.ANAPO_DB_URL);

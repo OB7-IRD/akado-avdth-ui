@@ -95,7 +95,7 @@ public class AkadoView extends JFrame implements Constant {
 
         setLocationRelativeTo(getParent());
         setTitle(APPLICATION_NAME + " - " + APPLICATION_VERSION);
-        ImageIcon monIcone = new ImageIcon(getClass().getResource(Constant.ICON_APPS));
+        ImageIcon monIcone = new ImageIcon(getClass().getResource(Constant.APPLICATION_ICON));
         setIconImage(monIcone.getImage());
         setVisible(true);
     }

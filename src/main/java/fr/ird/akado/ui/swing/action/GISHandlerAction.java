@@ -18,7 +18,6 @@
  */
 package fr.ird.akado.ui.swing.action;
 
-import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.ui.swing.AkadoController;
 import fr.ird.avdth.common.AAProperties;
 import fr.ird.avdth.common.GISHandler;
@@ -72,7 +71,7 @@ public class GISHandlerAction extends AbstractAction {
                     GISHandler.getService().delete();
                 }
                 GISHandler.getService().init(AAProperties.STANDARD_DIRECTORY,
-                        AAProperties.SHP_COUNTRIES_PATH, AAProperties.SHP_OCEAN_PATH);
+                        AAProperties.SHP_COUNTRIES_PATH, AAProperties.SHP_OCEAN_PATH, AAProperties.SHP_HARBOUR_PATH);
                 GISHandler.getService().create();
             } catch (Exception ex) {
                 Logger.getLogger(GISHandlerAction.class.getName()).log(Level.SEVERE, null, ex);
