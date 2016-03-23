@@ -23,6 +23,7 @@ import fr.ird.akado.core.common.AkadoMessage;
 import fr.ird.akado.core.common.AkadoMessages;
 import fr.ird.akado.core.common.MessageAdapter;
 import fr.ird.akado.ui.AkadoAvdthProperties;
+import fr.ird.avdth.common.AkadoException;
 import fr.ird.common.log.LogService;
 
 import java.awt.BorderLayout;
@@ -37,9 +38,12 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -87,30 +91,41 @@ public class TaskView extends JPanel implements ActionListener,
         int progress = 0;
         private String dataBasePath;
 
-        Task(String path) throws Exception {
-            Constructor ctor = AkadoAvdthProperties.THIRD_PARTY_DATASOURCE.getDeclaredConstructor(String.class, String.class, String.class, String.class);
-            ctor.setAccessible(true);
-
-            this.dataBasePath = path;
-            akado = new AkadoCore();
+        Task(String path) {
             try {
-                inspector = (DataBaseInspector) ctor.newInstance(AkadoAvdthProperties.PROTOCOL_JDBC_ACCESS + path, AkadoAvdthProperties.JDBC_ACCESS_DRIVER, "", "");
-            } catch (InstantiationException e) {
-                LogService.getService(this.getClass()).logApplicationError(e.getMessage());
-                LogService.getService(this.getClass()).logApplicationError(e.getCause().toString());
-            }
+                Constructor ctor = AkadoAvdthProperties.THIRD_PARTY_DATASOURCE.getDeclaredConstructor(String.class, String.class, String.class, String.class);
+                ctor.setAccessible(true);
 
-            if (!akado.addDataBaseValidator(inspector)) {
-                throw new Exception("Error during the AVDTHValidator creation");
-            }
-
-            inspector.getAkadoMessages().addMessageListener(new MessageAdapter() {
-                @Override
-                public void messageAdded(AkadoMessage m) {
-                    taskOutput.append(m.getContent() + "\n");
+                this.dataBasePath = path;
+                akado = new AkadoCore();
+//                try {
+                    inspector = (DataBaseInspector) ctor.newInstance(AkadoAvdthProperties.PROTOCOL_JDBC_ACCESS + path, AkadoAvdthProperties.JDBC_ACCESS_DRIVER, "", "");
+//                } catch (IllegalAccessException | IllegalArgumentException | InstantiationException | InvocationTargetException ex) {
+//                    LogService.getService(this.getClass()).logApplicationError("--- " + ex.getMessage());
+//                    JOptionPane.showMessageDialog(null,
+//                            "-4-",
+//                            "Akado error",
+//                            JOptionPane.ERROR_MESSAGE);
+//                }
+                if (!akado.addDataBaseValidator(inspector)) {
+                    throw new AkadoException("Error during the AVDTHValidator creation.");
                 }
-            });
-            inspector.info();
+
+                inspector.getAkadoMessages().addMessageListener(new MessageAdapter() {
+                    @Override
+                    public void messageAdded(AkadoMessage m) {
+                        taskOutput.append(m.getContent() + "\n");
+                    }
+                });
+                inspector.info();
+            } catch (Exception ex) {
+                LogService.getService(this.getClass()).logApplicationError("--- " + ex.getMessage());
+
+                JOptionPane.showMessageDialog(null,
+                        ex.getMessage(),
+                        "Akado error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
 
         /*
@@ -125,8 +140,6 @@ public class TaskView extends JPanel implements ActionListener,
                 akado.execute();
             } catch (Exception ex) {
                 LogService.getService(this.getClass()).logApplicationError(ex.getMessage());
-                LogService.getService(this.getClass()).logApplicationError(Arrays.toString(ex.getStackTrace()));
-                LogService.getService(this.getClass()).logApplicationError(ex.getCause().toString());
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Akado error",
@@ -181,7 +194,7 @@ public class TaskView extends JPanel implements ActionListener,
             try {
                 Desktop.getDesktop().open(new File(exportNameWithExt));
             } catch (IOException ex) {
-                LogService.getService(this.getClass()).logApplicationError(ex.getMessage());
+                LogService.getService(this.getClass()).logApplicationError("***" + ex.getMessage());
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
                         "Akado error",
@@ -242,19 +255,12 @@ public class TaskView extends JPanel implements ActionListener,
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            taskOutput.setText("");
-            task = new Task(vtc.getPathFile());
-            startButton.setEnabled(false);
-            task.addPropertyChangeListener(this);
-            task.execute();
-        } catch (Exception ex) {
-            LogService.getService(this.getClass()).logApplicationError(ex.getMessage());
-            JOptionPane.showMessageDialog(this,
-                    ex.getMessage(),
-                    "Akado error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+        taskOutput.setText("");
+        task = new Task(vtc.getPathFile());
+        startButton.setEnabled(false);
+        task.addPropertyChangeListener(this);
+        task.execute();
+
     }
 
     @Override

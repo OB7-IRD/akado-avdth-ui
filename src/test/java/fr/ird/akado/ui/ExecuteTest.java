@@ -59,7 +59,7 @@ public class ExecuteTest extends TestCase {
             task("C:\\Users\\jlebranc\\Documents\\Julien_OA_2015_01_07-corrigee.mdb");
 
             AvdthService.getService().open();
-            Vessel b = AvdthService.getService().getVesselDAO().findBateauByCode(803);
+            Vessel b = AvdthService.getService().getVesselDAO().findVesselByCode(803);
             trip = new Trip(b, new DateTime());
             trip.setLandingHarbour(new HarbourDAO().findHarbourByCode(2));
             trip.setDepartureHarbour(new HarbourDAO().findHarbourByCode(2));
