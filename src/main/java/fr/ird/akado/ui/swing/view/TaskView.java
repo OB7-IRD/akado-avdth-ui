@@ -98,15 +98,8 @@ public class TaskView extends JPanel implements ActionListener,
 
                 this.dataBasePath = path;
                 akado = new AkadoCore();
-//                try {
-                    inspector = (DataBaseInspector) ctor.newInstance(AkadoAvdthProperties.PROTOCOL_JDBC_ACCESS + path, AkadoAvdthProperties.JDBC_ACCESS_DRIVER, "", "");
-//                } catch (IllegalAccessException | IllegalArgumentException | InstantiationException | InvocationTargetException ex) {
-//                    LogService.getService(this.getClass()).logApplicationError("--- " + ex.getMessage());
-//                    JOptionPane.showMessageDialog(null,
-//                            "-4-",
-//                            "Akado error",
-//                            JOptionPane.ERROR_MESSAGE);
-//                }
+                inspector = (DataBaseInspector) ctor.newInstance(AkadoAvdthProperties.PROTOCOL_JDBC_ACCESS + path, AkadoAvdthProperties.JDBC_ACCESS_DRIVER, "", "");
+
                 if (!akado.addDataBaseValidator(inspector)) {
                     throw new AkadoException("Error during the AVDTHValidator creation.");
                 }
@@ -119,7 +112,7 @@ public class TaskView extends JPanel implements ActionListener,
                 });
                 inspector.info();
             } catch (Exception ex) {
-                LogService.getService(this.getClass()).logApplicationError("--- " + ex.getMessage());
+                LogService.getService(this.getClass()).logApplicationError(ex.getMessage());
 
                 JOptionPane.showMessageDialog(null,
                         ex.getMessage(),
