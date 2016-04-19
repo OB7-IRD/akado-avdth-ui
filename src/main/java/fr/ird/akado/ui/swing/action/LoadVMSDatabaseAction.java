@@ -18,10 +18,11 @@
  */
 package fr.ird.akado.ui.swing.action;
 
+import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.ui.swing.AkadoController;
 import fr.ird.akado.ui.swing.utils.FileFilter;
 import fr.ird.akado.ui.swing.utils.MSAccessExtensionFilter;
-import fr.ird.avdth.common.AAProperties;
+import fr.ird.akado.avdth.common.AAProperties;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -38,15 +39,19 @@ import javax.swing.UIManager;
  * @since 2.0
  * @date 27 mai 2014
  *
- * $LastChangedDate: 2014-07-28 15:25:15 +0200 (lun. 28 juil. 2014) $
- *
- * $LastChangedRevision: 402 $
  */
 public class LoadVMSDatabaseAction extends AbstractAction {
 
-    private final Boolean DEBUG = false;
+    private final AkadoController akadoController;
+    JFileChooser fileChooser;
 
-    public LoadVMSDatabaseAction() {
+    public LoadVMSDatabaseAction(AkadoController vpc) {
+        this.akadoController = vpc;
+        if (AAProperties.ANAPO_DB_URL != null && !AAProperties.ANAPO_DB_URL.equals("")) {
+            fileChooser = new JFileChooser(AAProperties.ANAPO_DB_URL);
+        } else {
+            fileChooser = new JFileChooser();
+        }
     }
 
     @Override
@@ -55,7 +60,6 @@ public class LoadVMSDatabaseAction extends AbstractAction {
     }
 
     protected File openMenu(Component parent, FileFilter filter) {
-        JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(filter);
         int response = JOptionPane.OK_OPTION;
         File file = null;

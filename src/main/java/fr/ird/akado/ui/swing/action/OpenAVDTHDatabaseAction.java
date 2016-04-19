@@ -38,8 +38,7 @@ import javax.swing.UIManager;
  */
 public class OpenAVDTHDatabaseAction extends AbstractAction {
 
-    private final Boolean DEBUG = false;
-    private AkadoController akadoController;
+    private final AkadoController akadoController;
     JFileChooser fileChooser;
 
     public OpenAVDTHDatabaseAction(AkadoController vpc) {

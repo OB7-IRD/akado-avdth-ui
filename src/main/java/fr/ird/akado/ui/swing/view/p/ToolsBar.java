@@ -22,7 +22,7 @@ import fr.ird.akado.ui.swing.AkadoController;
 import fr.ird.akado.ui.swing.action.GISHandlerAction;
 import fr.ird.akado.ui.swing.action.LoadVMSDatabaseAction;
 import fr.ird.akado.ui.swing.action.OpenAVDTHDatabaseAction;
-import fr.ird.avdth.common.AAProperties;
+import fr.ird.akado.avdth.common.AAProperties;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,6 +63,7 @@ public class ToolsBar extends JMenuBar implements Constant {
 
     private final VMSThresholdDialog vmsThresholdOneDialog;
     private final VMSThresholdDialog vmsThresholdTwoDialog;
+    private AkadoController akadoController;
 
     /**
      *
@@ -70,7 +71,7 @@ public class ToolsBar extends JMenuBar implements Constant {
      */
     public ToolsBar(AkadoController akadoController) {
         // Creation du menu Fichier
-
+        this.akadoController = akadoController;
         vmsThresholdOneDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.one", new Locale(AAProperties.L10N)), AAProperties.THRESHOLD_CLASS_ONE);
         vmsThresholdOneDialog.pack();
         vmsThresholdTwoDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.two", new Locale(AAProperties.L10N)), AAProperties.THRESHOLD_CLASS_TWO);
@@ -188,7 +189,6 @@ public class ToolsBar extends JMenuBar implements Constant {
 //        myItem = generateL10NItem("es");
 //        myGroup.add(myItem);
 //        menu.add(myItem);
-
     }
 
     private void addInspectorSelector(JMenu menu) {
@@ -329,7 +329,7 @@ public class ToolsBar extends JMenuBar implements Constant {
         menu.add(mi);
         menu.add(new JSeparator());
         mi = new JMenuItem(UIManager.getString("ui.swing.vms.load.database", new Locale(AAProperties.L10N)), 'O');
-        mi.setAction(new LoadVMSDatabaseAction());
+        mi.setAction(new LoadVMSDatabaseAction(akadoController));
         mi.setActionCommand("open");
         mi.setText(UIManager.getString("ui.swing.vms.load.database", new Locale(AAProperties.L10N)));
         menu.add(mi);

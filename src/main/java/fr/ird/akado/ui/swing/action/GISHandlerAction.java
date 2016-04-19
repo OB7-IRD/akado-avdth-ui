@@ -19,8 +19,8 @@
 package fr.ird.akado.ui.swing.action;
 
 import fr.ird.akado.ui.swing.AkadoController;
-import fr.ird.avdth.common.AAProperties;
-import fr.ird.avdth.common.GISHandler;
+import fr.ird.akado.avdth.common.AAProperties;
+import fr.ird.akado.avdth.common.GISHandler;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;

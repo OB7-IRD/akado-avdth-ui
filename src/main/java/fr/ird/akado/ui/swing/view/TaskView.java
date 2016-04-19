@@ -23,7 +23,7 @@ import fr.ird.akado.core.common.AkadoMessage;
 import fr.ird.akado.core.common.AkadoMessages;
 import fr.ird.akado.core.common.MessageAdapter;
 import fr.ird.akado.ui.AkadoAvdthProperties;
-import fr.ird.avdth.common.AkadoException;
+import fr.ird.akado.avdth.common.AkadoException;
 import fr.ird.common.log.LogService;
 
 import java.awt.BorderLayout;
@@ -90,6 +90,7 @@ public class TaskView extends JPanel implements ActionListener,
         private AkadoCore akado;
         int progress = 0;
         private String dataBasePath;
+        String exceptionmessage = "";
 
         Task(String path) {
             try {
@@ -111,13 +112,22 @@ public class TaskView extends JPanel implements ActionListener,
                     }
                 });
                 inspector.info();
-            } catch (Exception ex) {
-                LogService.getService(this.getClass()).logApplicationError(ex.getMessage());
-
+            } catch (InvocationTargetException ex) {
+                exceptionmessage = "" + ex.getTargetException().getMessage();
+                LogService.getService(this.getClass()).logApplicationError(exceptionmessage);
                 JOptionPane.showMessageDialog(null,
-                        ex.getMessage(),
+                        exceptionmessage,
                         "Akado error",
                         JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                exceptionmessage = "" + ex.getMessage();
+                LogService.getService(this.getClass()).logApplicationError(exceptionmessage);
+
+                JOptionPane.showMessageDialog(null,
+                        exceptionmessage,
+                        "Akado error",
+                        JOptionPane.ERROR_MESSAGE);
+
             }
         }
 

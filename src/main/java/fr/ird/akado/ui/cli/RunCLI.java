@@ -22,6 +22,7 @@ import fr.ird.akado.core.common.AkadoMessage;
 import fr.ird.akado.core.common.MessageAdapter;
 import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.ui.swing.AkadoController;
+import fr.ird.akado.avdth.common.AkadoException;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.logging.Level;
@@ -118,7 +119,7 @@ public class RunCLI {
 
                 //System.out.println("Add AVDTH Inspection to Akado ");
                 if (!akado.addDataBaseValidator(inspector)) {
-                    throw new Exception("Error during the AVDTHValidator creation");
+                    throw new AkadoException("Error during the AVDTHValidator creation");
                 }
                 inspector.getAkadoMessages().addMessageListener(new MessageAdapter() {
                     @Override

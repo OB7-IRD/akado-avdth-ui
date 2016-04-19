@@ -18,6 +18,7 @@
  */package fr.ird.akado.ui.swing.view.p;
 
 import fr.ird.akado.ui.Constant;
+import fr.ird.common.log.LogService;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -37,24 +38,24 @@ import javax.swing.JPanel;
  * $LastChangedRevision: 402 $
  */
 public class SplashPanel extends JPanel {
-
+    
     private BufferedImage image;
-
+    
     public SplashPanel() {
         image = null;
         try {
             image = ImageIO.read(getClass().getResourceAsStream(Constant.SPLASH));
         } catch (IOException e) {
-            //System.out.println("pas photo");
+            LogService.getService(SplashPanel.class).logApplicationError(e.getMessage());
         }
     }
-
+    
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-
+        
     }
 }

@@ -19,6 +19,7 @@
 package fr.ird.akado.ui.swing.view.p;
 
 import fr.ird.akado.ui.Constant;
+import fr.ird.common.log.LogService;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -52,7 +53,7 @@ public class AboutPanel extends JPanel {
         try {
             image = ImageIO.read(getClass().getResourceAsStream(Constant.SPLASH));
         } catch (IOException e) {
-            //System.out.println("pas photo");
+            LogService.getService(AboutPanel.class).logApplicationError(e.getMessage());
         }
         setSize(new Dimension(500, 250));
     }
@@ -63,11 +64,11 @@ public class AboutPanel extends JPanel {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        double hAppVersion = 8.5 * getHeight() / 9;
+        double hAppVersion = 7.5 * getHeight() / 9;
         double wAppVersion = 0.5 * getWidth() / 6;
 
         double hAppAnnee = 8.5 * getHeight() / 9;
-        double wAppAnnee = 2.5 * getWidth() / 6;
+        double wAppAnnee = 0.5 * getWidth() / 6;
 
         g2d.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 

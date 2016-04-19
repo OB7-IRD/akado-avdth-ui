@@ -16,7 +16,7 @@
  */
 package fr.ird.akado.ui.swing.view.p;
 
-import fr.ird.avdth.common.AAProperties;
+import fr.ird.akado.avdth.common.AAProperties;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -18,7 +18,8 @@ package fr.ird.akado.ui.swing;
 
 import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.ui.Constant;
-import fr.ird.avdth.common.AAProperties;
+import fr.ird.akado.avdth.common.AAProperties;
+import fr.ird.akado.avdth.common.AkadoException;
 import fr.ird.common.log.LogService;
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +44,14 @@ public class AkadoAvdthUI {
     private static FileChannel channel;
     private static FileLock lock;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AkadoException {
+        LogService.getService(AkadoAvdthUI.class).logApplicationInfo(
+                "---------------------------------------------------------------");
+        LogService.getService(AkadoAvdthUI.class).logApplicationInfo(Constant.APPLICATION_NAME + " " + Constant.APPLICATION_VERSION);
+        LogService.getService(AkadoAvdthUI.class).logApplicationInfo(Constant.APPLICATION_AUTHOR + " " + Constant.APPLICATION_YEAR);
+
+        LogService.getService(AkadoAvdthUI.class).logApplicationInfo(
+                "---------------------------------------------------------------");
         AkadoAvdthProperties.getService().init();
 
         UIManager.getDefaults().addResourceBundle("AKaDo-UI");
@@ -75,7 +83,7 @@ public class AkadoAvdthUI {
             new AkadoController();
 
         } catch (IOException e) {
-            throw new RuntimeException("Could not start process.", e);
+            throw new AkadoException("Could not start process.", e);
         }
 
     }
