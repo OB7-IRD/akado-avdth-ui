@@ -121,6 +121,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
                 AAProperties.ANAPO_INSPECTOR = p.getProperty(AAProperties.KEY_ANAPO_INSPECTOR);
                 AAProperties.ANAPO_VMS_COUNTRY = p.getProperty(AAProperties.KEY_ANAPO_VMS_COUNTRY);
+                AAProperties.RESULTS_OUTPUT = p.getProperty(AAProperties.KEY_RESULTS_OUTPUT);
                 AAProperties.PROTOCOL_JDBC_ACCESS = PROTOCOL_JDBC_ACCESS;
 
             } catch (ClassNotFoundException e) {
@@ -179,7 +180,9 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
         p.setProperty(AAProperties.KEY_ANAPO_INSPECTOR, AAProperties.DISABLE_VALUE);
         p.setProperty(AAProperties.KEY_ANAPO_VMS_COUNTRY, AAProperties.ANAPO_VMS_COUNTRY);
-
+        
+        p.setProperty(AAProperties.KEY_RESULTS_OUTPUT, AAProperties.RESULTS_OUTPUT);
+        
         LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("Creation de la property: " + PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
         p.setProperty(KEY_STANDARD_DIRECTORY, PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
 
@@ -226,6 +229,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, "30");
         p.setProperty(AAProperties.KEY_ANAPO_INSPECTOR, AAProperties.DISABLE_VALUE);
         p.setProperty(AAProperties.KEY_ANAPO_VMS_COUNTRY, AAProperties.ANAPO_VMS_COUNTRY);
+        p.setProperty(AAProperties.KEY_RESULTS_OUTPUT, AAProperties.RESULTS_OUTPUT);
 
         return p;
     }
@@ -256,6 +260,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
         p.setProperty(AAProperties.KEY_ANAPO_INSPECTOR, AAProperties.ANAPO_INSPECTOR);
         p.setProperty(AAProperties.KEY_ANAPO_VMS_COUNTRY, AAProperties.ANAPO_VMS_COUNTRY);
+        p.setProperty(AAProperties.KEY_RESULTS_OUTPUT, AAProperties.RESULTS_OUTPUT);
         saveProperties(p);
     }
 

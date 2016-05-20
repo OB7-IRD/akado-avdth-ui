@@ -57,6 +57,7 @@ public class ToolsBar extends JMenuBar implements Constant {
     private final JMenu optionMenu;
     private final JMenu vmsMenu;
     private final JMenuItem gisMenuItem;
+    private final JMenuItem exportMenuItem;
     private final JMenu helpMenu;
     private final JMenuItem quitMenuItem;
     private final JMenuItem aboutMenuItem;
@@ -118,6 +119,25 @@ public class ToolsBar extends JMenuBar implements Constant {
         this.gisMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
         optionMenu.add(gisMenuItem);
+        optionMenu.add(new JSeparator()); // SEPARATOR  
+
+        exportMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.results.output.enable", new Locale(AAProperties.L10N)));
+        exportMenuItem.setMnemonic(KeyEvent.VK_X);
+        exportMenuItem.setSelected(AAProperties.RESULTS_OUTPUT.equals(AAProperties.ACTIVE_VALUE));
+        exportMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+//                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+//                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.RESULTS_OUTPUT = AAProperties.ACTIVE_VALUE;
+                } else {
+                    AAProperties.RESULTS_OUTPUT = AAProperties.DISABLE_VALUE;
+                }
+            }
+        });
+        optionMenu.add(exportMenuItem);
+
         optionMenu.add(new JSeparator()); // SEPARATOR  
         addL10NMenuItem(optionMenu);
         optionMenu.add(new JSeparator()); // SEPARATOR
@@ -198,8 +218,8 @@ public class ToolsBar extends JMenuBar implements Constant {
         configMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                        ? "SELECTED" : "DESELECTED");
+//                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+//                        ? "SELECTED" : "DESELECTED");
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     AAProperties.ACTIVITY_INSPECTOR = AAProperties.ACTIVE_VALUE;
                 } else {
@@ -215,8 +235,8 @@ public class ToolsBar extends JMenuBar implements Constant {
         configMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                        ? "SELECTED" : "DESELECTED");
+//                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+//                        ? "SELECTED" : "DESELECTED");
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     AAProperties.POSITION_INSPECTOR = AAProperties.ACTIVE_VALUE;
                 } else {
@@ -235,8 +255,8 @@ public class ToolsBar extends JMenuBar implements Constant {
         configMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                        ? "SELECTED" : "DESELECTED");
+//                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+//                        ? "SELECTED" : "DESELECTED");
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     AAProperties.TRIP_INSPECTOR = AAProperties.ACTIVE_VALUE;
                 } else {
@@ -254,8 +274,8 @@ public class ToolsBar extends JMenuBar implements Constant {
         configMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                        ? "SELECTED" : "DESELECTED");
+//                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+//                        ? "SELECTED" : "DESELECTED");
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     AAProperties.SAMPLE_INSPECTOR = AAProperties.ACTIVE_VALUE;
                 } else {
@@ -273,8 +293,8 @@ public class ToolsBar extends JMenuBar implements Constant {
         configMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                        ? "SELECTED" : "DESELECTED");
+//                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+//                        ? "SELECTED" : "DESELECTED");
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     AAProperties.WELL_INSPECTOR = AAProperties.ACTIVE_VALUE;
                 } else {
@@ -292,8 +312,8 @@ public class ToolsBar extends JMenuBar implements Constant {
         configMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                        ? "SELECTED" : "DESELECTED");
+//                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+//                        ? "SELECTED" : "DESELECTED");
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     AAProperties.WARNING_INSPECTOR = AAProperties.ACTIVE_VALUE;
                 } else {
@@ -317,8 +337,8 @@ public class ToolsBar extends JMenuBar implements Constant {
         mi.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getStateChange() == ItemEvent.SELECTED
-                        ? "SELECTED" : "DESELECTED");
+//                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+//                        ? "SELECTED" : "DESELECTED");
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     AAProperties.ANAPO_INSPECTOR = AAProperties.ACTIVE_VALUE;
                 } else {
