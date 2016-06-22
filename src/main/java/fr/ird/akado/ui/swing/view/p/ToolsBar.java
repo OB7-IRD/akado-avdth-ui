@@ -54,6 +54,7 @@ public class ToolsBar extends JMenuBar implements Constant {
 
     private final JMenu fileMenu;
     private final JMenuItem openMenuItem;
+    private final JMenu inspectorMenu;
     private final JMenu optionMenu;
     private final JMenu vmsMenu;
     private final JMenuItem gisMenuItem;
@@ -109,6 +110,17 @@ public class ToolsBar extends JMenuBar implements Constant {
         fileMenu.add(quitMenuItem);
 
         //Creation du menu Option
+        inspectorMenu = new JMenu(UIManager.getString("ui.swing.inspectors", new Locale(AAProperties.L10N)));
+        inspectorMenu.setActionCommand("inspectors");
+
+        addInspectorSelector(inspectorMenu);
+
+        //Creation du menu gérant les VMS
+        vmsMenu = new JMenu(UIManager.getString("ui.swing.vms", new Locale(AAProperties.L10N)));
+        vmsMenu.setActionCommand("vms");
+        addVMSMenuItem(vmsMenu);
+
+        //Creation du menu Option
         optionMenu = new JMenu(UIManager.getString("ui.swing.option", new Locale(AAProperties.L10N)));
         optionMenu.setActionCommand("option");
 
@@ -137,16 +149,8 @@ public class ToolsBar extends JMenuBar implements Constant {
             }
         });
         optionMenu.add(exportMenuItem);
-
         optionMenu.add(new JSeparator()); // SEPARATOR  
         addL10NMenuItem(optionMenu);
-        optionMenu.add(new JSeparator()); // SEPARATOR
-        addInspectorSelector(optionMenu);
-
-        //Creation du menu gérant les VMS
-        vmsMenu = new JMenu(UIManager.getString("ui.swing.vms", new Locale(AAProperties.L10N)));
-        vmsMenu.setActionCommand("vms");
-        addVMSMenuItem(vmsMenu);
 
         // Creation du menu Aide
         helpMenu = new JMenu(UIManager.getString("ui.swing.help", new Locale(AAProperties.L10N)));
@@ -161,8 +165,9 @@ public class ToolsBar extends JMenuBar implements Constant {
         helpMenu.add(aboutMenuItem);
 
         this.add(fileMenu);
-        this.add(optionMenu);
+        this.add(inspectorMenu);
         this.add(vmsMenu);
+        this.add(optionMenu);
         this.add(helpMenu);
 
     }
@@ -215,6 +220,8 @@ public class ToolsBar extends JMenuBar implements Constant {
         JMenuItem configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.activity.inspector.enable", new Locale(AAProperties.L10N)));
         configMenuItem.setMnemonic(KeyEvent.VK_A);
         configMenuItem.setSelected(AAProperties.ACTIVITY_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
         configMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -230,8 +237,9 @@ public class ToolsBar extends JMenuBar implements Constant {
         menu.add(configMenuItem);
         configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.activity.position.inspector.enable", new Locale(AAProperties.L10N)));
         configMenuItem.setSelected(AAProperties.POSITION_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
-//        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-//                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
+        configMenuItem.setMnemonic(KeyEvent.VK_P);
+        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
         configMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
