@@ -18,7 +18,7 @@ package fr.ird.akado.ui.swing.view;
 
 import fr.ird.akado.core.AkadoCore;
 import fr.ird.akado.core.DataBaseInspector;
-import fr.ird.akado.core.Inspection;
+import fr.ird.akado.core.Inspector;
 import fr.ird.akado.core.common.AkadoMessage;
 import fr.ird.akado.core.common.AkadoMessages;
 import fr.ird.akado.core.common.MessageAdapter;
@@ -65,7 +65,7 @@ import org.joda.time.Seconds;
  * @author Julien Lebranchu <julien.lebranchu@ird.fr>
  * @since 2.0
  * @date 3 juin 2014
- * @see Inspection
+ * @see Inspector
  * @see Task
  */
 public class TaskView extends JPanel implements ActionListener,
