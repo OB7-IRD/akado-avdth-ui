@@ -40,10 +40,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -90,7 +87,7 @@ public class TaskView extends JPanel implements ActionListener,
         private AkadoCore akado;
         int progress = 0;
         private String dataBasePath;
-        String exceptionmessage = "";
+        String exceptionMessage = "";
 
         Task(String path) {
             try {
@@ -113,18 +110,18 @@ public class TaskView extends JPanel implements ActionListener,
                 });
                 inspector.info();
             } catch (InvocationTargetException ex) {
-                exceptionmessage = "" + ex.getTargetException().getMessage();
-                LogService.getService(this.getClass()).logApplicationError(exceptionmessage);
+                exceptionMessage = "" + ex.getTargetException().getMessage();
+                LogService.getService(this.getClass()).logApplicationError(exceptionMessage);
                 JOptionPane.showMessageDialog(null,
-                        exceptionmessage,
+                        exceptionMessage,
                         "Akado error",
                         JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
-                exceptionmessage = "" + ex.getMessage();
-                LogService.getService(this.getClass()).logApplicationError(exceptionmessage);
+                exceptionMessage = "" + ex.getMessage();
+                LogService.getService(this.getClass()).logApplicationError(exceptionMessage);
 
                 JOptionPane.showMessageDialog(null,
-                        exceptionmessage,
+                        exceptionMessage,
                         "Akado error",
                         JOptionPane.ERROR_MESSAGE);
 
@@ -157,19 +154,6 @@ public class TaskView extends JPanel implements ActionListener,
             DateTime endProcess = new DateTime();
             int duration = Seconds.secondsBetween(startProcess, endProcess).getSeconds();
             exportOut = "Done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds ! There is " + inspector.getAkadoMessages().size() + " messages.\n";
-
-//            exportOut += "The export of results is processing...";
-//            String pathExport = new File(dataBasePath).getParent();
-//            String dbName = FilenameUtils.removeExtension(new File(dataBasePath).getName());
-//            String exportName = pathExport + File.separator + dbName + "_akado_result_" + endProcess.getYear() + endProcess.getMonthOfYear() + endProcess.getDayOfMonth() + "_" + endProcess.getHourOfDay() + endProcess.getMinuteOfHour();
-//            exportNameWithExt = exportName + ".xlsx";
-//            DateTime startExport = new DateTime();
-//            inspector.getResults().exportToXLS(exportNameWithExt);
-//
-//            DateTime endExport = new DateTime();
-//            exportOut += "The results are in the file: \"" + exportNameWithExt + "\".\n";
-//            duration = Seconds.secondsBetween(startExport, endExport).getSeconds();
-//            exportOut += "Export done in " + duration / 60 + " minute(s) and " + duration % 60 + " seconds !\n";
         }
 
         /*

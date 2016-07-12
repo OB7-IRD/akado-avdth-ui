@@ -39,10 +39,6 @@ import javax.swing.UIManager;
  * @author Julien Lebranchu <julien.lebranchu@ird.fr>
  * @since 2.0
  * @date 27 mai 2014
- *
- * $LastChangedDate: 2015-03-04 09:19:10 +0100 (mer. 04 mars 2015) $
- *
- * $LastChangedRevision: 515 $
  */
 public class AkadoView extends JFrame implements Constant {
 

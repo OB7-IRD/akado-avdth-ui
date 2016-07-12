@@ -1,6 +1,4 @@
 /*
- * $Id: MSAccessExtensionFilter.java 402 2014-07-28 13:25:15Z lebranch $
- *
  *Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,10 +25,6 @@ import java.io.File;
  * @author Julien Lebranchu <julien.lebranchu@ird.fr>
  * @since 2.0
  * @date 02 juin 2014
- *
- * $LastChangedDate: 2014-07-28 15:25:15 +0200 (lun. 28 juil. 2014) $
- *
- * $LastChangedRevision: 402 $
  */
 public class MSAccessExtensionFilter extends FileFilter {
 
