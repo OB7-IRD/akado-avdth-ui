@@ -119,7 +119,10 @@ public final class AkadoAvdthProperties extends IRDProperties {
                 AAProperties.THRESHOLD_CLASS_ONE = Double.valueOf(p.getProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE));
                 AAProperties.THRESHOLD_CLASS_TWO = Double.valueOf(p.getProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO));
 
+                AAProperties.NB_PROC = Integer.valueOf(p.getProperty(AAProperties.KEY_NB_PROC));
+
                 AAProperties.ANAPO_INSPECTOR = p.getProperty(AAProperties.KEY_ANAPO_INSPECTOR);
+                AAProperties.AKADO_INSPECTOR = p.getProperty(AAProperties.KEY_AKADO_INSPECTOR);
                 AAProperties.ANAPO_VMS_COUNTRY = p.getProperty(AAProperties.KEY_ANAPO_VMS_COUNTRY);
                 AAProperties.RESULTS_OUTPUT = p.getProperty(AAProperties.KEY_RESULTS_OUTPUT);
                 AAProperties.PROTOCOL_JDBC_ACCESS = PROTOCOL_JDBC_ACCESS;
@@ -173,16 +176,18 @@ public final class AkadoAvdthProperties extends IRDProperties {
         LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
         LogService.getService(AkadoAvdthProperties.class).logApplicationDebug(p.toString());
 
-        p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, "15");
-        p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, "30");
+        p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, "10");
+        p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, "20");
+        p.setProperty(AAProperties.KEY_NB_PROC, "2");
         LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
         LogService.getService(AkadoAvdthProperties.class).logApplicationDebug(p.toString());
 
+        p.setProperty(AAProperties.KEY_AKADO_INSPECTOR, AAProperties.ACTIVE_VALUE);
         p.setProperty(AAProperties.KEY_ANAPO_INSPECTOR, AAProperties.DISABLE_VALUE);
         p.setProperty(AAProperties.KEY_ANAPO_VMS_COUNTRY, AAProperties.ANAPO_VMS_COUNTRY);
-        
+
         p.setProperty(AAProperties.KEY_RESULTS_OUTPUT, AAProperties.RESULTS_OUTPUT);
-        
+
         LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("Creation de la property: " + PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
         p.setProperty(KEY_STANDARD_DIRECTORY, PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
 
@@ -225,8 +230,10 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(KEY_SHP_HARBOUR_PATH, SHP_HARBOUR_PATH);
         p.setProperty(KEY_DATE_FORMAT_XLS, DATE_FORMAT_XLS);
 
-        p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, "15");
-        p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, "30");
+        p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, "10");
+        p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, "20");
+        p.setProperty(AAProperties.KEY_NB_PROC, "2");
+        p.setProperty(AAProperties.KEY_AKADO_INSPECTOR, AAProperties.ACTIVE_VALUE);
         p.setProperty(AAProperties.KEY_ANAPO_INSPECTOR, AAProperties.DISABLE_VALUE);
         p.setProperty(AAProperties.KEY_ANAPO_VMS_COUNTRY, AAProperties.ANAPO_VMS_COUNTRY);
         p.setProperty(AAProperties.KEY_RESULTS_OUTPUT, AAProperties.RESULTS_OUTPUT);
@@ -254,10 +261,12 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, Double.toString(AAProperties.THRESHOLD_CLASS_ONE));
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, Double.toString(AAProperties.THRESHOLD_CLASS_TWO));
+        p.setProperty(AAProperties.KEY_NB_PROC, Integer.toString(AAProperties.NB_PROC));
         p.setProperty(KEY_LAST_DATABASE_LOADED, LAST_DATABASE_LOADED);
         p.setProperty(KEY_JDBC_ACCESS_DRIVER, JDBC_ACCESS_DRIVER);
         p.setProperty(KEY_THIRD_PARTY_DATASOURCE, THIRD_PARTY_DATASOURCE_NAME);
 
+        p.setProperty(AAProperties.KEY_AKADO_INSPECTOR, AAProperties.AKADO_INSPECTOR);
         p.setProperty(AAProperties.KEY_ANAPO_INSPECTOR, AAProperties.ANAPO_INSPECTOR);
         p.setProperty(AAProperties.KEY_ANAPO_VMS_COUNTRY, AAProperties.ANAPO_VMS_COUNTRY);
         p.setProperty(AAProperties.KEY_RESULTS_OUTPUT, AAProperties.RESULTS_OUTPUT);

@@ -16,6 +16,7 @@
  */
 package fr.ird.akado.ui.swing.view;
 
+import fr.ird.akado.avdth.common.AAProperties;
 import fr.ird.akado.core.AkadoCore;
 import fr.ird.akado.core.DataBaseInspector;
 import fr.ird.akado.core.Inspector;
@@ -41,6 +42,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -196,17 +198,16 @@ public class TaskView extends JPanel implements ActionListener,
     public static Boolean DEBUG = false;
 
     final SimpleDateFormat timef = new SimpleDateFormat("mm:ss");
-    final JLabel elapsedLabel = new JLabel("Elapsed Time = " + timef.format(new Date(0)),
-            SwingUtilities.CENTER);
+    final JLabel elapsedLabel = new JLabel("", SwingUtilities.CENTER);
     Timer timer = new javax.swing.Timer(1000, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             Date currentDate = new Date(System.currentTimeMillis() - ref);
             String formattedDate = timef.format(currentDate);
-            elapsedLabel.setText("Elapsed Time = " + formattedDate);
+            elapsedLabel.setText(UIManager.getString("ui.swing.elapsed.time", new Locale(AAProperties.L10N)) + " = " + formattedDate);
         }
     });
-    static long ref;
+    static long ref = 0;
 
     public TaskView(TaskController controller) {
         super(new BorderLayout());

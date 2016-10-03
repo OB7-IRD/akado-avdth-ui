@@ -65,7 +65,7 @@ public class ToolsBar extends JMenuBar implements Constant {
 
     private final VMSThresholdDialog vmsThresholdOneDialog;
     private final VMSThresholdDialog vmsThresholdTwoDialog;
-    private AkadoController akadoController;
+    private final AkadoController akadoController;
 
     /**
      *
@@ -217,12 +217,14 @@ public class ToolsBar extends JMenuBar implements Constant {
     }
 
     private void addInspectorSelector(JMenu menu) {
-        JMenuItem configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.activity.inspector.enable", new Locale(AAProperties.L10N)));
-        configMenuItem.setMnemonic(KeyEvent.VK_A);
-        configMenuItem.setSelected(AAProperties.ACTIVITY_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
-        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
+
+        activityMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.activity.inspector.enable", new Locale(AAProperties.L10N)));
+        activityMenuItem.setMnemonic(KeyEvent.VK_A);
+        activityMenuItem.setSelected(AAProperties.ACTIVITY_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        activityMenuItem.setEnabled(AAProperties.AKADO_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        activityMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
-        configMenuItem.addItemListener(new ItemListener() {
+        activityMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
 //                System.out.println(e.getStateChange() == ItemEvent.SELECTED
@@ -234,13 +236,14 @@ public class ToolsBar extends JMenuBar implements Constant {
                 }
             }
         });
-        menu.add(configMenuItem);
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.activity.position.inspector.enable", new Locale(AAProperties.L10N)));
-        configMenuItem.setSelected(AAProperties.POSITION_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
-        configMenuItem.setMnemonic(KeyEvent.VK_P);
-        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
+
+        activityPositionMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.activity.position.inspector.enable", new Locale(AAProperties.L10N)));
+        activityPositionMenuItem.setSelected(AAProperties.POSITION_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        activityPositionMenuItem.setMnemonic(KeyEvent.VK_P);
+        activityPositionMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
-        configMenuItem.addItemListener(new ItemListener() {
+        activityPositionMenuItem.setEnabled(AAProperties.AKADO_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        activityPositionMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
 //                System.out.println(e.getStateChange() == ItemEvent.SELECTED
@@ -253,14 +256,13 @@ public class ToolsBar extends JMenuBar implements Constant {
             }
         });
 
-        menu.add(configMenuItem);
-
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.trip.inspector.enable", new Locale(AAProperties.L10N)));
-        configMenuItem.setSelected(AAProperties.TRIP_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        tripMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.trip.inspector.enable", new Locale(AAProperties.L10N)));
+        tripMenuItem.setSelected(AAProperties.TRIP_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
 //        configMenuItem.setMnemonic(KeyEvent.VK_T);
-        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
+        tripMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
-        configMenuItem.addItemListener(new ItemListener() {
+        tripMenuItem.setEnabled(AAProperties.AKADO_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        tripMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
 //                System.out.println(e.getStateChange() == ItemEvent.SELECTED
@@ -273,13 +275,12 @@ public class ToolsBar extends JMenuBar implements Constant {
             }
         });
 
-        menu.add(configMenuItem);
-
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.sample.inspector.enable", new Locale(AAProperties.L10N)));
-        configMenuItem.setSelected(AAProperties.SAMPLE_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
-        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+        sampleMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.sample.inspector.enable", new Locale(AAProperties.L10N)));
+        sampleMenuItem.setSelected(AAProperties.SAMPLE_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        sampleMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
-        configMenuItem.addItemListener(new ItemListener() {
+        sampleMenuItem.setEnabled(AAProperties.AKADO_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        sampleMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
 //                System.out.println(e.getStateChange() == ItemEvent.SELECTED
@@ -292,13 +293,12 @@ public class ToolsBar extends JMenuBar implements Constant {
             }
         });
 
-        menu.add(configMenuItem);
-
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.well.inspector.enable", new Locale(AAProperties.L10N)));
-        configMenuItem.setSelected(AAProperties.WELL_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
-        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
+        wellMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.well.inspector.enable", new Locale(AAProperties.L10N)));
+        wellMenuItem.setSelected(AAProperties.WELL_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        wellMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
-        configMenuItem.addItemListener(new ItemListener() {
+        wellMenuItem.setEnabled(AAProperties.AKADO_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        wellMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
 //                System.out.println(e.getStateChange() == ItemEvent.SELECTED
@@ -311,13 +311,12 @@ public class ToolsBar extends JMenuBar implements Constant {
             }
         });
 
-        menu.add(configMenuItem);
-
-        configMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.warning.inspector.enable", new Locale(AAProperties.L10N)));
-        configMenuItem.setSelected(AAProperties.WARNING_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
-        configMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
+        warningMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.warning.inspector.enable", new Locale(AAProperties.L10N)));
+        warningMenuItem.setSelected(AAProperties.WARNING_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        warningMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
-        configMenuItem.addItemListener(new ItemListener() {
+        warningMenuItem.setEnabled(AAProperties.AKADO_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        warningMenuItem.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
 //                System.out.println(e.getStateChange() == ItemEvent.SELECTED
@@ -330,8 +329,53 @@ public class ToolsBar extends JMenuBar implements Constant {
             }
         });
 
-        menu.add(configMenuItem);
+        akadoMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.akado.inspector.enable", new Locale(AAProperties.L10N)));
+
+        akadoMenuItem.setSelected(AAProperties.AKADO_INSPECTOR.equals(AAProperties.ACTIVE_VALUE));
+        akadoMenuItem.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+//                System.out.println(e.getStateChange() == ItemEvent.SELECTED
+//                        ? "SELECTED" : "DESELECTED");
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    AAProperties.AKADO_INSPECTOR = AAProperties.ACTIVE_VALUE;
+                    tripMenuItem.setEnabled(true);
+                    activityMenuItem.setEnabled(true);
+                    activityPositionMenuItem.setEnabled(true);
+                    sampleMenuItem.setEnabled(true);
+                    wellMenuItem.setEnabled(true);
+                    warningMenuItem.setEnabled(true);
+                } else {
+                    AAProperties.AKADO_INSPECTOR = AAProperties.DISABLE_VALUE;
+                    tripMenuItem.setEnabled(false);
+                    activityMenuItem.setEnabled(false);
+                    activityPositionMenuItem.setEnabled(false);
+                    sampleMenuItem.setEnabled(false);
+                    wellMenuItem.setEnabled(false);
+                    warningMenuItem.setEnabled(false);
+                }
+            }
+        });
+
+        menu.add(akadoMenuItem);
+        menu.add(new JSeparator());
+        menu.add(tripMenuItem);
+
+        menu.add(activityMenuItem);
+        menu.add(activityPositionMenuItem);
+
+        menu.add(sampleMenuItem);
+        menu.add(wellMenuItem);
+        menu.add(warningMenuItem);
     }
+
+    JMenuItem akadoMenuItem;
+    JMenuItem tripMenuItem;
+    JMenuItem activityMenuItem;
+    JMenuItem activityPositionMenuItem;
+    JMenuItem sampleMenuItem;
+    JMenuItem wellMenuItem;
+    JMenuItem warningMenuItem;
 
     final String inputThresholdOneOptionCommand = "thresholdOneOC";
     final String inputThresholdTwoOptionCommand = "thresholdTwoOC";
