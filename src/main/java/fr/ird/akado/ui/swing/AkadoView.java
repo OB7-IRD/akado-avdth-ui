@@ -18,19 +18,28 @@
  */
 package fr.ird.akado.ui.swing;
 
+import fr.ird.akado.avdth.common.AAProperties;
+import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.ui.Constant;
 import static fr.ird.akado.ui.Constant.APPLICATION_NAME;
+import fr.ird.akado.ui.swing.listener.InfoListeners;
 import fr.ird.akado.ui.swing.view.TaskController;
 import fr.ird.akado.ui.swing.view.TaskView;
+import fr.ird.akado.ui.swing.view.p.InfoBar;
 import fr.ird.akado.ui.swing.view.p.SplashPanel;
 import fr.ird.akado.ui.swing.view.p.ToolsBar;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.PopupMenu;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 /**
@@ -46,10 +55,13 @@ public class AkadoView extends JFrame implements Constant {
     private TaskView taskView;
     private TaskController vtc;
 
+    private final InfoListeners listeners;
+
     AkadoView(AkadoController controller) {
-        this.toolbar = new ToolsBar(controller);
+        listeners = new InfoListeners();
+        this.toolbar = new ToolsBar(controller, listeners);
         this.setJMenuBar(toolbar);
-        this.add(new SplashPanel());
+        this.add(new SplashPanel(), BorderLayout.CENTER);
 
         addWindowListener(new WindowAdapter() {
 
@@ -104,7 +116,8 @@ public class AkadoView extends JFrame implements Constant {
      * @param file the file
      */
     public void prepareValidating(File file) {
-        vtc = new TaskController(file);
+        System.out.println("prepareValidating " +listeners);
+        vtc = new TaskController(file, listeners);
         this.setContentPane(vtc.getTaskView());
         this.validate();
     }

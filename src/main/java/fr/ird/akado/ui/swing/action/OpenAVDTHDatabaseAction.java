@@ -18,6 +18,7 @@ package fr.ird.akado.ui.swing.action;
 
 import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.ui.swing.AkadoController;
+import fr.ird.akado.ui.swing.listener.InfoListeners;
 import fr.ird.akado.ui.swing.utils.FileFilter;
 import fr.ird.akado.ui.swing.utils.MSAccessExtensionFilter;
 import java.awt.Component;
@@ -40,8 +41,10 @@ public class OpenAVDTHDatabaseAction extends AbstractAction {
 
     private final AkadoController akadoController;
     JFileChooser fileChooser;
+    private final InfoListeners listeners;
 
-    public OpenAVDTHDatabaseAction(AkadoController vpc) {
+    public OpenAVDTHDatabaseAction(AkadoController vpc, InfoListeners listeners) {
+        this.listeners = listeners;
         this.akadoController = vpc;
         if (AkadoAvdthProperties.LAST_DATABASE_LOADED != null && !AkadoAvdthProperties.LAST_DATABASE_LOADED.equals("")) {
             fileChooser = new JFileChooser(AkadoAvdthProperties.LAST_DATABASE_LOADED);
@@ -93,6 +96,7 @@ public class OpenAVDTHDatabaseAction extends AbstractAction {
 
         if (file != null) {
             this.akadoController.setDataBase(file);
+            listeners.fireInfoUpdated();
         }
 //        this.vpc.setNewView(this.handler);
 ////        System.out.print(this.handler.getModele());

@@ -178,7 +178,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, "10");
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, "20");
-        p.setProperty(AAProperties.KEY_NB_PROC, "2");
+        p.setProperty(AAProperties.KEY_NB_PROC, "1");
         LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
         LogService.getService(AkadoAvdthProperties.class).logApplicationDebug(p.toString());
 
@@ -232,7 +232,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
 
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, "10");
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_TWO, "20");
-        p.setProperty(AAProperties.KEY_NB_PROC, "2");
+        p.setProperty(AAProperties.KEY_NB_PROC, "1");
         p.setProperty(AAProperties.KEY_AKADO_INSPECTOR, AAProperties.ACTIVE_VALUE);
         p.setProperty(AAProperties.KEY_ANAPO_INSPECTOR, AAProperties.DISABLE_VALUE);
         p.setProperty(AAProperties.KEY_ANAPO_VMS_COUNTRY, AAProperties.ANAPO_VMS_COUNTRY);

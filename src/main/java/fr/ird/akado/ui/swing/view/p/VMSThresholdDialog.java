@@ -17,6 +17,7 @@
 package fr.ird.akado.ui.swing.view.p;
 
 import fr.ird.akado.avdth.common.AAProperties;
+import fr.ird.akado.ui.swing.listener.InfoListener;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,7 +46,6 @@ public class VMSThresholdDialog extends JDialog
     private String typedText = null;
     private JTextField textField;
 
-    private String magicWord;
     private JOptionPane optionPane;
 
     private String btnString1 = UIManager.getString("ui.swing.enter", new Locale(AAProperties.L10N));
@@ -92,6 +92,7 @@ public class VMSThresholdDialog extends JDialog
         //Handle window closing correctly.
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent we) {
                 /*
                  * Instead of directly closing the window,
@@ -105,6 +106,7 @@ public class VMSThresholdDialog extends JDialog
 
         //Ensure the text field always gets the first focus.
         addComponentListener(new ComponentAdapter() {
+            @Override
             public void componentShown(ComponentEvent ce) {
                 textField.requestFocusInWindow();
             }
@@ -114,12 +116,14 @@ public class VMSThresholdDialog extends JDialog
         textField.addActionListener(this);
 
         //Register an event handler that reacts to option pane state changes.
-        optionPane.addPropertyChangeListener(this);
+        optionPane.addPropertyChangeListener(this);        
     }
 
     /**
      * This method handles events for the text field.
+     * @param e
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         optionPane.setValue(btnString1);
     }
@@ -160,7 +164,9 @@ public class VMSThresholdDialog extends JDialog
 
     /**
      * This method reacts to state changes in the option pane.
+     * @param e
      */
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         String prop = e.getPropertyName();
 

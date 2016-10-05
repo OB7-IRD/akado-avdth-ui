@@ -25,9 +25,14 @@ import fr.ird.akado.core.common.AkadoMessages;
 import fr.ird.akado.core.common.MessageAdapter;
 import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.avdth.common.AkadoException;
+import fr.ird.akado.ui.swing.AkadoView;
+import fr.ird.akado.ui.swing.listener.InfoListener;
+import fr.ird.akado.ui.swing.listener.InfoListeners;
+import fr.ird.akado.ui.swing.view.p.InfoBar;
 import fr.ird.common.log.LogService;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Insets;
@@ -231,9 +236,12 @@ public class TaskView extends JPanel implements ActionListener,
         panel.add(startButton);
         panel.add(elapsedLabel);
 
+        InfoBar infoBar = new InfoBar(vtc, vtc.getListeners());
+        
         add(panel, BorderLayout.PAGE_START);
         add(new JScrollPane(taskOutput), BorderLayout.CENTER);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        add(infoBar, BorderLayout.PAGE_END);
 
     }
 
@@ -254,5 +262,4 @@ public class TaskView extends JPanel implements ActionListener,
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
     }
-
 }

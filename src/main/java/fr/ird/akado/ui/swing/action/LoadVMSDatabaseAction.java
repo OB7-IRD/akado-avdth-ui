@@ -23,6 +23,7 @@ import fr.ird.akado.ui.swing.AkadoController;
 import fr.ird.akado.ui.swing.utils.FileFilter;
 import fr.ird.akado.ui.swing.utils.MSAccessExtensionFilter;
 import fr.ird.akado.avdth.common.AAProperties;
+import fr.ird.akado.ui.swing.listener.InfoListeners;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -44,14 +45,20 @@ public class LoadVMSDatabaseAction extends AbstractAction {
 
     private final AkadoController akadoController;
     JFileChooser fileChooser;
+    private InfoListeners listeners;
 
-    public LoadVMSDatabaseAction(AkadoController vpc) {
+    public LoadVMSDatabaseAction(AkadoController vpc, InfoListeners listeners) {
+        this.listeners = listeners;
         this.akadoController = vpc;
         if (AAProperties.ANAPO_DB_URL != null && !AAProperties.ANAPO_DB_URL.equals("")) {
             fileChooser = new JFileChooser(AAProperties.ANAPO_DB_URL);
         } else {
             fileChooser = new JFileChooser();
         }
+    }
+
+    public LoadVMSDatabaseAction(AkadoController akadoControllers) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -95,6 +102,7 @@ public class LoadVMSDatabaseAction extends AbstractAction {
 
         if (file != null) {
             AAProperties.ANAPO_DB_URL = file.getAbsolutePath();
+            listeners.fireInfoUpdated();
         }
     }
 }

@@ -1,6 +1,4 @@
 /*
- * $Id: TaskController.java 402 2014-07-28 13:25:15Z lebranch $
- *
  * Copyright (C) 2014 Observatoire thonier, IRD
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,6 +16,7 @@
  */
 package fr.ird.akado.ui.swing.view;
 
+import fr.ird.akado.ui.swing.listener.InfoListeners;
 import java.io.File;
 
 /**
@@ -28,18 +27,23 @@ import java.io.File;
  * @date 3 juin 2014
  * @see TaskView
  *
- * $LastChangedDate: 2014-07-28 15:25:15 +0200 (lun. 28 juil. 2014) $
- *
- * $LastChangedRevision: 402 $
  */
 public class TaskController {
 
+    private InfoListeners listeners;
     private TaskView taskView;
     private final File file;
 
-    public TaskController(File file) {
+    public InfoListeners getListeners() {
+        return listeners;
+    }
+
+    public TaskController(File file, InfoListeners listeners) {
         this.file = file;
+        System.out.println("TaskController " + listeners);
+        this.listeners = listeners;
         taskView = new TaskView(this);
+
     }
 
     /**
@@ -49,6 +53,15 @@ public class TaskController {
      */
     public String getPathFile() {
         return file.getPath();
+    }
+
+    /**
+     * Return the filename of the database file.
+     *
+     * @return the file name path
+     */
+    public String getFilename() {
+        return file.getName();
     }
 
     /**

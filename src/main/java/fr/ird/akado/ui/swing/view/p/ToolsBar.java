@@ -23,6 +23,7 @@ import fr.ird.akado.ui.swing.action.GISHandlerAction;
 import fr.ird.akado.ui.swing.action.LoadVMSDatabaseAction;
 import fr.ird.akado.ui.swing.action.OpenAVDTHDatabaseAction;
 import fr.ird.akado.avdth.common.AAProperties;
+import fr.ird.akado.ui.swing.listener.InfoListeners;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,12 +67,16 @@ public class ToolsBar extends JMenuBar implements Constant {
     private final VMSThresholdDialog vmsThresholdOneDialog;
     private final VMSThresholdDialog vmsThresholdTwoDialog;
     private final AkadoController akadoController;
+    private final InfoListeners listeners;
 
     /**
      *
      * @param akadoController
+     * @param listeners
      */
-    public ToolsBar(AkadoController akadoController) {
+    public ToolsBar(AkadoController akadoController, InfoListeners listeners) {
+        this.listeners = listeners;
+        System.out.println("ToolsBar " + listeners);
         // Creation du menu Fichier
         this.akadoController = akadoController;
         vmsThresholdOneDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.one", new Locale(AAProperties.L10N)), AAProperties.THRESHOLD_CLASS_ONE);
@@ -83,7 +88,7 @@ public class ToolsBar extends JMenuBar implements Constant {
         fileMenu.setActionCommand("file");
 
         openMenuItem = new JMenuItem(UIManager.getString("ui.swing.open", new Locale(AAProperties.L10N)), 'O');
-        this.openMenuItem.setAction(new OpenAVDTHDatabaseAction(akadoController));
+        this.openMenuItem.setAction(new OpenAVDTHDatabaseAction(akadoController, listeners));
         this.openMenuItem.setActionCommand("open");
         this.openMenuItem.setText(UIManager.getString("ui.swing.open", new Locale(AAProperties.L10N)));
         this.openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
@@ -401,7 +406,7 @@ public class ToolsBar extends JMenuBar implements Constant {
         menu.add(mi);
         menu.add(new JSeparator());
         mi = new JMenuItem(UIManager.getString("ui.swing.vms.load.database", new Locale(AAProperties.L10N)), 'O');
-        mi.setAction(new LoadVMSDatabaseAction(akadoController));
+        mi.setAction(new LoadVMSDatabaseAction(akadoController, listeners));
         mi.setActionCommand("open");
         mi.setText(UIManager.getString("ui.swing.vms.load.database", new Locale(AAProperties.L10N)));
         menu.add(mi);
@@ -426,6 +431,7 @@ public class ToolsBar extends JMenuBar implements Constant {
                                 + "You entered \""
                                 + threshold
                                 + "\".");
+                        listeners.fireInfoUpdated();
                     }
                 }
             }
@@ -452,6 +458,7 @@ public class ToolsBar extends JMenuBar implements Constant {
                                 + "You entered \""
                                 + threshold
                                 + "\".");
+                        listeners.fireInfoUpdated();
                     }
                 }
             }
