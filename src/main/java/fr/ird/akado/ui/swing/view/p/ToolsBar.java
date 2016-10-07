@@ -239,6 +239,7 @@ public class ToolsBar extends JMenuBar implements Constant {
                 } else {
                     AAProperties.ACTIVITY_INSPECTOR = AAProperties.DISABLE_VALUE;
                 }
+                listeners.fireInfoUpdated();
             }
         });
 
@@ -258,6 +259,7 @@ public class ToolsBar extends JMenuBar implements Constant {
                 } else {
                     AAProperties.POSITION_INSPECTOR = AAProperties.DISABLE_VALUE;
                 }
+                listeners.fireInfoUpdated();
             }
         });
 
@@ -277,6 +279,7 @@ public class ToolsBar extends JMenuBar implements Constant {
                 } else {
                     AAProperties.TRIP_INSPECTOR = AAProperties.DISABLE_VALUE;
                 }
+                listeners.fireInfoUpdated();
             }
         });
 
@@ -295,6 +298,7 @@ public class ToolsBar extends JMenuBar implements Constant {
                 } else {
                     AAProperties.SAMPLE_INSPECTOR = AAProperties.DISABLE_VALUE;
                 }
+                listeners.fireInfoUpdated();
             }
         });
 
@@ -313,6 +317,7 @@ public class ToolsBar extends JMenuBar implements Constant {
                 } else {
                     AAProperties.WELL_INSPECTOR = AAProperties.DISABLE_VALUE;
                 }
+                listeners.fireInfoUpdated();
             }
         });
 
@@ -331,6 +336,7 @@ public class ToolsBar extends JMenuBar implements Constant {
                 } else {
                     AAProperties.WARNING_INSPECTOR = AAProperties.DISABLE_VALUE;
                 }
+                listeners.fireInfoUpdated();
             }
         });
 
@@ -359,6 +365,7 @@ public class ToolsBar extends JMenuBar implements Constant {
                     wellMenuItem.setEnabled(false);
                     warningMenuItem.setEnabled(false);
                 }
+                listeners.fireInfoUpdated();
             }
         });
 
@@ -401,6 +408,7 @@ public class ToolsBar extends JMenuBar implements Constant {
                 } else {
                     AAProperties.ANAPO_INSPECTOR = AAProperties.DISABLE_VALUE;
                 }
+                listeners.fireInfoUpdated();
             }
         });
         menu.add(mi);

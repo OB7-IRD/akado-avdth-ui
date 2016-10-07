@@ -36,24 +36,22 @@ public class InfoBar extends JPanel implements InfoListener {
 //    JPanel classInfo = new JPanel();
 //    JPanel anapoInfo = new JPanel();
     TaskController vtc;
-    
+
     public InfoBar(TaskController vtc, InfoListeners listeners) {
         this.vtc = vtc;
-        System.out.println("InfoBar " +  vtc.getListeners());
-        System.out.println("InfoBar " + listeners);
         listeners.addInfoListener(this);
         this.setLayout(new BorderLayout());
 
-        this.add(createAVDTHInfo(), BorderLayout.LINE_START);
-        this.add(createClassInfo(), BorderLayout.CENTER);
+        this.add(createDBInfo(), BorderLayout.LINE_START);
         this.add(createAnapoInfo(), BorderLayout.LINE_END);
+        this.add(createAkadoInfo(), BorderLayout.CENTER);
     }
 
-    private JPanel createAVDTHInfo() {
+    private JPanel createDBInfo() {
 
-        JPanel avdthInfo = new JPanel();
+        JPanel dbInfo = new JPanel();
         JLabel label = new JLabel("AVDTH DB :");
-        avdthInfo.add(label);
+        dbInfo.add(label);
         String avdthFilePath = "";
         label = new JLabel();
         if (vtc == null) {
@@ -63,33 +61,29 @@ public class InfoBar extends JPanel implements InfoListener {
             label.setText(vtc.getFilename());
             label.setForeground(Color.BLUE);
         }
-        avdthInfo.add(label);
-
-        return avdthInfo;
-    }
-
-    private JPanel createClassInfo() {
-
-        JPanel classInfo = new JPanel();
-        JLabel label = new JLabel("CL1 :");
-        classInfo.add(label);
-        label = new JLabel("" + AAProperties.THRESHOLD_CLASS_ONE);
-        label.setForeground(Color.BLUE);
-        classInfo.add(label);
-
-        label = new JLabel("CL2 :");
-        classInfo.add(label);
-        label = new JLabel("" + AAProperties.THRESHOLD_CLASS_TWO);
-        label.setForeground(Color.BLUE);
-        classInfo.add(label);
-        return classInfo;
-
+        dbInfo.add(label);
+        return dbInfo;
     }
 
     private JPanel createAnapoInfo() {
-
         JPanel anapoInfo = new JPanel();
-        JLabel label = new JLabel("ANAPO BD :");
+        JLabel label = new JLabel("Anapo : ");
+        anapoInfo.add(label);
+
+        label = new JLabel();
+        if (AAProperties.ANAPO_INSPECTOR.equals(AAProperties.ACTIVE_VALUE)) {
+            label.setText("ACTIVE");
+            label.setForeground(Color.GREEN);
+        } else {
+            label.setText("DISABLE");
+            label.setForeground(Color.RED);
+        }
+        anapoInfo.add(label);
+        label = new JLabel(" [" + AAProperties.THRESHOLD_CLASS_ONE + " - " + AAProperties.THRESHOLD_CLASS_TWO + "]");
+        label.setForeground(Color.BLUE);
+        anapoInfo.add(label);
+
+        label = new JLabel(" BD :");
         anapoInfo.add(label);
         String anapoFilePath = AAProperties.ANAPO_DB_URL;
         label = new JLabel();
@@ -97,7 +91,7 @@ public class InfoBar extends JPanel implements InfoListener {
             label.setText("No database");
             label.setForeground(Color.RED);
         } else {
-            label.setText(anapoFilePath.substring(anapoFilePath.lastIndexOf(File.separator)));
+            label.setText(anapoFilePath.substring(anapoFilePath.lastIndexOf(File.separator)+1));
             label.setForeground(Color.BLUE);
         }
         anapoInfo.add(label);
@@ -105,13 +99,96 @@ public class InfoBar extends JPanel implements InfoListener {
 
     }
 
+    private JPanel createAkadoInfo() {
+        JPanel akadoInfo = new JPanel();
+        JLabel label = new JLabel("AKaDo :");
+        akadoInfo.add(label);
+        label = new JLabel();
+        if (AAProperties.AKADO_INSPECTOR.equals(AAProperties.ACTIVE_VALUE)) {
+            label.setText("ACTIVE");
+            label.setForeground(Color.GREEN);
+        } else {
+            label.setText("DISABLE");
+            label.setForeground(Color.RED);
+        }
+        akadoInfo.add(label);
+
+        if (AAProperties.AKADO_INSPECTOR.equals(AAProperties.ACTIVE_VALUE)) {
+
+            label = new JLabel("[");
+            akadoInfo.add(label);
+            label = new JLabel("T");
+            if (AAProperties.TRIP_INSPECTOR.equals(AAProperties.ACTIVE_VALUE)) {
+                label.setForeground(Color.GREEN);
+            } else {
+                label.setForeground(Color.RED);
+            }
+            akadoInfo.add(label);
+            label = new JLabel(",");
+            akadoInfo.add(label);
+
+            label = new JLabel("A");
+            if (AAProperties.ACTIVITY_INSPECTOR.equals(AAProperties.ACTIVE_VALUE)) {
+                label.setForeground(Color.GREEN);
+            } else {
+                label.setForeground(Color.RED);
+            }
+            akadoInfo.add(label);
+            label = new JLabel(",");
+            akadoInfo.add(label);
+
+            label = new JLabel("P");
+            if (AAProperties.POSITION_INSPECTOR.equals(AAProperties.ACTIVE_VALUE)) {
+                label.setForeground(Color.GREEN);
+            } else {
+                label.setForeground(Color.RED);
+            }
+            akadoInfo.add(label);
+            label = new JLabel(",");
+            akadoInfo.add(label);
+
+            label = new JLabel("W");
+            if (AAProperties.WELL_INSPECTOR.equals(AAProperties.ACTIVE_VALUE)) {
+                label.setForeground(Color.GREEN);
+            } else {
+                label.setForeground(Color.RED);
+            }
+            akadoInfo.add(label);
+            label = new JLabel(",");
+            akadoInfo.add(label);
+
+            label = new JLabel("S");
+            if (AAProperties.SAMPLE_INSPECTOR.equals(AAProperties.ACTIVE_VALUE)) {
+                label.setForeground(Color.GREEN);
+            } else {
+                label.setForeground(Color.RED);
+            }
+            akadoInfo.add(label);
+            label = new JLabel(",");
+            akadoInfo.add(label);
+
+            label = new JLabel("Wa");
+            if (AAProperties.WARNING_INSPECTOR.equals(AAProperties.ACTIVE_VALUE)) {
+                label.setForeground(Color.GREEN);
+            } else {
+                label.setForeground(Color.RED);
+            }
+            akadoInfo.add(label);
+            label = new JLabel("]");
+            akadoInfo.add(label);
+
+        }
+        return akadoInfo;
+    }
+
     @Override
     public void infoUpdated() {
         System.out.println("infoUpdated");
         this.removeAll();
-        this.add(createAVDTHInfo(), BorderLayout.LINE_START);
-        this.add(createClassInfo(), BorderLayout.CENTER);
+        this.add(createDBInfo(), BorderLayout.LINE_START);
+//        this.add(createClassInfo(), BorderLayout.CENTER);
         this.add(createAnapoInfo(), BorderLayout.LINE_END);
+        this.add(createAkadoInfo(), BorderLayout.CENTER);
         this.validate();
     }
 
