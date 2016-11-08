@@ -64,8 +64,9 @@ public class ToolsBar extends JMenuBar implements Constant {
     private final JMenuItem quitMenuItem;
     private final JMenuItem aboutMenuItem;
 
-    private final VMSThresholdDialog vmsThresholdOneDialog;
-    private final VMSThresholdDialog vmsThresholdTwoDialog;
+    private final VMSThresholdDialog vmsThresholdDialog;
+//    private final VMSThresholdDialog vmsThresholdOneDialog;
+//    private final VMSThresholdDialog vmsThresholdTwoDialog;
     private final AkadoController akadoController;
     private final InfoListeners listeners;
 
@@ -79,10 +80,10 @@ public class ToolsBar extends JMenuBar implements Constant {
         System.out.println("ToolsBar " + listeners);
         // Creation du menu Fichier
         this.akadoController = akadoController;
-        vmsThresholdOneDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.one", new Locale(AAProperties.L10N)), AAProperties.THRESHOLD_CLASS_ONE);
-        vmsThresholdOneDialog.pack();
-        vmsThresholdTwoDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.two", new Locale(AAProperties.L10N)), AAProperties.THRESHOLD_CLASS_TWO);
-        vmsThresholdTwoDialog.pack();
+        vmsThresholdDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold", new Locale(AAProperties.L10N)), AAProperties.THRESHOLD_CLASS_ONE, AAProperties.THRESHOLD_CLASS_TWO);
+        vmsThresholdDialog.pack();
+//        vmsThresholdTwoDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.two", new Locale(AAProperties.L10N)), AAProperties.THRESHOLD_CLASS_TWO);
+//        vmsThresholdTwoDialog.pack();
 
         fileMenu = new JMenu(UIManager.getString("ui.swing.file", new Locale(AAProperties.L10N)));
         fileMenu.setActionCommand("file");
@@ -389,8 +390,7 @@ public class ToolsBar extends JMenuBar implements Constant {
     JMenuItem wellMenuItem;
     JMenuItem warningMenuItem;
 
-    final String inputThresholdOneOptionCommand = "thresholdOneOC";
-    final String inputThresholdTwoOptionCommand = "thresholdTwoOC";
+    final String inputThresholdOptionCommand = "thresholdOC";
 
     private void addVMSMenuItem(JMenu menu) {
         JMenuItem mi;
@@ -420,25 +420,22 @@ public class ToolsBar extends JMenuBar implements Constant {
         menu.add(mi);
         menu.add(new JSeparator());
 
-        mi = new JMenuItem(UIManager.getString("ui.swing.vms.threshold.one", new Locale(AAProperties.L10N)));
-        mi.setActionCommand(inputThresholdOneOptionCommand);
+        mi = new JMenuItem(UIManager.getString("ui.swing.vms.threshold", new Locale(AAProperties.L10N)));
+        mi.setActionCommand(inputThresholdOptionCommand);
         mi.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent ae) {
                 String command = ae.getActionCommand();
-                if (command.equals(inputThresholdOneOptionCommand)) {
-                    vmsThresholdOneDialog.setLocationRelativeTo(null);
-                    vmsThresholdOneDialog.setVisible(true);
+                if (command.equals(inputThresholdOptionCommand)) {
+                    vmsThresholdDialog.setLocationRelativeTo(null);
+                    vmsThresholdDialog.setVisible(true);
 
-                    Double threshold = vmsThresholdOneDialog.getValidatedThreshold();
-                    if (threshold != null) {
-                        AAProperties.THRESHOLD_CLASS_ONE = threshold;
-                        //The text is valid.
-                        System.out.println("Congratulations!  "
-                                + "You entered \""
-                                + threshold
-                                + "\".");
+                    Double thresholdOne = vmsThresholdDialog.getValidatedThresholdOne();
+                    Double thresholdTwo = vmsThresholdDialog.getValidatedThresholdTwo();
+                    if (thresholdOne != null && thresholdTwo != null) {
+                        AAProperties.THRESHOLD_CLASS_ONE = thresholdOne;
+                        AAProperties.THRESHOLD_CLASS_TWO = thresholdTwo;
                         listeners.fireInfoUpdated();
                     }
                 }
@@ -447,31 +444,31 @@ public class ToolsBar extends JMenuBar implements Constant {
         });
         menu.add(mi);
 
-        mi = new JMenuItem(UIManager.getString("ui.swing.vms.threshold.two", new Locale(AAProperties.L10N)));
-        mi.setActionCommand(inputThresholdTwoOptionCommand);
-        mi.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                String command = ae.getActionCommand();
-                if (command.equals(inputThresholdTwoOptionCommand)) {
-                    vmsThresholdTwoDialog.setLocationRelativeTo(null);
-                    vmsThresholdTwoDialog.setVisible(true);
-
-                    Double threshold = vmsThresholdTwoDialog.getValidatedThreshold();
-                    if (threshold != null) {
-                        AAProperties.THRESHOLD_CLASS_TWO = threshold;
-                        //The text is valid.
-                        System.out.println("Congratulations!  "
-                                + "You entered \""
-                                + threshold
-                                + "\".");
-                        listeners.fireInfoUpdated();
-                    }
-                }
-            }
-
-        });
-        menu.add(mi);
+//        mi = new JMenuItem(UIManager.getString("ui.swing.vms.threshold.two", new Locale(AAProperties.L10N)));
+//        mi.setActionCommand(inputThresholdTwoOptionCommand);
+//        mi.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent ae) {
+//                String command = ae.getActionCommand();
+//                if (command.equals(inputThresholdTwoOptionCommand)) {
+//                    vmsThresholdTwoDialog.setLocationRelativeTo(null);
+//                    vmsThresholdTwoDialog.setVisible(true);
+//
+//                    Double threshold = vmsThresholdTwoDialog.getValidatedThreshold();
+//                    if (threshold != null) {
+//                        AAProperties.THRESHOLD_CLASS_TWO = threshold;
+//                        //The text is valid.
+//                        System.out.println("Congratulations!  "
+//                                + "You entered \""
+//                                + threshold
+//                                + "\".");
+//                        listeners.fireInfoUpdated();
+//                    }
+//                }
+//            }
+//
+//        });
+//        menu.add(mi);
     }
 }

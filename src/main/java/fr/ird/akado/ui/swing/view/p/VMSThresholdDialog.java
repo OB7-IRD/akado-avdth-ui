@@ -17,8 +17,10 @@
 package fr.ird.akado.ui.swing.view.p;
 
 import fr.ird.akado.avdth.common.AAProperties;
-import fr.ird.akado.ui.swing.listener.InfoListener;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -29,8 +31,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Locale;
 import java.util.regex.Pattern;
+import javax.swing.Icon;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
@@ -43,14 +48,17 @@ public class VMSThresholdDialog extends JDialog
         implements ActionListener,
         PropertyChangeListener {
 
-    private String typedText = null;
-    private JTextField textField;
+    public static final int COLS = 8;
+
+    private JTextField textFieldC1;
+    private JTextField textFieldC2;
 
     private JOptionPane optionPane;
 
     private String btnString1 = UIManager.getString("ui.swing.enter", new Locale(AAProperties.L10N));
     private String btnString2 = UIManager.getString("ui.swing.cancel", new Locale(AAProperties.L10N));
-    private Double threshold;
+    private Double thresholdOne;
+    private Double thresholdTwo;
 
     /**
      * Returns null if the typed string was invalid; otherwise, returns the
@@ -58,33 +66,71 @@ public class VMSThresholdDialog extends JDialog
      *
      * @return
      */
-    public Double getValidatedThreshold() {
-        return threshold;
+    public Double getValidatedThresholdOne() {
+        return thresholdOne;
+    }
+
+    /**
+     * Returns null if the typed string was invalid; otherwise, returns the
+     * double value as the user entered it.
+     *
+     * @return
+     */
+    public Double getValidatedThresholdTwo() {
+        return thresholdTwo;
     }
 
     /**
      * Creates the reusable dialog.
+     *
+     * @param aFrame
+     * @param msg
+     * @param currentValueOfClassTwo
+     * @param currentValueOfClassOne
      */
-    public VMSThresholdDialog(Frame aFrame, String msg, Double currentValue) {
+    public VMSThresholdDialog(Frame aFrame, String msg, Double currentValueOfClassOne, Double currentValueOfClassTwo) {
         super(aFrame, true);
-        
 
-        textField = new JTextField(10);
-        textField.setText(Double.toString(currentValue));
+        thresholdOne = currentValueOfClassOne;
+        thresholdTwo = currentValueOfClassTwo;
 
-        Object[] array = {msg, textField};
+        JPanel mainPanel = new JPanel();
+
+        mainPanel.setLayout(new GridBagLayout());
+        // Class one
+        String labelTxt = UIManager.getString("ui.swing.vms.threshold.one", new Locale(AAProperties.L10N));
+        mainPanel.add(new JLabel(labelTxt), createGbc(0, 0));
+        textFieldC1 = new JTextField(COLS);
+        textFieldC1.setText(Double.toString(thresholdOne));
+        mainPanel.add(textFieldC1, createGbc(1, 0));
+        //Class two
+        labelTxt = UIManager.getString("ui.swing.vms.threshold.two", new Locale(AAProperties.L10N));
+        mainPanel.add(new JLabel(labelTxt), createGbc(0, 1));
+        textFieldC2 = new JTextField(COLS);
+        textFieldC2.setText(Double.toString(thresholdTwo));
+        mainPanel.add(textFieldC2, createGbc(1, 1));
+
+        int optionType = JOptionPane.QUESTION_MESSAGE;
+        int messageType = JOptionPane.YES_NO_OPTION;
+        Icon icon = null;
 
         //Create an array specifying the number of dialog buttons
         //and their text.
-        Object[] options = {btnString1, btnString2};
+        String[] options = {btnString1, btnString2};
+        Object initialValue = options[0];
+//        int reply = JOptionPane.showOptionDialog(null, mainPanel,
+//                "Get User Information", optionType, messageType, icon, options,
+//                initialValue);
 
+//        Object[] array = {msg, textField};
         //Create the JOptionPane.
-        optionPane = new JOptionPane(array,
-                JOptionPane.QUESTION_MESSAGE,
-                JOptionPane.YES_NO_OPTION,
-                null,
+        optionPane = new JOptionPane(mainPanel,
+                optionType,
+                messageType,
+                icon,
                 options,
-                options[0]);
+                initialValue);
+        this.setTitle(msg);
 
         //Make this dialog display it.
         setContentPane(optionPane);
@@ -108,19 +154,20 @@ public class VMSThresholdDialog extends JDialog
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent ce) {
-                textField.requestFocusInWindow();
+                textFieldC1.requestFocusInWindow();
             }
         });
-
         //Register an event handler that puts the text into the option pane.
-        textField.addActionListener(this);
+        textFieldC1.addActionListener(this);
+        textFieldC2.addActionListener(this);
 
         //Register an event handler that reacts to option pane state changes.
-        optionPane.addPropertyChangeListener(this);        
+        optionPane.addPropertyChangeListener(this);
     }
 
     /**
      * This method handles events for the text field.
+     *
      * @param e
      */
     @Override
@@ -134,9 +181,12 @@ public class VMSThresholdDialog extends JDialog
     // signed decimal integer.
     final String Exp = "[eE][+-]?" + Digits;
     final String fpRegex
-            = ("[\\x00-\\x20]*" + // Optional leading "whitespace"
-            "[+-]?(" + // Optional sign character
-            "NaN|" + // "NaN" string
+            = ("[\\x00-\\x20]*"
+            + // Optional leading "whitespace"
+            "[+-]?("
+            + // Optional sign character
+            "NaN|"
+            + // "NaN" string
             "Infinity|"
             + // "Infinity" string
             // A decimal floating-point string representing a finite positive
@@ -164,11 +214,14 @@ public class VMSThresholdDialog extends JDialog
 
     /**
      * This method reacts to state changes in the option pane.
+     *
      * @param e
      */
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         String prop = e.getPropertyName();
+        String typedTextC1 = null;
+        String typedTextC2 = null;
 
         if (isVisible()
                 && (e.getSource() == optionPane)
@@ -189,24 +242,49 @@ public class VMSThresholdDialog extends JDialog
                     JOptionPane.UNINITIALIZED_VALUE);
 
             if (btnString1.equals(value)) {
-                typedText = textField.getText();
-                if (Pattern.matches(fpRegex, typedText)) {
+                typedTextC1 = textFieldC1.getText();
+                typedTextC2 = textFieldC2.getText();
+                if (Pattern.matches(fpRegex, typedTextC1) && Pattern.matches(fpRegex, typedTextC2)) {
 
-                    threshold = Double.valueOf(typedText);// Will not throw NumberFormatException
+                    thresholdOne = Double.valueOf(typedTextC1);// Will not throw NumberFormatException
+                    thresholdTwo = Double.valueOf(typedTextC2);// Will not throw NumberFormatException
+
+                    if (thresholdOne > thresholdTwo) {
+                        double tmp = thresholdOne;
+                        thresholdOne = thresholdTwo;
+                        thresholdTwo = tmp;
+                    }
+
                     //we're done; clear and dismiss the dialog
                     clearAndHide();
                 } else {
-                    //text was invalid
-                    textField.selectAll();
-                    JOptionPane.showMessageDialog(
-                            VMSThresholdDialog.this,
-                            "Sorry, \"" + typedText + "\" "
-                            + "isn't a valid response.\n"
-                            + "Please enter a integer or a double.",
-                            "Try again",
-                            JOptionPane.ERROR_MESSAGE);
-                    typedText = null;
-                    textField.requestFocusInWindow();
+                    if (!Pattern.matches(fpRegex, typedTextC1)) {
+                        //text was invalid
+                        textFieldC1.selectAll();
+                        JOptionPane.showMessageDialog(
+                                VMSThresholdDialog.this,
+                                "Sorry, \"" + typedTextC1 + "\" "
+                                + "isn't a valid response.\n"
+                                + "Please enter a integer or a double.",
+                                "Try again",
+                                JOptionPane.ERROR_MESSAGE);
+                        typedTextC1 = null;
+                        textFieldC1.requestFocusInWindow();
+                    }
+                    if (!Pattern.matches(fpRegex, typedTextC2)) {
+                        //text was invalid
+                        textFieldC2.selectAll();
+                        JOptionPane.showMessageDialog(
+                                VMSThresholdDialog.this,
+                                "Sorry, \"" + typedTextC2 + "\" "
+                                + "isn't a valid response.\n"
+                                + "Please enter a integer or a double.",
+                                "Try again",
+                                JOptionPane.ERROR_MESSAGE);
+                        typedTextC2 = null;
+                        textFieldC2.requestFocusInWindow();
+                    }
+
                 }
             } else { //user closed dialog or clicked cancel
                 clearAndHide();
@@ -218,8 +296,26 @@ public class VMSThresholdDialog extends JDialog
      * This method clears the dialog and hides it.
      */
     public void clearAndHide() {
-        textField.setText(null);
+//        textFieldC1.setText(null);
+//        textFieldC2.setText(null);
         setVisible(false);
     }
 
+    public static GridBagConstraints createGbc(int x, int y) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.weightx = 1.0;
+        gbc.weighty = gbc.weightx;
+        if (x == 0) {
+            gbc.anchor = GridBagConstraints.LINE_START;
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.insets = new Insets(3, 3, 3, 8);
+        } else {
+            gbc.anchor = GridBagConstraints.LINE_END;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.insets = new Insets(3, 3, 3, 3);
+        }
+        return gbc;
+    }
 }

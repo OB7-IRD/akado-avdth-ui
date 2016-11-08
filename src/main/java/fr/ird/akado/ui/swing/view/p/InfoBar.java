@@ -79,7 +79,7 @@ public class InfoBar extends JPanel implements InfoListener {
             label.setForeground(Color.RED);
         }
         anapoInfo.add(label);
-        label = new JLabel(" [" + AAProperties.THRESHOLD_CLASS_ONE + " - " + AAProperties.THRESHOLD_CLASS_TWO + "]");
+        label = new JLabel(" [" + AAProperties.THRESHOLD_CLASS_ONE + " : " + AAProperties.THRESHOLD_CLASS_TWO + "]");
         label.setForeground(Color.BLUE);
         anapoInfo.add(label);
 
