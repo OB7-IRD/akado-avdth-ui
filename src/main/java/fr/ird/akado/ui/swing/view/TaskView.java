@@ -16,6 +16,8 @@
  */
 package fr.ird.akado.ui.swing.view;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import fr.ird.akado.avdth.common.AAProperties;
 import fr.ird.akado.core.AkadoCore;
 import fr.ird.akado.core.DataBaseInspector;
@@ -25,10 +27,8 @@ import fr.ird.akado.core.common.AkadoMessages;
 import fr.ird.akado.core.common.MessageAdapter;
 import fr.ird.akado.ui.AkadoAvdthProperties;
 import fr.ird.akado.avdth.common.AkadoException;
-import fr.ird.akado.ui.swing.AkadoView;
-import fr.ird.akado.ui.swing.listener.InfoListener;
-import fr.ird.akado.ui.swing.listener.InfoListeners;
 import fr.ird.akado.ui.swing.view.p.InfoBar;
+import fr.ird.common.DateTimeUtils;
 import fr.ird.common.log.LogService;
 
 import java.awt.BorderLayout;
@@ -97,6 +97,11 @@ public class TaskView extends JPanel implements ActionListener,
         String exceptionMessage = "";
 
         Task(String path) {
+            DateTime start = DateTimeUtils.convertLocalDate(dpStartDate.getDate());
+            DateTime end = DateTimeUtils.convertLocalDate(dpEndDate.getDate());
+            LogService.getService(this.getClass()).logApplicationInfo("" + start);
+            LogService.getService(this.getClass()).logApplicationInfo("" + end);
+
             try {
                 Constructor ctor = AkadoAvdthProperties.THIRD_PARTY_DATASOURCE.getDeclaredConstructor(String.class, String.class, String.class, String.class);
                 ctor.setAccessible(true);
@@ -104,6 +109,7 @@ public class TaskView extends JPanel implements ActionListener,
                 this.dataBasePath = path;
                 akado = new AkadoCore();
                 inspector = (DataBaseInspector) ctor.newInstance(AkadoAvdthProperties.PROTOCOL_JDBC_ACCESS + path, AkadoAvdthProperties.JDBC_ACCESS_DRIVER, "", "");
+                inspector.addTemporalConstraint(start, end);
 
                 if (!akado.addDataBaseValidator(inspector)) {
                     throw new AkadoException("Error during the AVDTHValidator creation.");
@@ -131,7 +137,6 @@ public class TaskView extends JPanel implements ActionListener,
                         exceptionMessage,
                         "Akado error",
                         JOptionPane.ERROR_MESSAGE);
-
             }
         }
 
@@ -144,11 +149,13 @@ public class TaskView extends JPanel implements ActionListener,
             timer.start();
             startProcess = new DateTime();
             try {
+
                 akado.execute();
             } catch (Exception ex) {
-                LogService.getService(this.getClass()).logApplicationError(ex.getMessage());
+                exceptionMessage = "" + ex.getLocalizedMessage().toString();
+                LogService.getService(this.getClass()).logApplicationError("DoInBG: " + exceptionMessage);
                 JOptionPane.showMessageDialog(null,
-                        ex.getMessage(),
+                        exceptionMessage,
                         "Akado error",
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -174,6 +181,9 @@ public class TaskView extends JPanel implements ActionListener,
             timer.stop();
             Toolkit.getDefaultToolkit().beep();
             startButton.setEnabled(true);
+            dpStartDate.setEnabled(true);
+            dpEndDate.setEnabled(true);
+            stopButton.setEnabled(false);
 //            if (exportNameWithExt != null) {
 //                runExternalProgram(exportNameWithExt);
 //            }
@@ -196,9 +206,12 @@ public class TaskView extends JPanel implements ActionListener,
             }
         }
     }
-//    private final JProgressBar progressBar;
-    private final JButton startButton;
+    private final JButton startButton, stopButton;
     private final JTextArea taskOutput;
+
+    private final DatePicker dpStartDate;
+    private final DatePicker dpEndDate;
+
     private TaskController vtc;
     public static Boolean DEBUG = false;
 
@@ -214,15 +227,34 @@ public class TaskView extends JPanel implements ActionListener,
     });
     static long ref = 0;
 
+    private String startActionCommand = "ui.swing.start";
+    private String endActionCommand = "ui.swing.stop";
+
     public TaskView(TaskController controller) {
         super(new BorderLayout());
 
         this.vtc = controller;
 
-        //Create the demo's UI.
+        DatePickerSettings dateSettings;
+        dateSettings = new DatePickerSettings();
+//        dateSettings.setFontValidDate(new Font("Monospaced", Font.ITALIC | Font.BOLD, 10));
+        dateSettings.setColor(DatePickerSettings.DateArea.DatePickerTextValidDate, new Color(0, 100, 0));
+        dpStartDate = new DatePicker(dateSettings);
+//        dpStartDate.setDateToToday();
+
+        dateSettings = new DatePickerSettings();
+        dateSettings.setColor(DatePickerSettings.DateArea.DatePickerTextValidDate, new Color(0, 0, 100));
+        dpEndDate = new DatePicker(dateSettings);
+        dpEndDate.setDateToToday();
+
         startButton = new JButton(UIManager.getString("ui.swing.start", this.getLocale()));
-        startButton.setActionCommand(UIManager.getString("ui.swing.start", this.getLocale()));
+        startButton.setActionCommand(startActionCommand);
         startButton.addActionListener(this);
+
+        stopButton = new JButton(UIManager.getString("ui.swing.stop", this.getLocale()));
+        stopButton.setActionCommand(endActionCommand);
+        stopButton.addActionListener(this);
+        stopButton.setEnabled(false);
 
         taskOutput = new JTextArea(5, 20);
         taskOutput.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -233,11 +265,21 @@ public class TaskView extends JPanel implements ActionListener,
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         JPanel panel = new JPanel();
+        JPanel panelDP = new JPanel();
+        panelDP.add(new JLabel(UIManager.getString("ui.swing.dp.start.date.label", this.getLocale())));
+        panelDP.add(dpStartDate);
+        panel.add(panelDP);
+
+        panelDP = new JPanel();
+        panelDP.add(new JLabel(UIManager.getString("ui.swing.dp.end.date.label", this.getLocale())));
+        panelDP.add(dpEndDate);
+        panel.add(panelDP);
+
         panel.add(startButton);
         panel.add(elapsedLabel);
-
+        panel.add(stopButton);
         InfoBar infoBar = new InfoBar(vtc, vtc.getListeners());
-        
+
         add(panel, BorderLayout.PAGE_START);
         add(new JScrollPane(taskOutput), BorderLayout.CENTER);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -251,12 +293,19 @@ public class TaskView extends JPanel implements ActionListener,
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        taskOutput.setText("");
-        task = new Task(vtc.getPathFile());
-        startButton.setEnabled(false);
-        task.addPropertyChangeListener(this);
-        task.execute();
-
+        if (e.getActionCommand().equals(startActionCommand)) {
+            taskOutput.setText("");
+            task = new Task(vtc.getPathFile());
+            startButton.setEnabled(false);
+            stopButton.setEnabled(true);
+            dpStartDate.setEnabled(false);
+            dpEndDate.setEnabled(false);
+            task.addPropertyChangeListener(this);
+            task.execute();
+        }
+        if (e.getActionCommand().equals(endActionCommand)) {
+            task.cancel(true);
+        }
     }
 
     @Override
