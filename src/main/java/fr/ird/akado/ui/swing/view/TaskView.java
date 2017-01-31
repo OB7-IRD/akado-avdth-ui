@@ -109,7 +109,7 @@ public class TaskView extends JPanel implements ActionListener,
                 this.dataBasePath = path;
                 akado = new AkadoCore();
                 inspector = (DataBaseInspector) ctor.newInstance(AkadoAvdthProperties.PROTOCOL_JDBC_ACCESS + path, AkadoAvdthProperties.JDBC_ACCESS_DRIVER, "", "");
-                inspector.addTemporalConstraint(start, end);
+                inspector.setTemporalConstraint(start, end);
 
                 if (!akado.addDataBaseValidator(inspector)) {
                     throw new AkadoException("Error during the AVDTHValidator creation.");
@@ -247,11 +247,11 @@ public class TaskView extends JPanel implements ActionListener,
         dpEndDate = new DatePicker(dateSettings);
         dpEndDate.setDateToToday();
 
-        startButton = new JButton(UIManager.getString("ui.swing.start", this.getLocale()));
+        startButton = new JButton(UIManager.getString("ui.swing.start", new Locale(AAProperties.L10N)));
         startButton.setActionCommand(startActionCommand);
         startButton.addActionListener(this);
 
-        stopButton = new JButton(UIManager.getString("ui.swing.stop", this.getLocale()));
+        stopButton = new JButton(UIManager.getString("ui.swing.stop", new Locale(AAProperties.L10N)));
         stopButton.setActionCommand(endActionCommand);
         stopButton.addActionListener(this);
         stopButton.setEnabled(false);
@@ -266,12 +266,12 @@ public class TaskView extends JPanel implements ActionListener,
 
         JPanel panel = new JPanel();
         JPanel panelDP = new JPanel();
-        panelDP.add(new JLabel(UIManager.getString("ui.swing.dp.start.date.label", this.getLocale())));
+        panelDP.add(new JLabel(UIManager.getString("ui.swing.dp.start.date.label", new Locale(AAProperties.L10N))));
         panelDP.add(dpStartDate);
         panel.add(panelDP);
 
         panelDP = new JPanel();
-        panelDP.add(new JLabel(UIManager.getString("ui.swing.dp.end.date.label", this.getLocale())));
+        panelDP.add(new JLabel(UIManager.getString("ui.swing.dp.end.date.label", new Locale(AAProperties.L10N))));
         panelDP.add(dpEndDate);
         panel.add(panelDP);
 
