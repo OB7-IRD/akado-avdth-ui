@@ -65,6 +65,7 @@ public class ToolsBar extends JMenuBar implements Constant {
     private final JMenuItem aboutMenuItem;
 
     private final VMSThresholdDialog vmsThresholdDialog;
+    private final VMSCountryVesselTrackedDialog vmsCountryVesselTrackedDialog;
 //    private final VMSThresholdDialog vmsThresholdOneDialog;
 //    private final VMSThresholdDialog vmsThresholdTwoDialog;
     private final AkadoController akadoController;
@@ -82,6 +83,8 @@ public class ToolsBar extends JMenuBar implements Constant {
         this.akadoController = akadoController;
         vmsThresholdDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold", new Locale(AAProperties.L10N)), AAProperties.THRESHOLD_CLASS_ONE, AAProperties.THRESHOLD_CLASS_TWO);
         vmsThresholdDialog.pack();
+        vmsCountryVesselTrackedDialog = new VMSCountryVesselTrackedDialog(null, UIManager.getString("ui.swing.vms.country.vessel.tracked", new Locale(AAProperties.L10N)), AAProperties.ANAPO_VMS_COUNTRY);
+        vmsCountryVesselTrackedDialog.pack();
 //        vmsThresholdTwoDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.two", new Locale(AAProperties.L10N)), AAProperties.THRESHOLD_CLASS_TWO);
 //        vmsThresholdTwoDialog.pack();
 
@@ -391,6 +394,7 @@ public class ToolsBar extends JMenuBar implements Constant {
     JMenuItem warningMenuItem;
 
     final String inputThresholdOptionCommand = "thresholdOC";
+    final String inputCountryOfVesselTrackedOptionCommand = "countryOfVesselTrackedOC";
 
     private void addVMSMenuItem(JMenu menu) {
         JMenuItem mi;
@@ -436,6 +440,27 @@ public class ToolsBar extends JMenuBar implements Constant {
                     if (thresholdOne != null && thresholdTwo != null) {
                         AAProperties.THRESHOLD_CLASS_ONE = thresholdOne;
                         AAProperties.THRESHOLD_CLASS_TWO = thresholdTwo;
+                        listeners.fireInfoUpdated();
+                    }
+                }
+            }
+
+        });
+        menu.add(mi);
+        mi = new JMenuItem(UIManager.getString("ui.swing.vms.country.vessel.tracked", new Locale(AAProperties.L10N)));
+        mi.setActionCommand(inputCountryOfVesselTrackedOptionCommand);
+        mi.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String command = ae.getActionCommand();
+                if (command.equals(inputCountryOfVesselTrackedOptionCommand)) {
+                    vmsCountryVesselTrackedDialog.setLocationRelativeTo(null);
+                    vmsCountryVesselTrackedDialog.setVisible(true);
+
+                    String vmsCountryVesselTracked = vmsCountryVesselTrackedDialog.getVMSCountryVesselTracked();
+                    if (vmsCountryVesselTracked != null) {
+                        AAProperties.ANAPO_VMS_COUNTRY = vmsCountryVesselTracked;
                         listeners.fireInfoUpdated();
                     }
                 }
