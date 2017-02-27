@@ -70,7 +70,7 @@
         <dependency>
             <groupId>fr.ird</groupId>
             <artifactId>akado-driver-avdth</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
             <type>jar</type>
             <scope>runtime</scope>
         </dependency>
