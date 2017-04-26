@@ -116,7 +116,7 @@ public class AkadoView extends JFrame implements Constant {
      * @param file the file
      */
     public void prepareValidating(File file) {
-        System.out.println("prepareValidating " +listeners);
+//        System.out.println("prepareValidating " + listeners);
         vtc = new TaskController(file, listeners);
         this.setContentPane(vtc.getTaskView());
         this.validate();

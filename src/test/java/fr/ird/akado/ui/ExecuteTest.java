@@ -48,11 +48,12 @@ public class ExecuteTest extends TestCase {
 
     }
 
-    public void testNop(){
-        
+    public void testNop() {
+
     }
+
     public void doubleExecution() {
-        
+
         Trip trip = null;
         try {
 
@@ -68,7 +69,6 @@ public class ExecuteTest extends TestCase {
             AvdthService.getService().close();
 //            com.hxtt.sql.access.AccessDriver.releaseAll();
 
-            
             System.out.println("Sleep...");
             Thread.sleep(60000);
 

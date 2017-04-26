@@ -91,7 +91,7 @@ public class InfoBar extends JPanel implements InfoListener {
             label.setText("No database");
             label.setForeground(Color.RED);
         } else {
-            label.setText(anapoFilePath.substring(anapoFilePath.lastIndexOf(File.separator)+1));
+            label.setText(anapoFilePath.substring(anapoFilePath.lastIndexOf(File.separator) + 1));
             label.setForeground(Color.BLUE);
         }
         anapoInfo.add(label);

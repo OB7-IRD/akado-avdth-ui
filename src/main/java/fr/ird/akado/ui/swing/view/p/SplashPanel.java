@@ -13,7 +13,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */package fr.ird.akado.ui.swing.view.p;
+ */
+package fr.ird.akado.ui.swing.view.p;
 
 import fr.ird.akado.ui.Constant;
 import fr.ird.common.log.LogService;
@@ -33,9 +34,9 @@ import javax.swing.JPanel;
  *
  */
 public class SplashPanel extends JPanel {
-    
+
     private BufferedImage image;
-    
+
     public SplashPanel() {
         image = null;
         try {
@@ -44,13 +45,13 @@ public class SplashPanel extends JPanel {
             LogService.getService(SplashPanel.class).logApplicationError(e.getMessage());
         }
     }
-    
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
+
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-        
+
     }
 }
