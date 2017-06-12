@@ -104,6 +104,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
                 AAProperties.SHP_COUNTRIES_PATH = p.getProperty(AAProperties.KEY_SHP_COUNTRIES_PATH);
                 AAProperties.SHP_OCEAN_PATH = p.getProperty(AAProperties.KEY_SHP_OCEAN_PATH);
                 AAProperties.SHP_HARBOUR_PATH = p.getProperty(AAProperties.KEY_SHP_HARBOUR_PATH);
+                AAProperties.SHP_EEZ_PATH = p.getProperty(AAProperties.KEY_SHP_EEZ_PATH);
                 AAProperties.DATE_FORMAT_XLS = p.getProperty(AAProperties.KEY_DATE_FORMAT_XLS);
 
                 AAProperties.SAMPLE_INSPECTOR = p.getProperty(AAProperties.KEY_SAMPLE_INSPECTOR);
@@ -191,9 +192,10 @@ public final class AkadoAvdthProperties extends IRDProperties {
         LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("Creation de la property: " + PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
         p.setProperty(KEY_STANDARD_DIRECTORY, PROJECT_CONFIG_ABSOLUTE_PATH + File.separator + STANDARD_RELATIVE_CONFIG_PATH);
 
-        p.setProperty(KEY_SHP_OCEAN_PATH, new File(getInstallPath() + File.separator + "resource" + File.separator + "shp" + File.separator + "IHOSeasAndOceans.shp").getPath());
-        p.setProperty(KEY_SHP_COUNTRIES_PATH, new File(getInstallPath() + File.separator + "resource" + File.separator + "shp" + File.separator + "countries.shp").getPath());
-        p.setProperty(KEY_SHP_HARBOUR_PATH, new File(getInstallPath() + File.separator + "resource" + File.separator + "shp" + File.separator + "harbour.shp").getPath());
+        p.setProperty(KEY_SHP_OCEAN_PATH, new File(getInstallPath() + File.separator + "resources" + File.separator + "shp" + File.separator + "IHOSeasAndOceans.shp").getPath());
+        p.setProperty(KEY_SHP_COUNTRIES_PATH, new File(getInstallPath() + File.separator + "resources" + File.separator + "shp" + File.separator + "countries.shp").getPath());
+        p.setProperty(KEY_SHP_HARBOUR_PATH, new File(getInstallPath() + File.separator + "resources" + File.separator + "shp" + File.separator + "harbour.shp").getPath());
+        p.setProperty(AAProperties.KEY_SHP_EEZ_PATH, new File(getInstallPath() + File.separator + "resources" + File.separator + "shp" + File.separator + "eez.shp").getPath());
         LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
         LogService.getService(AkadoAvdthProperties.class).logApplicationDebug(p.toString());
         LogService.getService(AkadoAvdthProperties.class).logApplicationDebug("**************************");
@@ -228,6 +230,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(KEY_SHP_COUNTRIES_PATH, SHP_COUNTRIES_PATH);
         p.setProperty(KEY_SHP_OCEAN_PATH, SHP_OCEAN_PATH);
         p.setProperty(KEY_SHP_HARBOUR_PATH, SHP_HARBOUR_PATH);
+        p.setProperty(AAProperties.KEY_SHP_EEZ_PATH, AAProperties.SHP_EEZ_PATH);
         p.setProperty(KEY_DATE_FORMAT_XLS, DATE_FORMAT_XLS);
 
         p.setProperty(AAProperties.KEY_THRESHOLD_CLASS_ONE, "10");
@@ -254,6 +257,7 @@ public final class AkadoAvdthProperties extends IRDProperties {
         p.setProperty(KEY_SHP_COUNTRIES_PATH, SHP_COUNTRIES_PATH);
         p.setProperty(KEY_SHP_OCEAN_PATH, SHP_OCEAN_PATH);
         p.setProperty(KEY_SHP_HARBOUR_PATH, SHP_HARBOUR_PATH);
+        p.setProperty(AAProperties.KEY_SHP_EEZ_PATH, AAProperties.SHP_EEZ_PATH);
         p.setProperty(KEY_DATE_FORMAT_XLS, DATE_FORMAT_XLS);
 
         p.setProperty(AAProperties.KEY_ANAPO_DB_PATH, AAProperties.ANAPO_DB_URL);
