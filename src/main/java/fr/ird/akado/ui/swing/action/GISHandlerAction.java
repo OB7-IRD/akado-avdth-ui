@@ -21,6 +21,7 @@ package fr.ird.akado.ui.swing.action;
 import fr.ird.akado.ui.swing.AkadoController;
 import fr.ird.akado.avdth.common.AAProperties;
 import fr.ird.akado.avdth.common.GISHandler;
+import fr.ird.common.log.LogService;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,14 +66,18 @@ public class GISHandlerAction extends AbstractAction {
 
         if (n == JOptionPane.YES_OPTION) {
             try {
-                System.out.println("Generate the gis DB - yes");
-
+                LogService.getService(this.getClass()).logApplicationInfo("Generate the gis DB - start");
+                GISHandler.getService().init(AAProperties.STANDARD_DIRECTORY,
+                        AAProperties.SHP_COUNTRIES_PATH,
+                        AAProperties.SHP_OCEAN_PATH,
+                        AAProperties.SHP_HARBOUR_PATH,
+                        AAProperties.SHP_EEZ_PATH);
                 if (GISHandler.getService().exists()) {
+                    LogService.getService(this.getClass()).logApplicationInfo("Generate the gis DB - delete old DB");
                     GISHandler.getService().delete();
                 }
-                GISHandler.getService().init(AAProperties.STANDARD_DIRECTORY,
-                        AAProperties.SHP_COUNTRIES_PATH, AAProperties.SHP_OCEAN_PATH, AAProperties.SHP_HARBOUR_PATH);
                 GISHandler.getService().create();
+                LogService.getService(this.getClass()).logApplicationInfo("Generate the gis DB - done");
             } catch (Exception ex) {
                 Logger.getLogger(GISHandlerAction.class.getName()).log(Level.SEVERE, null, ex);
             }
