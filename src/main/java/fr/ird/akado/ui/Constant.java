@@ -39,7 +39,7 @@ public interface Constant {
     /**
      * The author of the application.
      */
-    public final static String APPLICATION_AUTHOR = "Julien Lebranchu / IRD / Observatoire thonier";
+    public final static String APPLICATION_AUTHOR = "Julien Lebranchu / IRD / Ob7";
     /**
      * The year of application creation.
      */
@@ -51,10 +51,10 @@ public interface Constant {
     /**
      * Path of the splash screen image.
      */
-    public static final String SPLASH = "/fr/ird/akado/ui/swing/resources/logo_akado.png";
+    public static final String SPLASH = "/fr/ird/akado/ui/swing/resources/bg_akado.png";
     /**
      * Path of the application icon.
      */
-    public static final String APPLICATION_ICON = "/fr/ird/akado/ui/swing/resources/logo_OT_sans_texte.png";
+    public static final String APPLICATION_ICON = "/fr/ird/akado/ui/swing/resources/logo_akado.png";
 
 }
