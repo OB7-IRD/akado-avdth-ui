@@ -215,7 +215,7 @@ public class TaskView extends JPanel implements ActionListener,
     private TaskController vtc;
     public static Boolean DEBUG = false;
 
-    final SimpleDateFormat timef = new SimpleDateFormat("mm:ss");
+    final SimpleDateFormat timef = new SimpleDateFormat("HH:mm:ss");
     final JLabel elapsedLabel = new JLabel("", SwingUtilities.CENTER);
     Timer timer = new javax.swing.Timer(1000, new ActionListener() {
         @Override
