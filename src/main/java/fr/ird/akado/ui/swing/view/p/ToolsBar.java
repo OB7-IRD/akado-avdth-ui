@@ -66,8 +66,7 @@ public class ToolsBar extends JMenuBar implements Constant {
 
     private final VMSThresholdDialog vmsThresholdDialog;
     private final VMSCountryVesselTrackedDialog vmsCountryVesselTrackedDialog;
-//    private final VMSThresholdDialog vmsThresholdOneDialog;
-//    private final VMSThresholdDialog vmsThresholdTwoDialog;
+        private final VesselSelectorDialog vesselSelectorDialog;
     private final AkadoController akadoController;
     private final InfoListeners listeners;
 
@@ -85,6 +84,10 @@ public class ToolsBar extends JMenuBar implements Constant {
         vmsThresholdDialog.pack();
         vmsCountryVesselTrackedDialog = new VMSCountryVesselTrackedDialog(null, UIManager.getString("ui.swing.vms.country.vessel.tracked", new Locale(AAProperties.L10N)), AAProperties.ANAPO_VMS_COUNTRY);
         vmsCountryVesselTrackedDialog.pack();
+
+        vesselSelectorDialog = new VesselSelectorDialog(null, UIManager.getString("ui.swing.selector.vessel.tracked", new Locale(AAProperties.L10N)), AAProperties.VESSEL_SELECTED);
+        vesselSelectorDialog.pack();
+
 //        vmsThresholdTwoDialog = new VMSThresholdDialog(null, UIManager.getString("ui.swing.vms.threshold.two", new Locale(AAProperties.L10N)), AAProperties.THRESHOLD_CLASS_TWO);
 //        vmsThresholdTwoDialog.pack();
 
@@ -141,7 +144,7 @@ public class ToolsBar extends JMenuBar implements Constant {
                 Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), true));
         optionMenu.add(gisMenuItem);
         optionMenu.add(new JSeparator()); // SEPARATOR  
-
+        
         exportMenuItem = new JCheckBoxMenuItem(UIManager.getString("ui.swing.config.results.output.enable", new Locale(AAProperties.L10N)));
         exportMenuItem.setMnemonic(KeyEvent.VK_X);
         exportMenuItem.setSelected(AAProperties.RESULTS_OUTPUT.equals(AAProperties.ACTIVE_VALUE));
@@ -160,6 +163,9 @@ public class ToolsBar extends JMenuBar implements Constant {
         optionMenu.add(exportMenuItem);
         optionMenu.add(new JSeparator()); // SEPARATOR  
         addL10NMenuItem(optionMenu);
+        
+        optionMenu.add(new JSeparator()); // SEPARATOR  
+        addSelectorMenuItem(optionMenu);        
 
         // Creation du menu Aide
         helpMenu = new JMenu(UIManager.getString("ui.swing.help", new Locale(AAProperties.L10N)));
@@ -209,6 +215,33 @@ public class ToolsBar extends JMenuBar implements Constant {
         return myItem;
     }
 
+    final String inputCodeOfVesselTrackedOptionCommand = "codeOfVesselTrackedOC";
+    private void addSelectorMenuItem(JMenu menu) {
+        JMenuItem mi;
+        mi = new JMenuItem(UIManager.getString("ui.swing.selector.vessel.tracked", new Locale(AAProperties.L10N)));
+        mi.setActionCommand(inputCodeOfVesselTrackedOptionCommand);
+        mi.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String command = ae.getActionCommand();
+                if (command.equals(inputCodeOfVesselTrackedOptionCommand)) {
+                    vesselSelectorDialog.setLocationRelativeTo(null);
+                    vesselSelectorDialog.setVisible(true);
+
+                    String vesselTrackedSelected = vesselSelectorDialog.getVesselCode();
+                    if (vesselTrackedSelected != null) {
+                        AAProperties.VESSEL_SELECTED = vesselTrackedSelected;
+                        listeners.fireInfoUpdated();
+                    }
+                }
+            }
+
+        });
+        menu.add(mi);
+        
+    }
+    
     private void addL10NMenuItem(JMenu menu) {
 
         ButtonGroup myGroup = new ButtonGroup();
@@ -224,6 +257,11 @@ public class ToolsBar extends JMenuBar implements Constant {
 //        myGroup.add(myItem);
 //        menu.add(myItem);
     }
+    
+    
+    
+    
+    
 
     private void addInspectorSelector(JMenu menu) {
 
