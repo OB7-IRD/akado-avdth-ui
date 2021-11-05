@@ -47,7 +47,7 @@ public interface Constant {
     /**
      * The version number of the application.
      */
-    public final static String APPLICATION_VERSION = "2.0.5";
+    public final static String APPLICATION_VERSION = "2.0.6";
     /**
      * Path of the splash screen image.
      */
